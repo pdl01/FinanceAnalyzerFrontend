@@ -7,11 +7,17 @@ package financialanalyzer.financialanalyzer;
 
 import org.springframework.stereotype.Component;
 
+import financialanalyzer.download.CompanyProvider;
+
 /**
  *
  * @author pldor
  */
 @Component
 public class CompanyNameProviderFactory {
-    
+	
+	
+    public CompanyProvider getCompanyProvider(String _exchange) {
+    	return null;
+    }
 }
