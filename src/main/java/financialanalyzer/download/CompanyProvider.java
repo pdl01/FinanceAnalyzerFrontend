@@ -5,7 +5,9 @@
  */
 package financialanalyzer.download;
 
-import financialanalyzer.respository.Company;
+import financialanalyzer.objects.Company;
+import financialanalyzer.objects.StockHistory;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,4 +17,6 @@ import java.util.List;
 public interface CompanyProvider {
     List<Company> getAllCompanies();
     List<Company> getCompaniesBeginningWithLetter(String _letter);
+    List<StockHistory> getStockHistoryForCompany(String _symbol);
+    List<StockHistory> getStockHistoryForCompanyForDay(String _symbol,Date _date);
 }

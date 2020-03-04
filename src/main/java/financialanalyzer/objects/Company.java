@@ -1,5 +1,5 @@
 
-package financialanalyzer.respository;
+package financialanalyzer.objects;
 
 import java.util.List;
 

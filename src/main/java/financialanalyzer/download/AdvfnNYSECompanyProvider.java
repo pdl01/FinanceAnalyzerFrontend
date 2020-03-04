@@ -5,23 +5,50 @@
  */
 package financialanalyzer.download;
 
-import financialanalyzer.respository.Company;
+import financialanalyzer.objects.Company;
+import financialanalyzer.objects.StockHistory;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author pldor
  */
-public class AdvfnNYSECompanyProvider implements CompanyProvider{
+@Component
+public class AdvfnNYSECompanyProvider extends AbstractCompanyProvider implements CompanyProvider {
+
+    private static final Logger LOGGER = Logger.getLogger(AdvfnNYSECompanyProvider.class.getName());
+
+    private static String download_url = "https://old.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nyse&render=download";
+    private static String latest_filename = "/temp/nyse_latest.csv";
 
     @Override
     public List<Company> getAllCompanies() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LOGGER.info("Starting getAllCompanies");
+        this.downloadCSVForExchangeFromNasDaq(download_url, latest_filename);
+        List<Company> companies = this.processCSVForExchangedFromNasDaq(AdvfnNYSECompanyProvider.latest_filename, "nyse");
+
+        LOGGER.info("Ending getAllCompanies");
+        return companies;
     }
 
     @Override
     public List<Company> getCompaniesBeginningWithLetter(String _letter) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LOGGER.info("Starting getCompaniesBeginningWithLetter");
+        LOGGER.info("Ending getCompaniesBeginningWithLetter");
+        return null;
     }
-    
+
+    @Override
+    public List<StockHistory> getStockHistoryForCompany(String _symbol) {
+        return this.getStockHistoryForCompanyForDay(_symbol,null);
+    }
+
+    @Override
+    public List<StockHistory> getStockHistoryForCompanyForDay(String _symbol, Date _date) {
+        return this.downloadTimeHistoryAlphavantage(_symbol, null);
+    }
+
 }
