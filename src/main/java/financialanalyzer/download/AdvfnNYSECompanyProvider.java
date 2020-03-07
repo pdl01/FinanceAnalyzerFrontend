@@ -48,7 +48,7 @@ public class AdvfnNYSECompanyProvider extends AbstractCompanyProvider implements
 
     @Override
     public List<StockHistory> getStockHistoryForCompanyForDay(String _symbol, Date _date) {
-        return this.downloadTimeHistoryAlphavantage(_symbol, null);
+        return this.downloadTimeHistoryAlphavantage(CompanyProvider.EXCHANGE_NYSE,_symbol, _date);
     }
 
 }

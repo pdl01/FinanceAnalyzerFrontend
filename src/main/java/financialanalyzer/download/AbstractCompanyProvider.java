@@ -5,6 +5,7 @@
  */
 package financialanalyzer.download;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.StockHistory;
@@ -16,9 +17,17 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -28,26 +37,30 @@ public abstract class AbstractCompanyProvider {
 
     private static final Logger LOGGER = Logger.getLogger(AdvfnAMEXCompanyProvider.class.getName());
 
+    @Autowired
+    protected HttpFetcher httpFetcher;
+
     protected boolean downloadCSVForExchangeFromNasDaq(String _url, String _fileName) {
         try {
             InputStream in = new URL(_url).openStream();
             Files.copy(in, Paths.get(_fileName), StandardCopyOption.REPLACE_EXISTING);
-            File f = new File (_fileName);
+            File f = new File(_fileName);
             if (f.canRead()) {
                 return true;
-            }        
+            }
             return false;
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
             return false;
         }
     }
-    protected List<Company> processCSVForExchangedFromNasDaq(String _filename,String _exchange) {
+
+    protected List<Company> processCSVForExchangedFromNasDaq(String _filename, String _exchange) {
         List<Company> companies = new ArrayList<>();
         CSVReader reader = null;
         try {
             reader = new CSVReader(new FileReader(_filename));
-            
+
             String[] line;
             int lineCounter = 0;
             while ((line = reader.readNext()) != null) {
@@ -65,21 +78,99 @@ public abstract class AbstractCompanyProvider {
                 //System.out.println("Country [id= " + line[0] + ", code= " + line[1] + " , name=" + line[2] + "]");
             }
         } catch (IOException e) {
-            LOGGER.severe("Unable to process csv:"+e.getMessage());
+            LOGGER.severe("Unable to process csv:" + e.getMessage());
             e.printStackTrace();
-        }        
-        
-        
+        }
+
         return companies;
     }
-    
-    protected List<StockHistory> downloadTimeHistoryAlphavantage(String _symbol,String _date) {
-        List<StockHistory> stockHistories = new ArrayList<>();
+
+    protected List<StockHistory> downloadTimeHistoryAlphavantage(String _exchange, String _symbol, Date _date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = null;
+        if (_date != null) {
+            dateString = sdf.format(_date);
+        }
+        return this.downloadTimeHistoryAlphavantage(_exchange, _symbol, dateString);
+    }
+
+    protected List<StockHistory> downloadTimeHistoryAlphavantage(String _exchange, String _symbol, String _date) {
         String api = "MUFPFXFF7DPXZ7B1";
         String url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=XX:STOCK_SYMBOL:XX&outputsize=compact&apikey=XX:API_KEY:XX";
         String resolvedurl = url.replaceAll("XX:STOCK_SYMBOL:XX", _symbol).replaceAll("XX:API_KEY:XX", api);
+        //alpha advantage presents the more than just today's data, so need to return all
         LOGGER.info(resolvedurl);
-        
+        HTMLPage stockhistorypage = null;
+        try {
+            LOGGER.info("Starting Download of stock histories for :" + _symbol);
+            stockhistorypage = this.httpFetcher.getResponse(resolvedurl, true);
+            LOGGER.info("Completed Download of stock histories for :" + _symbol);
+
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Exception fetching stock data for:" + _symbol, ex);
+
+        }
+
+        if (stockhistorypage.getStatusCode() != 200) {
+            LOGGER.log(Level.SEVERE, "Non Success Error code when fetching stock data for:" + _symbol + ":" + stockhistorypage.getStatusCode());
+            return null;
+        }
+
+        //LOGGER.info(stockhistorypage.getContent());
+        if (stockhistorypage.getContent() == null) {
+            return null;
+        }
+        return this.processTimeHistoryAlphavantageResult(_exchange, _symbol, _date, stockhistorypage.getContent());
+
+    }
+
+    protected List<StockHistory> processTimeHistoryAlphavantageResult(String _exchange, String _symbol, String _date, String _jsonData) {
+        LOGGER.info("Beginning processTimeHistoryAlphavantageResult for "+ _symbol);
+        List<StockHistory> stockHistories = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        if (_jsonData == null) {
+            LOGGER.log(Level.SEVERE, "NULL stock history data passed into processor for " + _symbol);
+
+            return stockHistories;
+        }
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            HashMap<String, Object> map = mapper.readValue(_jsonData, HashMap.class);
+            if (map == null) {
+                LOGGER.log(Level.SEVERE, "Unable to process feed for " + _symbol);
+                return null;
+            }
+            HashMap<String, Object> dailyMap = (HashMap<String, Object>) map.get("Time Series (Daily)");
+            if (dailyMap == null) {
+                LOGGER.log(Level.SEVERE, "Unable to get Root feed element for " + _symbol);
+                return null;
+            }
+            Set<String> dailyMapKeys = dailyMap.keySet();
+            for (String dailyMapKey : dailyMapKeys) {
+                HashMap<String, Object> dayMap = (HashMap<String, Object>) dailyMap.get(dailyMapKey);
+                StockHistory sh = new StockHistory();
+                //populate stock history
+                sh.setExchange(_exchange);
+                sh.setSymbol(_symbol);
+                sh.setRecordDate(sdf.parse(dailyMapKey));
+                sh.setOpen(Float.parseFloat((String) dayMap.get("1. open")));
+                sh.setClose(Float.parseFloat((String) dayMap.get("4. close")));
+                sh.setHigh(Float.parseFloat((String) dayMap.get("2. high")));
+                sh.setLow(Float.parseFloat((String) dayMap.get("3. low")));
+                sh.setVolume(Integer.parseInt((String) dayMap.get("5. volume")));
+                sh.setActual_gain(sh.getClose() - sh.getOpen());
+                sh.setPercent_gain(sh.getActual_gain() / sh.getOpen());
+                //LOGGER.log(Level.INFO, dailyMapKey);
+                stockHistories.add(sh);
+            }
+        } catch (ParseException ex) {
+            LOGGER.log(Level.SEVERE, "Exception processing feed for :" + _symbol, ex);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Exception processing feed for :" + _symbol, ex);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Exception processing feed for :" + _symbol, ex);
+        }
+        LOGGER.info("Completed processTimeHistoryAlphavantageResult for "+ _symbol);
         return stockHistories;
     }
 }

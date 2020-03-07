@@ -15,6 +15,10 @@ import java.util.List;
  * @author pldor
  */
 public interface CompanyProvider {
+    public static final String EXCHANGE_NASDAQ = "nasdaq";
+    public static final String EXCHANGE_AMEX = "amex";
+    public static final String EXCHANGE_NYSE = "nyse";
+    
     List<Company> getAllCompanies();
     List<Company> getCompaniesBeginningWithLetter(String _letter);
     List<StockHistory> getStockHistoryForCompany(String _symbol);

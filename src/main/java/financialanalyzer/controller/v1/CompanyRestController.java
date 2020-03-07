@@ -6,6 +6,8 @@
 package financialanalyzer.controller.v1;
 
 import financialanalyzer.download.AllStockNamesDownloadDriver;
+import financialanalyzer.download.StockHistoryDownloadDriver;
+import financialanalyzer.download.StockHistoryDownloadService;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.CompanySearchProperties;
 import financialanalyzer.respository.CompanyRepo;
@@ -31,7 +33,10 @@ public class CompanyRestController {
 
     @Autowired
     private AllStockNamesDownloadDriver allStockNamesDownloadDriver;
-    
+
+    @Autowired
+    private StockHistoryDownloadService stockHistoryDownloadServiceImpl;
+
     @RequestMapping(value = "/symbol/{symbol}", method = RequestMethod.GET, produces = "application/json")
     public RestResponse getCompaniesBySymbol(@PathVariable("symbol") String symbol) {
         RestResponse restResponse = new RestResponse();
@@ -41,6 +46,7 @@ public class CompanyRestController {
         restResponse.setObject(companies);
         return restResponse;
     }
+
     @RequestMapping(value = "/exchange/{exchange}", method = RequestMethod.GET, produces = "application/json")
     public RestResponse getCompaniesByExchange(@PathVariable("exchange") String exchange) {
         RestResponse restResponse = new RestResponse();
@@ -50,7 +56,7 @@ public class CompanyRestController {
         restResponse.setObject(companies);
         return restResponse;
     }
-    
+
     @RequestMapping(value = "/name/{name}", method = RequestMethod.GET, produces = "application/json")
     public RestResponse getCompaniesByName(@PathVariable("name") String name) {
         RestResponse restResponse = new RestResponse();
@@ -59,8 +65,8 @@ public class CompanyRestController {
         List<Company> companies = this.companySearchRepo.searchForCompany(csp);
         restResponse.setObject(companies);
         return restResponse;
-    }    
-    
+    }
+
     @RequestMapping(value = "/createDraft", method = RequestMethod.POST, produces = "application/json")
     public RestResponse saveCompany(@RequestBody Company _company) {
         RestResponse restResponse = new RestResponse();
@@ -68,11 +74,28 @@ public class CompanyRestController {
         restResponse.setObject(company);
         return restResponse;
     }
-    @RequestMapping(value = "/fetchLatestData", method = RequestMethod.POST, produces = "application/json")
+
+    @RequestMapping(value = "/companies/fetchLatestData", method = RequestMethod.POST, produces = "application/json")
     public RestResponse triggerDownload() {
         RestResponse restResponse = new RestResponse();
         this.allStockNamesDownloadDriver.fetchLatestData();
         //restResponse.setObject(company);
         return restResponse;
     }
+
+    @RequestMapping(value = "/symbol/{symbol}/stock/fetch", method = RequestMethod.POST, produces = "application/json")
+    public RestResponse fetchStockInformation(@PathVariable("symbol") String symbol) {
+        RestResponse restResponse = new RestResponse();
+        CompanySearchProperties csp = new CompanySearchProperties();
+        csp.setStockSymbol(symbol);
+        List<Company> companies = this.companySearchRepo.searchForCompany(csp);
+        if (companies != null) {
+            companies.forEach(company_item -> {
+                this.stockHistoryDownloadServiceImpl.fetchDataForCompany(company_item);
+            });
+        }
+        //restResponse.setObject(company);
+        return restResponse;
+    }
+
 }

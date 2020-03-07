@@ -7,8 +7,12 @@ package financialanalyzer.respository;
 
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.CompanySearchProperties;
+import financialanalyzer.objects.StockHistory;
+import financialanalyzer.objects.StockHistorySearchProperties;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -25,7 +29,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,13 +36,13 @@ import org.springframework.stereotype.Component;
  * @author pldor
  */
 @Component
-public class CompanySearchRepo extends ElasticSearchManager implements CompanyRepo {
+public class StockHistorySearchRepo extends ElasticSearchManager implements StockHistoryRepo {
 
-    private static final Logger logger = Logger.getLogger(CompanySearchRepo.class.getName());
+    private static final Logger logger = Logger.getLogger(StockHistorySearchRepo.class.getName());
 
     @Override
-    public Company submit(Company _company) {
-        if (_company == null) {
+    public StockHistory submit(StockHistory _item) {
+        if (_item == null) {
             return null;
         }
         RestHighLevelClient client = this.buildClient();
@@ -47,10 +50,18 @@ public class CompanySearchRepo extends ElasticSearchManager implements CompanyRe
             return null;
         }
 
-        IndexRequest indexRequest = new IndexRequest("companies", "company", _company.getStockExchange() + "-" + _company.getStockSymbol())
-                .source("id", _company.getStockExchange() + "-" + _company.getStockSymbol(), "name", _company.getName(), "symbol", _company.getStockSymbol(),
-                        "exchange", _company.getStockExchange(),
-                        "sector", _company.getSectors()
+        IndexRequest indexRequest = new IndexRequest("stockhistories", "stockhistory", this.getKey(_item))
+                .source("id", this.getKey(_item),
+                        "recordDate", _item.getRecordDate(),
+                        "symbol", _item.getSymbol(),
+                        "exchange", _item.getExchange(),
+                        "open", _item.getOpen(),
+                        "close", _item.getClose(),
+                        "percent_gain", _item.getPercent_gain(),
+                        "actual_gain", _item.getActual_gain(),
+                        "volume", _item.getVolume(),
+                        "high",_item.getHigh(),
+                        "low",_item.getLow()
                 );
 
         try {
@@ -62,16 +73,22 @@ public class CompanySearchRepo extends ElasticSearchManager implements CompanyRe
             logger.severe(ex.getMessage());
         }
         this.closeClient(client);
-        return _company;
+        return _item;
+    }
+
+    private String getKey(StockHistory _item) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return _item.getExchange() + "-" + _item.getSymbol() + "-" + sdf.format(_item.getRecordDate());
     }
 
     @Override
-    public boolean delete(Company _company) {
+    public boolean delete(StockHistory _item) {
         RestHighLevelClient client = this.buildClient();
         if (client == null) {
             return false;
         }
-        DeleteRequest request = new DeleteRequest("companies", "company", _company.getStockExchange() + "-" + _company.getStockSymbol());
+
+        DeleteRequest request = new DeleteRequest("stockhistories", "stockhistory", this.getKey(_item));
 
         try {
             RequestOptions options = null;
@@ -80,10 +97,10 @@ public class CompanySearchRepo extends ElasticSearchManager implements CompanyRe
             //client.
             //CreateIndexResponse  createIndexResponse = client.indices().indices().create(request);
         } catch (IOException ex) {
-            logger.severe("Error when deleting company " + ex.getMessage());
+            logger.severe("Error when deleting stock history " + ex.getMessage());
 
         } catch (Exception ex) {
-            logger.severe("Error when deleting company " + ex.getMessage());
+            logger.severe("Error when deleting stock history " + ex.getMessage());
 
         }
 
@@ -92,32 +109,29 @@ public class CompanySearchRepo extends ElasticSearchManager implements CompanyRe
     }
 
     @Override
-    public List<Company> searchForCompany(CompanySearchProperties _csp) {
-        logger.info("Beginning searchForCompany");
-        List<Company> companies = new ArrayList<>();
+    public List<StockHistory> searchForStockHistory(StockHistorySearchProperties _shsp) {
+        List<StockHistory> shs = new ArrayList<>();
         RestHighLevelClient client = this.buildClient();
         if (client == null) {
-            return companies;
+            return shs;
         }
 
-        SearchRequest searchRequest = new SearchRequest("companies");
+        SearchRequest searchRequest = new SearchRequest("stockhistories");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         //searchSourceBuilder.query(QueryBuilders.matchAllQuery());
         QueryBuilder matchQueryBuilder = null;
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         
-        if (_csp.getCompanyName() != null) {
-            boolQuery.must(QueryBuilders.matchQuery("name", _csp.getCompanyName()));
-        } else if (_csp.getStockExchange() != null) {
-            boolQuery.must(QueryBuilders.matchQuery("exchange", _csp.getStockExchange()));
+        if (_shsp.getStockExchange() != null) {
+            boolQuery.must(QueryBuilders.matchQuery("exchange", _shsp.getStockExchange()));
 
-        } else if (_csp.getStockSymbol() != null) {
-            boolQuery.must(QueryBuilders.matchQuery("symbol", _csp.getStockSymbol()));
+        } else if (_shsp.getStockSymbol() != null) {
+            boolQuery.must(QueryBuilders.matchQuery("symbol", _shsp.getStockSymbol()));
 
         }
 
         //.fuzziness(Fuzziness.AUTO);
-        searchSourceBuilder.query(boolQuery).from(_csp.getStartResults()).size(_csp.getNumResults());
+        searchSourceBuilder.query(boolQuery).from(_shsp.getStartResults()).size(_shsp.getNumResults());
 
         /*        if (_searchProperties.getSortField() != null) {
             //TODO sort based on dimension type
@@ -138,12 +152,12 @@ public class CompanySearchRepo extends ElasticSearchManager implements CompanyRe
 
             for (SearchHit hit : searchHits) {
                 //build some artificial items that will house basic info about the artifact, without hitting the main db again. (id,title)
-                if (hit.getType().equalsIgnoreCase("company")) {
+                if (hit.getType().equalsIgnoreCase("stockhistory")) {
                     String sourceAsString = hit.getSourceAsString();
                     Map<String, Object> sourceAsMap = hit.getSourceAsMap();
-                    Company company = this.buildCompanyFromSourceMap(sourceAsMap);
+                    StockHistory sh = this.buildStockHistoryFromSourceMap(sourceAsMap);
 
-                    companies.add(company);
+                    shs.add(sh);
                 }
                 // do something with the SearchHit
             }
@@ -152,24 +166,39 @@ public class CompanySearchRepo extends ElasticSearchManager implements CompanyRe
         }
 
         this.closeClient(client);
-        logger.info("Completed searchForCompany");
 
-        return companies;
+        return shs;
 
     }
 
-    private Company buildCompanyFromSourceMap(Map<String, Object> _sourceAsMap) {
+    private StockHistory buildStockHistoryFromSourceMap(Map<String, Object> _sourceAsMap) {
         String id = (String) _sourceAsMap.get("id");
 
-        String name = (String) _sourceAsMap.get("name");
+        Date recordDate = (Date) _sourceAsMap.get("recordDate");
         String symbol = (String) _sourceAsMap.get("symbol");
         String exchange = (String) _sourceAsMap.get("exchange");
+        float openValue = (float) _sourceAsMap.get("open");
+        float closeValue = (float) _sourceAsMap.get("close");
+        float percent_gain = (float) _sourceAsMap.get("percent_gain");
+        float actual_gain = (float) _sourceAsMap.get("actual_gain");
+        float high = (float) _sourceAsMap.get("high");
+        float low = (float) _sourceAsMap.get("low");
+        int volume = (int) _sourceAsMap.get("volume");
 
-        Company company = new Company();
-        company.setName(name);
-        company.setStockExchange(exchange);
-        company.setStockSymbol(symbol);
-        return company;
+        StockHistory sh = new StockHistory();
+        sh.setActual_gain(actual_gain);
+        sh.setVolume(volume);
+        sh.setPercent_gain(percent_gain);
+        sh.setOpen(openValue);
+        sh.setClose(closeValue);
+        sh.setHigh(high);
+        sh.setLow(low);
+        
+        sh.setExchange(exchange);
+        sh.setSymbol(symbol);
+        sh.setRecordDate(recordDate);
+        
+        
+        return sh;
     }
-
 }

@@ -11,8 +11,12 @@ public class StockHistory {
 
     private Date recordDate;
     private String symbol;
+    private String exchange;
+    
     private float open;
     private float close;
+    private float high;
+    private float low;
     private float percent_gain;
     private float actual_gain;
     private int volume;
@@ -71,6 +75,30 @@ public class StockHistory {
 
     public void setVolume(int volume) {
         this.volume = volume;
+    }
+
+    public String getExchange() {
+        return exchange;
+    }
+
+    public void setExchange(String exchange) {
+        this.exchange = exchange;
+    }
+
+    public float getHigh() {
+        return high;
+    }
+
+    public void setHigh(float high) {
+        this.high = high;
+    }
+
+    public float getLow() {
+        return low;
+    }
+
+    public void setLow(float low) {
+        this.low = low;
     }
     
 }
