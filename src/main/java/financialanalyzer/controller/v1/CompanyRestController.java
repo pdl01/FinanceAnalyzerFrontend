@@ -33,7 +33,10 @@ public class CompanyRestController {
 
     @Autowired
     private AllStockNamesDownloadDriver allStockNamesDownloadDriver;
-
+    
+    @Autowired
+    private StockHistoryDownloadDriver stockHistoryDownloadDriver;
+    
     @Autowired
     private StockHistoryDownloadService stockHistoryDownloadServiceImpl;
 
@@ -76,13 +79,21 @@ public class CompanyRestController {
     }
 
     @RequestMapping(value = "/companies/fetchLatestData", method = RequestMethod.POST, produces = "application/json")
-    public RestResponse triggerDownload() {
+    public RestResponse triggerCompanyNameDownload() {
         RestResponse restResponse = new RestResponse();
         this.allStockNamesDownloadDriver.fetchLatestData();
         //restResponse.setObject(company);
         return restResponse;
     }
 
+    @RequestMapping(value = "/stockhistory/fetchLatestData", method = RequestMethod.POST, produces = "application/json")
+    public RestResponse triggerStockHistoryDownload() {
+        RestResponse restResponse = new RestResponse();
+        this.stockHistoryDownloadDriver.fetchLatestData();
+        //restResponse.setObject(company);
+        return restResponse;
+    }
+    
     @RequestMapping(value = "/symbol/{symbol}/stock/fetch", method = RequestMethod.POST, produces = "application/json")
     public RestResponse fetchStockInformation(@PathVariable("symbol") String symbol) {
         RestResponse restResponse = new RestResponse();

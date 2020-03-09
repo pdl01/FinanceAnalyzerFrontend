@@ -5,6 +5,7 @@
  */
 package financialanalyzer.download;
 
+import financialanalyzer.config.ActiveMQConfig;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.CompanySearchProperties;
 import financialanalyzer.objects.StockHistory;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +37,10 @@ public class StockHistoryDownloadDriver {
     @Autowired
     StockHistoryDownloadService stockHistoryDownloadServiceImpl;
 
-    @Scheduled(initialDelay = 5000, fixedRate = 1000 * 60 * 60 * 24)
+    @Autowired
+    private JmsTemplate jmsTemplate;
+    
+    //@Scheduled(initialDelay = 5000, fixedRate = 1000 * 60 * 60 * 24)
     //@Scheduled(initialDelay = 1000 * 60 * 60 * 24, fixedRate = 1000 * 60 * 60 * 24)
     public void fetchLatestData() {
         this.fetchLatestData(null);
@@ -63,31 +68,35 @@ public class StockHistoryDownloadDriver {
                 }
                 if (companies != null) {
                     for (Company item: companies) {
-                    
+                        
                         LOGGER.info("Submitting:" + item.getStockExchange() + item.getName() + ":" + item.getStockSymbol());
                         //this.companySearchRepo.submit(item);
                         List<StockHistory> shs = null;
+                        StockHistoryDownloadTask shdt = new StockHistoryDownloadTask();
+                        shdt.setSymbol(item.getStockSymbol());
+                        shdt.setExchange(item.getStockExchange());
+                        
                         if (_date == null) {
-                            shs = this.stockHistoryDownloadServiceImpl.fetchDataForCompany(item);
-
+                            shdt.setDownloadAllAvailalble(true);
+                            //shs = this.stockHistoryDownloadServiceImpl.fetchDataForCompany(item);
                             //shs = this.advfnNasDaqCompanyProvider.getStockHistoryForCompany(item.getStockSymbol());
                         } else {
-                            shs = this.stockHistoryDownloadServiceImpl.fetchDataForCompany(item, _date);
+                            shdt.setDownloadAllAvailalble(false);
+                            shdt.setRetrieveDate(_date);
+                            //shs = this.stockHistoryDownloadServiceImpl.fetchDataForCompany(item, _date);
                         }
+                        this.jmsTemplate.convertAndSend(ActiveMQConfig.STOCK_HISTORY_DOWNLOAD_QUEUE,shdt);
+                        /*
                         if (shs != null) {
                             LOGGER.info("Submitting stock history data for :" + item.getStockSymbol());
                             for (StockHistory shs_item: shs) {
                                 this.stockHistorySearchRepo.submit(shs_item);
                             }
-                            /*
-                            shs.forEach(shs_item -> {
-
-                                this.stockHistorySearchRepo.submit(shs_item);
-                            });
-                            */
+                            
                             LOGGER.info("Completed submitting stock history data for :" + item.getStockSymbol());
 
                         }
+                        */
 
                     }
                 }

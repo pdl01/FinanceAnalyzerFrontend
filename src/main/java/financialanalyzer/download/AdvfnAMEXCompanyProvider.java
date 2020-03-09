@@ -48,7 +48,8 @@ public class AdvfnAMEXCompanyProvider extends AbstractCompanyProvider implements
 
     @Override
     public List<StockHistory> getStockHistoryForCompanyForDay(String _symbol, Date _date) {
-        return this.downloadTimeHistoryAlphavantage(CompanyProvider.EXCHANGE_AMEX,_symbol, _date);
+        return this.downloadAndProcessCSVFromNasDaq(CompanyProvider.EXCHANGE_AMEX,_symbol, _date);
+        //return this.downloadTimeHistoryAlphavantage(CompanyProvider.EXCHANGE_AMEX,_symbol, _date);
     }
 
 }
