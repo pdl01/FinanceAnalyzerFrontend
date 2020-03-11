@@ -8,10 +8,19 @@ import java.util.List;
  * @author pldor
  */
 public class Company {
+    private String id;
     private String name;
     private String stockSymbol;
     private String stockExchange;
     private List<String> sectors;
+
+    public String getId() {
+        return this.stockExchange+"-"+this.stockSymbol;
+    }
+
+    public void setId(String id) {
+
+    }
 
     public String getName() {
         return name;

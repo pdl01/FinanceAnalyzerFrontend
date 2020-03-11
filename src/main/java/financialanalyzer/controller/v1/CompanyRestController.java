@@ -49,7 +49,17 @@ public class CompanyRestController {
         restResponse.setObject(companies);
         return restResponse;
     }
+    @RequestMapping(value = "/company/{id}", method = RequestMethod.GET, produces = "application/json")
+    public RestResponse getCompanyById(@PathVariable("id") String _id) {
+        RestResponse restResponse = new RestResponse();
+        CompanySearchProperties csp = new CompanySearchProperties();
+        csp.setCompanyId(_id);;
+        List<Company> companies = this.companySearchRepo.searchForCompany(csp);
+        restResponse.setObject(companies);
+        return restResponse;
+    }
 
+    
     @RequestMapping(value = "/exchange/{exchange}", method = RequestMethod.GET, produces = "application/json")
     public RestResponse getCompaniesByExchange(@PathVariable("exchange") String exchange) {
         RestResponse restResponse = new RestResponse();

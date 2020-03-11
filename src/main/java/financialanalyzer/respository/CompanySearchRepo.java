@@ -47,8 +47,9 @@ public class CompanySearchRepo extends ElasticSearchManager implements CompanyRe
             return null;
         }
 
-        IndexRequest indexRequest = new IndexRequest("companies", "company", _company.getStockExchange() + "-" + _company.getStockSymbol())
-                .source("id", _company.getStockExchange() + "-" + _company.getStockSymbol(), "name", _company.getName(), "symbol", _company.getStockSymbol(),
+        IndexRequest indexRequest = new IndexRequest("companies", "company", _company.getId())
+                .source("id", _company.getId(),
+                        "name", _company.getName(), "symbol", _company.getStockSymbol(),
                         "exchange", _company.getStockExchange(),
                         "sector", _company.getSectors()
                 );
@@ -71,7 +72,7 @@ public class CompanySearchRepo extends ElasticSearchManager implements CompanyRe
         if (client == null) {
             return false;
         }
-        DeleteRequest request = new DeleteRequest("companies", "company", _company.getStockExchange() + "-" + _company.getStockSymbol());
+        DeleteRequest request = new DeleteRequest("companies", "company", _company.getId());
 
         try {
             RequestOptions options = null;
@@ -110,12 +111,13 @@ public class CompanySearchRepo extends ElasticSearchManager implements CompanyRe
             boolQuery.must(QueryBuilders.matchQuery("name", _csp.getCompanyName()));
         } else if (_csp.getStockExchange() != null) {
             boolQuery.must(QueryBuilders.matchQuery("exchange", _csp.getStockExchange()));
-
+            
         } else if (_csp.getStockSymbol() != null) {
             boolQuery.must(QueryBuilders.matchQuery("symbol", _csp.getStockSymbol()));
 
+        } else if (_csp.getCompanyId() != null) {
+            boolQuery.must(QueryBuilders.matchQuery("_id", _csp.getCompanyId()));
         }
-
         //.fuzziness(Fuzziness.AUTO);
         searchSourceBuilder.query(boolQuery).from(_csp.getStartResults()).size(_csp.getNumResults());
 
@@ -166,6 +168,7 @@ public class CompanySearchRepo extends ElasticSearchManager implements CompanyRe
         String exchange = (String) _sourceAsMap.get("exchange");
 
         Company company = new Company();
+        company.setId(id);
         company.setName(name);
         company.setStockExchange(exchange);
         company.setStockSymbol(symbol);

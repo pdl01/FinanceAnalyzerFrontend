@@ -39,11 +39,20 @@ public class StockHistoryDownloadDriver {
 
     @Autowired
     private JmsTemplate jmsTemplate;
-    
+
     //@Scheduled(initialDelay = 5000, fixedRate = 1000 * 60 * 60 * 24)
     //@Scheduled(initialDelay = 1000 * 60 * 60 * 24, fixedRate = 1000 * 60 * 60 * 24)
     public void fetchLatestData() {
         this.fetchLatestData(null);
+    }
+
+    public void fetchDaily() {
+        LOGGER.info("Starting fetchDaily");
+
+        Date todaysDate = new Date();
+        this.fetchLatestData(todaysDate);
+        LOGGER.info("Completed fetchDaily");
+
     }
 
     public void fetchLatestData(Date _date) {
@@ -67,15 +76,15 @@ public class StockHistoryDownloadDriver {
                     LOGGER.info("No companies returned");
                 }
                 if (companies != null) {
-                    for (Company item: companies) {
-                        
+                    for (Company item : companies) {
+
                         LOGGER.info("Submitting:" + item.getStockExchange() + item.getName() + ":" + item.getStockSymbol());
                         //this.companySearchRepo.submit(item);
                         List<StockHistory> shs = null;
                         StockHistoryDownloadTask shdt = new StockHistoryDownloadTask();
                         shdt.setSymbol(item.getStockSymbol());
                         shdt.setExchange(item.getStockExchange());
-                        
+
                         if (_date == null) {
                             shdt.setDownloadAllAvailalble(true);
                             //shs = this.stockHistoryDownloadServiceImpl.fetchDataForCompany(item);
@@ -85,7 +94,7 @@ public class StockHistoryDownloadDriver {
                             shdt.setRetrieveDate(_date);
                             //shs = this.stockHistoryDownloadServiceImpl.fetchDataForCompany(item, _date);
                         }
-                        this.jmsTemplate.convertAndSend(ActiveMQConfig.STOCK_HISTORY_DOWNLOAD_QUEUE,shdt);
+                        this.jmsTemplate.convertAndSend(ActiveMQConfig.STOCK_HISTORY_DOWNLOAD_QUEUE, shdt);
                         /*
                         if (shs != null) {
                             LOGGER.info("Submitting stock history data for :" + item.getStockSymbol());
@@ -96,7 +105,7 @@ public class StockHistoryDownloadDriver {
                             LOGGER.info("Completed submitting stock history data for :" + item.getStockSymbol());
 
                         }
-                        */
+                         */
 
                     }
                 }

@@ -16,6 +16,7 @@ public class CompanySearchProperties {
     private String companyName;
     private String stockExchange;
     private String stockSymbol;
+    private String companyId;
 
     public int getNumResults() {
         return numResults;
@@ -23,6 +24,14 @@ public class CompanySearchProperties {
 
     public void setNumResults(int numResults) {
         this.numResults = numResults;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 
     public int getStartResults() {

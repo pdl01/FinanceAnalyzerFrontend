@@ -31,7 +31,7 @@ public class StockHistoryDowloadServiceImpl implements StockHistoryDownloadServi
 
     @Autowired
     private StockHistorySearchRepo stockHistorySearchRepoImpl;
-    
+
     @Override
     public List<StockHistory> fetchDataForCompany(Company company) {
         return this.fetchDataForCompany(company, null);
@@ -43,15 +43,26 @@ public class StockHistoryDowloadServiceImpl implements StockHistoryDownloadServi
             return null;
         }
         List<StockHistory> shs = null;
-        if (company.getStockExchange().equalsIgnoreCase(CompanyProvider.EXCHANGE_NASDAQ)) {
-            shs = this.advfnNasDaqCompanyProvider.getStockHistoryForCompany(company.getStockSymbol());
-        } else if (company.getStockExchange().equalsIgnoreCase(CompanyProvider.EXCHANGE_NYSE)) {
-            shs = this.advfnNYSECompanyProvider.getStockHistoryForCompany(company.getStockSymbol());
-        } else if (company.getStockExchange().equalsIgnoreCase(CompanyProvider.EXCHANGE_AMEX)) {
-            shs = this.advfnAMEXCompanyProvider.getStockHistoryForCompany(company.getStockSymbol());
+        if (_date != null) {
+            if (company.getStockExchange().equalsIgnoreCase(CompanyProvider.EXCHANGE_NASDAQ)) {
+                shs = this.advfnNasDaqCompanyProvider.getStockHistoryForCompany(company.getStockSymbol());
+            } else if (company.getStockExchange().equalsIgnoreCase(CompanyProvider.EXCHANGE_NYSE)) {
+                shs = this.advfnNYSECompanyProvider.getStockHistoryForCompany(company.getStockSymbol());
+            } else if (company.getStockExchange().equalsIgnoreCase(CompanyProvider.EXCHANGE_AMEX)) {
+                shs = this.advfnAMEXCompanyProvider.getStockHistoryForCompany(company.getStockSymbol());
+            }
+
+        } else {
+            if (company.getStockExchange().equalsIgnoreCase(CompanyProvider.EXCHANGE_NASDAQ)) {
+                shs = this.advfnNasDaqCompanyProvider.getStockHistoryForCompanyForDay(company.getStockSymbol(),_date);
+            } else if (company.getStockExchange().equalsIgnoreCase(CompanyProvider.EXCHANGE_NYSE)) {
+                shs = this.advfnNYSECompanyProvider.getStockHistoryForCompanyForDay(company.getStockSymbol(),_date);
+            } else if (company.getStockExchange().equalsIgnoreCase(CompanyProvider.EXCHANGE_AMEX)) {
+                shs = this.advfnAMEXCompanyProvider.getStockHistoryForCompanyForDay(company.getStockSymbol(),_date);
+            }
         }
         if (shs != null) {
-            for (StockHistory item: shs) {
+            for (StockHistory item : shs) {
                 this.stockHistorySearchRepoImpl.submit(item);
             }
             /*
@@ -59,7 +70,7 @@ public class StockHistoryDowloadServiceImpl implements StockHistoryDownloadServi
                 this.stockHistorySearchRepoImpl.submit(item);
 
             });
-            */
+             */
         }
         return shs;
     }

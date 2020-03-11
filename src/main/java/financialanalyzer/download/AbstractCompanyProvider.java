@@ -58,12 +58,15 @@ public abstract class AbstractCompanyProvider {
             max_date = sdf.format(refDate);
             Calendar now = Calendar.getInstance();
             now.setTime(refDate);
-            now.add(Calendar.WEEK_OF_YEAR, -4);
+            now.add(Calendar.DAY_OF_YEAR, -4);
             min_date = sdf.format(now.getTime());
-        }
+        } 
 
         String resolvedURL = url.replaceAll("::SYMBOL::", _symbol).replaceAll("::MIN-DATE::", min_date).replaceAll("::MAX-DATE::", max_date);
-        String downloadFile = "/temp/fa/work/stockdownloads/" + _symbol + "-" + max_date + ".csv";
+        String downloadDirectoryPath = "/temp/fa/work/stockdownloads/"+sdf.format(new Date());
+        File downloadDirecory = new File (downloadDirectoryPath);
+        downloadDirecory.mkdirs();
+        String downloadFile = downloadDirectoryPath + "/" + _symbol + "-" + max_date + ".csv";
         boolean downloaded = this.downloadCSVForExchangeFromNasDaq(resolvedURL, downloadFile);
         LOGGER.info(downloaded + " : " + resolvedURL);
 

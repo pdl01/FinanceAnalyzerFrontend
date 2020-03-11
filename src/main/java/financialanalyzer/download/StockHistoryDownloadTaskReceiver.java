@@ -28,12 +28,12 @@ import org.springframework.stereotype.Component;
 public class StockHistoryDownloadTaskReceiver {
 
     private static final Logger LOGGER = Logger.getLogger(StockHistoryDownloadTaskReceiver.class.getName());
-    
+
     @Autowired
     StockHistoryDownloadService stockHistoryDownloadServiceImpl;
     @Autowired
     private StockHistorySearchRepo stockHistorySearchRepo;
-    
+
     @JmsListener(destination = ActiveMQConfig.STOCK_HISTORY_DOWNLOAD_QUEUE)
     public void receiveMessage(@Payload StockHistoryDownloadTask _stockHistoryDownloadTask,
             @Headers MessageHeaders headers,
@@ -44,7 +44,11 @@ public class StockHistoryDownloadTaskReceiver {
         Company company = new Company();
         company.setStockExchange(_stockHistoryDownloadTask.getExchange());
         company.setStockSymbol(_stockHistoryDownloadTask.getSymbol());
-        shs = this.stockHistoryDownloadServiceImpl.fetchDataForCompany(company);
+        if (_stockHistoryDownloadTask.isDownloadAllAvailalble()) {
+            shs = this.stockHistoryDownloadServiceImpl.fetchDataForCompany(company);
+        } else {
+            shs = this.stockHistoryDownloadServiceImpl.fetchDataForCompany(company, _stockHistoryDownloadTask.getRetrieveDate());
+        }
         if (shs != null) {
             LOGGER.info("Submitting stock history data for :" + company.getStockSymbol());
             for (StockHistory shs_item : shs) {
