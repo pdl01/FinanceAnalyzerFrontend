@@ -1,0 +1,22 @@
+<input [(ngModel)]="searchTerm" placeholder="searchTerm"/>
+<button (click)="doSimpleSearch()">Search</button>
+
+<div *ngIf="searchCompanyItems != null && searchCompanyItems.length > 0; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>
+    <h2>Companies</h2>
+
+    <div class="videoListGrid">
+
+        <div *ngFor="let searchItem of searchCompanyItems" class="videoListItem" >
+            <a routerLink="/company/details/{{searchItem.id}}" class="videoListItemLink">{{searchItem.name}} {{searchItem.stockSymbol}}</a>
+
+        </div>
+    </div>
+    <div><a href="javascript:void(0)" (click)="getMoreCompanyResults()">More Results</a></div>
+
+
+</ng-template>
+
+
+<ng-template #elseBlock>No items match your search</ng-template>
+

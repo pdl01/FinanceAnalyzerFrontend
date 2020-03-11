@@ -1,0 +1,15 @@
+<div *ngIf="company != null && searchCompanyItems.length > 0; then thenCompanyBlock else elseCompanyBlock"></div>
+<ng-template #thenCompanyBlock>
+    {{company.name}}<br>
+    {{company.exchange}}:{{company.symbol}}
+    {{company.sectors}}
+   
+</ng-template>
+<ng-template #elseCompanyBlock>
+</ng-template>
+
+<div *ngIf="stockHistories != null && stockHistories.length > 0; then thenStockHistoriesBlock else elseStockHistoriesBlock"></div>
+<ng-template #thenStockHistoriesBlock>
+</ng-template>
+<ng-template #elseStockHistoriesBlock>
+</ng-template>
