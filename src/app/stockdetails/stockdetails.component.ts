@@ -6,6 +6,8 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser
 import { CompanyService } from '../company.service';
 
 import { Company } from '../company';
+import { StockHistory } from '../stockhistory';
+
 import { RestResponse } from '../restresponse';
 
 @Component({
@@ -19,22 +21,30 @@ export class StockdetailsComponent implements OnInit {
   private companyService: CompanyService,
   private location: Location,
   private sanitizer: DomSanitizer    ) { }
+  
   private company: Company;
   private stockHistories: StockHistory[] = [];
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.loadCompany(id);
+    this.loadStocks(id);
   }
 
   loadCompany(id): void {
      this.companyService.getCompanyById(id).subscribe(response => {
  
         if (response.code == 0) {
-            this.company = response.object;
+            this.company = response.object[0];
         }
       });
   }
   loadStocks(id): void {
+    this.companyService.getStockHistory(id).subscribe(response => {
+ 
+        if (response.code == 0) {
+            this.stockHistories = response.object;
+        }
+      });
   }
 }

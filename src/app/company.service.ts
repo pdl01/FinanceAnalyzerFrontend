@@ -18,4 +18,7 @@ export class CompanyService {
   searchCompanies(searchTerm,start,numResults): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/symbol/'+searchTerm).pipe();    
   }
+  getStockHistory(id): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/companies/company/'+id+'/stock').pipe();    
+  }  
 }

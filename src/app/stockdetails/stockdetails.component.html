@@ -1,15 +1,20 @@
-<div *ngIf="company != null && searchCompanyItems.length > 0; then thenCompanyBlock else elseCompanyBlock"></div>
+<div *ngIf="company != null; then thenCompanyBlock else elseCompanyBlock"></div>
 <ng-template #thenCompanyBlock>
-    {{company.name}}<br>
-    {{company.exchange}}:{{company.symbol}}
-    {{company.sectors}}
-   
+    Name: {{company.name}}<br>
+    Symbol: {{company.exchange}}:{{company.symbol}}<br>
+    Sectors: {{company.sectors}}<br>
+    
+    
 </ng-template>
 <ng-template #elseCompanyBlock>
 </ng-template>
 
 <div *ngIf="stockHistories != null && stockHistories.length > 0; then thenStockHistoriesBlock else elseStockHistoriesBlock"></div>
 <ng-template #thenStockHistoriesBlock>
+            <div *ngFor="let sh of stockHistories" class="videoListItem" >
+            {{sh.recordDateAsString}} {{sh.open}} {{sh.close}} {{sh.actual_gain}}
+
+        </div>
 </ng-template>
 <ng-template #elseStockHistoriesBlock>
 </ng-template>
