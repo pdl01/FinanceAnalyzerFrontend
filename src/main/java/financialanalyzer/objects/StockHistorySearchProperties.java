@@ -16,7 +16,26 @@ public class StockHistorySearchProperties {
     private String stockExchange;
     private String stockSymbol;
     private String searchDate;
+    
+    String sortField;
+    String sortOrder;
 
+    public String getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
+    }
+
+    public String getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(String sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+    
     public int getNumResults() {
         return numResults;
     }

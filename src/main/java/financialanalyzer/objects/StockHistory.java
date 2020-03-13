@@ -10,6 +10,7 @@ import java.util.Date;
 public class StockHistory {
 
     private Date recordDate;
+    private String recordDateAsString;
     private String symbol;
     private String exchange;
     
@@ -35,6 +36,14 @@ public class StockHistory {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public String getRecordDateAsString() {
+        return recordDateAsString;
+    }
+
+    public void setRecordDateAsString(String recordDateAsString) {
+        this.recordDateAsString = recordDateAsString;
     }
 
     public float getOpen() {

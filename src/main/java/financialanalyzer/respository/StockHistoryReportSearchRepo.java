@@ -37,79 +37,10 @@ import org.springframework.stereotype.Component;
  * @author pldor
  */
 @Component
-public class StockHistorySearchRepo extends ElasticSearchManager implements StockHistoryRepo {
+public class StockHistoryReportSearchRepo extends ElasticSearchManager {
 
-    private static final Logger logger = Logger.getLogger(StockHistorySearchRepo.class.getName());
+    private static final Logger logger = Logger.getLogger(StockHistoryReportSearchRepo.class.getName());
 
-    @Override
-    public StockHistory submit(StockHistory _item) {
-        if (_item == null) {
-            return null;
-        }
-        RestHighLevelClient client = this.buildClient();
-        if (client == null) {
-            return null;
-        }
-
-        IndexRequest indexRequest = new IndexRequest("stockhistories", "stockhistory", this.getKey(_item))
-                .source("id", this.getKey(_item),
-                        "recordDate", _item.getRecordDate(),
-                        "symbol", _item.getSymbol(),
-                        "exchange", _item.getExchange(),
-                        "open", _item.getOpen(),
-                        "close", _item.getClose(),
-                        "percent_gain", _item.getPercent_gain(),
-                        "actual_gain", _item.getActual_gain(),
-                        "volume", _item.getVolume(),
-                        "high",_item.getHigh(),
-                        "low",_item.getLow()
-                );
-
-        try {
-            IndexResponse indexResponse = client.index(indexRequest);
-            //logger.info(indexResponse.getIndex());
-            //logger.info(indexResponse.getResult().name());
-        } catch (IOException ex) {
-            //ex.printStackTrace();
-            logger.severe(ex.getMessage());
-        }
-        this.closeClient(client);
-        return _item;
-    }
-
-    private String getKey(StockHistory _item) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return _item.getExchange() + "-" + _item.getSymbol() + "-" + sdf.format(_item.getRecordDate());
-    }
-
-    @Override
-    public boolean delete(StockHistory _item) {
-        RestHighLevelClient client = this.buildClient();
-        if (client == null) {
-            return false;
-        }
-
-        DeleteRequest request = new DeleteRequest("stockhistories", "stockhistory", this.getKey(_item));
-
-        try {
-            RequestOptions options = null;
-            client.delete(request, options);
-            //CreateIndexRequest request = new CreateIndexRequest("users");
-            //client.
-            //CreateIndexResponse  createIndexResponse = client.indices().indices().create(request);
-        } catch (IOException ex) {
-            logger.severe("Error when deleting stock history " + ex.getMessage());
-
-        } catch (Exception ex) {
-            logger.severe("Error when deleting stock history " + ex.getMessage());
-
-        }
-
-        this.closeClient(client);
-        return true;
-    }
-
-    @Override
     public List<StockHistory> searchForStockHistory(StockHistorySearchProperties _shsp) {
         List<StockHistory> shs = new ArrayList<>();
         RestHighLevelClient client = this.buildClient();

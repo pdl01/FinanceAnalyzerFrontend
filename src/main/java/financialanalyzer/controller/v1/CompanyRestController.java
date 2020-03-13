@@ -10,9 +10,13 @@ import financialanalyzer.download.StockHistoryDownloadDriver;
 import financialanalyzer.download.StockHistoryDownloadService;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.CompanySearchProperties;
+import financialanalyzer.objects.StockHistory;
+import financialanalyzer.objects.StockHistorySearchProperties;
 import financialanalyzer.respository.CompanyRepo;
-import java.security.Principal;
+import financialanalyzer.respository.StockHistoryRepo;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,9 +32,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/companies")
 public class CompanyRestController {
 
+    private static final Logger logger = Logger.getLogger(CompanyRestController.class.getName());
     @Autowired
     private CompanyRepo companySearchRepo;
 
+    @Autowired
+    private StockHistoryRepo stockHistorySearchRepo;
+    
     @Autowired
     private AllStockNamesDownloadDriver allStockNamesDownloadDriver;
     
@@ -118,5 +126,29 @@ public class CompanyRestController {
         //restResponse.setObject(company);
         return restResponse;
     }
-
+    
+    @RequestMapping(value = "/company/{id}/stock", method = RequestMethod.GET, produces = "application/json")
+    public RestResponse getStockInformationForCompany(@PathVariable("id") String _id) {
+        RestResponse restResponse = new RestResponse();
+        CompanySearchProperties csp = new CompanySearchProperties();
+        csp.setCompanyId(_id);;
+        List<Company> companies = this.companySearchRepo.searchForCompany(csp);
+        List<StockHistory> stockhistories = new ArrayList<>(); 
+        if (companies != null) {
+            for (Company company: companies) {
+                StockHistorySearchProperties shsp = new StockHistorySearchProperties();
+                shsp.setStockExchange(company.getStockExchange());
+                shsp.setStockSymbol(company.getStockSymbol());
+                shsp.setSortField("recordDate");
+                shsp.setSortOrder("DESC");
+                List<StockHistory> shs = this.stockHistorySearchRepo.searchForStockHistory(shsp);
+                if (shs != null) {
+                    stockhistories.addAll(shs);
+                }
+            }
+        }
+        //restResponse.setObject(company);
+        restResponse.setObject(stockhistories);
+        return restResponse;
+    }
 }
