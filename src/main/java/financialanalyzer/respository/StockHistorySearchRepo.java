@@ -10,11 +10,13 @@ import financialanalyzer.objects.CompanySearchProperties;
 import financialanalyzer.objects.StockHistory;
 import financialanalyzer.objects.StockHistorySearchProperties;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.index.IndexRequest;
@@ -40,7 +42,7 @@ import org.springframework.stereotype.Component;
 public class StockHistorySearchRepo extends ElasticSearchManager implements StockHistoryRepo {
 
     private static final Logger logger = Logger.getLogger(StockHistorySearchRepo.class.getName());
-
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     @Override
     public StockHistory submit(StockHistory _item) {
         if (_item == null) {
@@ -53,7 +55,7 @@ public class StockHistorySearchRepo extends ElasticSearchManager implements Stoc
 
         IndexRequest indexRequest = new IndexRequest("stockhistories", "stockhistory", this.getKey(_item))
                 .source("id", this.getKey(_item),
-                        "recordDate", _item.getRecordDate(),
+                        "recordDate", sdf.format(_item.getRecordDate()),
                         "symbol", _item.getSymbol(),
                         "exchange", _item.getExchange(),
                         "open", _item.getOpen(),
@@ -78,7 +80,6 @@ public class StockHistorySearchRepo extends ElasticSearchManager implements Stoc
     }
 
     private String getKey(StockHistory _item) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return _item.getExchange() + "-" + _item.getSymbol() + "-" + sdf.format(_item.getRecordDate());
     }
 
@@ -131,6 +132,14 @@ public class StockHistorySearchRepo extends ElasticSearchManager implements Stoc
             boolQuery.must(QueryBuilders.matchQuery("symbol", _shsp.getStockSymbol()));
 
         }
+        if (_shsp.getSearchDate() != null) {
+            //try {
+                boolQuery.must(QueryBuilders.matchQuery("recordDate", _shsp.getSearchDate()));
+            //} catch (ParseException ex) {
+            //    logger.log(Level.SEVERE, null, ex);
+            //}
+
+        }        
 
         //.fuzziness(Fuzziness.AUTO);
         searchSourceBuilder.query(boolQuery).from(_shsp.getStartResults()).size(_shsp.getNumResults());

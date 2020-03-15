@@ -5,15 +5,26 @@
  */
 package financialanalyzer.report;
 
+import financialanalyzer.respository.StockHistoryReportSearchRepo;
+import org.elasticsearch.action.search.SearchRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  *
  * @author pldor
  */
 public class TopVolumesByAmountGenerator implements ReportGenerator{
-
+    
+    @Autowired
+    private StockHistoryReportSearchRepo  stockHistoryReportSearchRepo;
+    
     @Override
     public ReportSummary getReport(String _startDate, String _endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SearchRequest searchRequest = new SearchRequest(StockHistoryReportSearchRepo.STOCK_HISTORY_INDEX);
+        
+        this.stockHistoryReportSearchRepo.searchForReport(searchRequest);
+        ReportSummary summary = null;
+        return summary;
     }
     
 }

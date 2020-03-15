@@ -10,11 +10,13 @@ import financialanalyzer.objects.CompanySearchProperties;
 import financialanalyzer.objects.StockHistory;
 import financialanalyzer.objects.StockHistorySearchProperties;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.index.IndexRequest;
@@ -40,7 +42,13 @@ import org.springframework.stereotype.Component;
 public class StockHistoryReportSearchRepo extends ElasticSearchManager {
 
     private static final Logger logger = Logger.getLogger(StockHistoryReportSearchRepo.class.getName());
-
+    public static final String STOCK_HISTORY_INDEX = "stockhistories";
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    
+    public void searchForReport (SearchRequest _sr){
+        
+    }
+    
     public List<StockHistory> searchForStockHistory(StockHistorySearchProperties _shsp) {
         List<StockHistory> shs = new ArrayList<>();
         RestHighLevelClient client = this.buildClient();
@@ -60,6 +68,14 @@ public class StockHistoryReportSearchRepo extends ElasticSearchManager {
         }
         if (_shsp.getStockSymbol() != null) {
             boolQuery.must(QueryBuilders.matchQuery("symbol", _shsp.getStockSymbol()));
+
+        }
+        if (_shsp.getSearchDate() != null) {
+            try {
+                boolQuery.must(QueryBuilders.matchQuery("recordDate", sdf.parse(_shsp.getSearchDate())));
+            } catch (ParseException ex) {
+                logger.log(Level.SEVERE, null, ex);
+            }
 
         }
 
