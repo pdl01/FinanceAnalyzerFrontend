@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { StocksearchComponent } from './stocksearch/stocksearch.component';
 import { StockdetailsComponent } from './stockdetails/stockdetails.component';
+import { DailyreportComponent } from './dailyreport/dailyreport.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StocksearchComponent,
-    StockdetailsComponent
+    StockdetailsComponent,
+    DailyreportComponent
   ],
   imports: [
     BrowserModule,

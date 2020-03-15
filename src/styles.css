@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+.rTable {
+    display: table;
+}
+.rTableRow {
+    display: table-row;
+}
+.rTableCell {
+    display: table-cell;
+    padding: 3px 10px;
+    border: 1px solid #999999;
+}

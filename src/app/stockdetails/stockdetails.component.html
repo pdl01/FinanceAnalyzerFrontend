@@ -3,18 +3,36 @@
     Name: {{company.name}}<br>
     Symbol: {{company.exchange}}:{{company.symbol}}<br>
     Sectors: {{company.sectors}}<br>
-    
-    
+
+
 </ng-template>
 <ng-template #elseCompanyBlock>
 </ng-template>
 
 <div *ngIf="stockHistories != null && stockHistories.length > 0; then thenStockHistoriesBlock else elseStockHistoriesBlock"></div>
 <ng-template #thenStockHistoriesBlock>
-            <div *ngFor="let sh of stockHistories" class="videoListItem" >
-            {{sh.recordDateAsString}} {{sh.open}} {{sh.close}} {{sh.actual_gain}}
-
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Date</div>
+            <div class="rTableCell">Open</div>
+            <div class="rTableCell">Close</div>
+            <div class="rTableCell">Gain</div>
+            <div class="rTableCell">% Gain</div>
+            <div class="rTableCell">High</div>
+            <div class="rTableCell">Low</div>
+            <div class="rTableCell">Volume</div>
         </div>
+        <div *ngFor="let sh of stockHistories" class="rTableRow" >
+            <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+            <div class="rTableCell">{{sh.open|currency}}</div>
+            <div class="rTableCell">{{sh.close|currency}}</div>
+            <div class="rTableCell">{{sh.actual_gain|currency}}</div>
+            <div class="rTableCell">{{sh.percent_gain | percent}}</div>
+            <div class="rTableCell">{{sh.high|currency}}</div>
+            <div class="rTableCell">{{sh.low|currency}}</div>
+            <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
+        </div>
+    </div>
 </ng-template>
 <ng-template #elseStockHistoriesBlock>
 </ng-template>

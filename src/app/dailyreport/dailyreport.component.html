@@ -1,0 +1,159 @@
+Top Volumes
+<div *ngIf="volumeStocks != null && volumeStocks.length > 0; then thenVolumeStockHistoriesBlock else elseVolumeStockHistoriesBlock"></div>
+<ng-template #thenVolumeStockHistoriesBlock>
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Date</div>
+            <div class="rTableCell">StockSymbol</div>
+            <div class="rTableCell">Open</div>
+            <div class="rTableCell">Close</div>
+            <div class="rTableCell">Gain</div>
+            <div class="rTableCell">% Gain</div>
+            <div class="rTableCell">High</div>
+            <div class="rTableCell">Low</div>
+            <div class="rTableCell">Volume</div>
+        </div>
+        <div *ngFor="let sh of volumeStocks" class="rTableRow" >
+            <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+            <div class="rTableCell"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
+            <div class="rTableCell">{{sh.open|currency}}</div>
+            <div class="rTableCell">{{sh.close|currency}}</div>
+            <div class="rTableCell">{{sh.actual_gain|currency}}</div>
+            <div class="rTableCell">{{sh.percent_gain | percent}}</div>
+            <div class="rTableCell">{{sh.high|currency}}</div>
+            <div class="rTableCell">{{sh.low|currency}}</div>
+            <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #elseVolumeStockHistoriesBlock>
+</ng-template>
+<p>
+Top Gainers By Amount
+<div *ngIf="gainerAmountStocks != null && gainerAmountStocks.length > 0; then thenGainerAmountStockHistoriesBlock else elseGainerAmountStockHistoriesBlock"></div>
+<ng-template #thenGainerAmountStockHistoriesBlock>
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Date</div>
+            <div class="rTableCell">StockSymbol</div>
+            <div class="rTableCell">Open</div>
+            <div class="rTableCell">Close</div>
+            <div class="rTableCell">Gain</div>
+            <div class="rTableCell">% Gain</div>
+            <div class="rTableCell">High</div>
+            <div class="rTableCell">Low</div>
+            <div class="rTableCell">Volume</div>
+        </div>
+        <div *ngFor="let sh of gainerAmountStocks" class="rTableRow" >
+            <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+            <div class="rTableCell"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
+            <div class="rTableCell">{{sh.open|currency}}</div>
+            <div class="rTableCell">{{sh.close|currency}}</div>
+            <div class="rTableCell">{{sh.actual_gain|currency}}</div>
+            <div class="rTableCell">{{sh.percent_gain | percent}}</div>
+            <div class="rTableCell">{{sh.high|currency}}</div>
+            <div class="rTableCell">{{sh.low|currency}}</div>
+            <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #elseGainerAmountStockHistoriesBlock>
+</ng-template>
+
+<p>
+Top Gainers By Percent
+<div *ngIf="gainerPercentStocks != null && gainerPercentStocks.length > 0; then thenGainerPercentStockHistoriesBlock else elseGainerPercentStockHistoriesBlock"></div>
+<ng-template #thenGainerPercentStockHistoriesBlock>
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Date</div>
+            <div class="rTableCell">StockSymbol</div>
+            <div class="rTableCell">Open</div>
+            <div class="rTableCell">Close</div>
+            <div class="rTableCell">Gain</div>
+            <div class="rTableCell">% Gain</div>
+            <div class="rTableCell">High</div>
+            <div class="rTableCell">Low</div>
+            <div class="rTableCell">Volume</div>
+        </div>
+        <div *ngFor="let sh of gainerPercentStocks" class="rTableRow" >
+            <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+            <div class="rTableCell"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
+            <div class="rTableCell">{{sh.open|currency}}</div>
+            <div class="rTableCell">{{sh.close|currency}}</div>
+            <div class="rTableCell">{{sh.actual_gain|currency}}</div>
+            <div class="rTableCell">{{sh.percent_gain | percent}}</div>
+            <div class="rTableCell">{{sh.high|currency}}</div>
+            <div class="rTableCell">{{sh.low|currency}}</div>
+            <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #elseGainerPercentStockHistoriesBlock>
+</ng-template>
+
+
+<p>
+Top Losers By Amount
+<div *ngIf="loserAmountStocks != null && loserAmountStocks.length > 0; then thenLoserAmountStockHistoriesBlock else elseLoserAmountStockHistoriesBlock"></div>
+<ng-template #thenLoserAmountStockHistoriesBlock>
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Date</div>
+            <div class="rTableCell">StockSymbol</div>
+            <div class="rTableCell">Open</div>
+            <div class="rTableCell">Close</div>
+            <div class="rTableCell">Gain</div>
+            <div class="rTableCell">% Gain</div>
+            <div class="rTableCell">High</div>
+            <div class="rTableCell">Low</div>
+            <div class="rTableCell">Volume</div>
+        </div>
+        <div *ngFor="let sh of loserAmountStocks" class="rTableRow" >
+            <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+            <div class="rTableCell"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
+            <div class="rTableCell">{{sh.open|currency}}</div>
+            <div class="rTableCell">{{sh.close|currency}}</div>
+            <div class="rTableCell">{{sh.actual_gain|currency}}</div>
+            <div class="rTableCell">{{sh.percent_gain | percent}}</div>
+            <div class="rTableCell">{{sh.high|currency}}</div>
+            <div class="rTableCell">{{sh.low|currency}}</div>
+            <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #elseLoserAmountStockHistoriesBlock>
+</ng-template>
+
+
+<p>
+Top Losers By Percent
+<div *ngIf="loserPercentStocks != null && loserPercentStocks.length > 0; then thenLoserPercentStockHistoriesBlock else elseLoserPercentStockHistoriesBlock"></div>
+<ng-template #thenLoserPercentStockHistoriesBlock>
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Date</div>
+            <div class="rTableCell">StockSymbol</div>
+            <div class="rTableCell">Open</div>
+            <div class="rTableCell">Close</div>
+            <div class="rTableCell">Gain</div>
+            <div class="rTableCell">% Gain</div>
+            <div class="rTableCell">High</div>
+            <div class="rTableCell">Low</div>
+            <div class="rTableCell">Volume</div>
+        </div>
+        <div *ngFor="let sh of loserPercentStocks" class="rTableRow" >
+            <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+            <div class="rTableCell"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
+            <div class="rTableCell">{{sh.open|currency}}</div>
+            <div class="rTableCell">{{sh.close|currency}}</div>
+            <div class="rTableCell">{{sh.actual_gain|currency}}</div>
+            <div class="rTableCell">{{sh.percent_gain | percent}}</div>
+            <div class="rTableCell">{{sh.high|currency}}</div>
+            <div class="rTableCell">{{sh.low|currency}}</div>
+            <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #elseLoserPercentStockHistoriesBlock>
+</ng-template>
