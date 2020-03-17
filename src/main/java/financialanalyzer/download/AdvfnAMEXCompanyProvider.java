@@ -5,6 +5,7 @@
  */
 package financialanalyzer.download;
 
+import financialanalyzer.config.AppConfig;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.StockHistory;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class AdvfnAMEXCompanyProvider extends AbstractCompanyProvider implements
     private static final Logger LOGGER = Logger.getLogger(AdvfnAMEXCompanyProvider.class.getName());
 
     private static String download_url = "https://old.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=amex&render=download";
-    private static String latest_filename = "/temp/amex_latest.csv";
+    private static String latest_filename = AppConfig.companyDownloadDir + "/amex_latest.csv";
 
     @Override
     public List<Company> getAllCompanies() {

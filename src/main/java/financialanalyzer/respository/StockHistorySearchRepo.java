@@ -5,6 +5,7 @@
  */
 package financialanalyzer.respository;
 
+import financialanalyzer.elasticsearch.ElasticSearchManager;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.CompanySearchProperties;
 import financialanalyzer.objects.StockHistory;

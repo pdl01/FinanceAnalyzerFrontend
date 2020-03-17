@@ -7,6 +7,7 @@ package financialanalyzer.download;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
+import financialanalyzer.config.AppConfig;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.StockHistory;
 import java.io.File;
@@ -63,7 +64,7 @@ public abstract class AbstractCompanyProvider {
         } 
 
         String resolvedURL = url.replaceAll("::SYMBOL::", _symbol).replaceAll("::MIN-DATE::", min_date).replaceAll("::MAX-DATE::", max_date);
-        String downloadDirectoryPath = "/temp/fa/work/stockdownloads/"+sdf.format(new Date());
+        String downloadDirectoryPath = AppConfig.stockHistoryDownloadDir + "/"+sdf.format(new Date());
         File downloadDirecory = new File (downloadDirectoryPath);
         downloadDirecory.mkdirs();
         String downloadFile = downloadDirectoryPath + "/" + _symbol + "-" + max_date + ".csv";

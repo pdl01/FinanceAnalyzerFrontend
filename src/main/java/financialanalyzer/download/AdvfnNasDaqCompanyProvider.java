@@ -5,6 +5,7 @@
  */
 package financialanalyzer.download;
 
+import financialanalyzer.config.AppConfig;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.StockHistory;
 import java.io.InputStream;
@@ -27,7 +28,7 @@ public class AdvfnNasDaqCompanyProvider extends AbstractCompanyProvider implemen
     private static final Logger LOGGER = Logger.getLogger(AdvfnNasDaqCompanyProvider.class.getName());
 
     private static String download_url = "https://old.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download";
-    private static String latest_filename = "/temp/nasdaq_latest.csv";
+    private static String latest_filename = AppConfig.companyDownloadDir + "/nasdaq_latest.csv";
 
     @Override
     public List<Company> getAllCompanies() {
@@ -47,14 +48,14 @@ public class AdvfnNasDaqCompanyProvider extends AbstractCompanyProvider implemen
 
     @Override
     public List<StockHistory> getStockHistoryForCompany(String _symbol) {
-        return this.getStockHistoryForCompanyForDay(_symbol,null);
+        return this.getStockHistoryForCompanyForDay(_symbol, null);
     }
 
     @Override
     public List<StockHistory> getStockHistoryForCompanyForDay(String _symbol, Date _date) {
         //return this.downloadTimeHistoryAlphavantage(CompanyProvider.EXCHANGE_NASDAQ,_symbol, _date);
-        
-        return this.downloadAndProcessCSVFromNasDaq(CompanyProvider.EXCHANGE_NASDAQ,_symbol, _date);
+
+        return this.downloadAndProcessCSVFromNasDaq(CompanyProvider.EXCHANGE_NASDAQ, _symbol, _date);
 
     }
 

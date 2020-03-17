@@ -1,5 +1,5 @@
 
-package financialanalyzer.respository;
+package financialanalyzer.elasticsearch;
 
 import financialanalyzer.config.ElasticSearchConfiguration;
 import java.io.IOException;

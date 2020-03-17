@@ -5,6 +5,7 @@
  */
 package financialanalyzer.download;
 
+import financialanalyzer.config.AppConfig;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.StockHistory;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class AdvfnNYSECompanyProvider extends AbstractCompanyProvider implements
     private static final Logger LOGGER = Logger.getLogger(AdvfnNYSECompanyProvider.class.getName());
 
     private static String download_url = "https://old.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nyse&render=download";
-    private static String latest_filename = "/temp/nyse_latest.csv";
+    private static String latest_filename = AppConfig.companyDownloadDir + "/nyse_latest.csv";
 
     @Override
     public List<Company> getAllCompanies() {

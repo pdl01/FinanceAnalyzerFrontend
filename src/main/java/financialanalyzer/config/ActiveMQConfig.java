@@ -5,16 +5,11 @@
  */
 package financialanalyzer.config;
 
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
@@ -28,6 +23,8 @@ import org.springframework.jms.support.converter.MessageType;
 public class ActiveMQConfig {
 
     public static final String STOCK_HISTORY_DOWNLOAD_QUEUE = "stock-history-download-queue";
+    public static final String COMPANY_NEWS_QUEUE = "company-news-queue";
+    public static final String SYSTEM_ACTIVITY_QUEUE = "system-activity-queue";
 
     @Bean
     public JmsListenerContainerFactory<?> queueListenerFactory() {
