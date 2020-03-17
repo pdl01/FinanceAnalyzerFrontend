@@ -22,7 +22,10 @@ export class StockdetailsComponent implements OnInit {
   private location: Location,
   private sanitizer: DomSanitizer    ) { }
   
-  private company: Company;
+  private company: Company
+  
+  private suppliers: Company[] = [];
+  private producers: Company[] = [];
   private stockHistories: StockHistory[] = [];
 
   ngOnInit() {

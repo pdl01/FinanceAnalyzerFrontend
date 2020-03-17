@@ -1,14 +1,19 @@
 <div *ngIf="company != null; then thenCompanyBlock else elseCompanyBlock"></div>
 <ng-template #thenCompanyBlock>
     Name: {{company.name}}<br>
-    Symbol: {{company.exchange}}:{{company.symbol}}<br>
+    Symbol: {{company.stockExchange}}:{{company.stockSymbol}}<br>
     Sectors: {{company.sectors}}<br>
-
-
 </ng-template>
 <ng-template #elseCompanyBlock>
 </ng-template>
 
+<div>
+Key Suppliers:
+</div>
+<div>
+Key Producer For:
+
+</div>
 <div *ngIf="stockHistories != null && stockHistories.length > 0; then thenStockHistoriesBlock else elseStockHistoriesBlock"></div>
 <ng-template #thenStockHistoriesBlock>
     <div class="rTable">
