@@ -1,2 +1,10 @@
 /target/
 /nbproject/
+/.settings/org.eclipse.core.resources.prefs
+/bin/.settings/org.eclipse.core.resources.prefs
+/.settings/org.eclipse.jdt.core.prefs
+/.classpath
+/bin/.project
+/.project
+/bin/.gitignore
+/bin/nbactions.xml
