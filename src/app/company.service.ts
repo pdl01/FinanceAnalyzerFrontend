@@ -20,5 +20,8 @@ export class CompanyService {
   }
   getStockHistory(id): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/company/'+id+'/stock').pipe();    
+  }
+  getSystemActivity(id): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/companies/company/'+id+'/systemActivity').pipe();    
   }  
 }

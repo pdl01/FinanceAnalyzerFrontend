@@ -3,6 +3,11 @@
     Name: {{company.name}}<br>
     Symbol: {{company.stockExchange}}:{{company.stockSymbol}}<br>
     Sectors: {{company.sectors}}<br>
+    <br>
+    <a href="https://www.google.com/search?q={{company.stockSymbol}}&tbm=fin" target="_blank">On Google</a> | 
+    <a href="https://finance.yahoo.com/quote/{{company.stockSymbol}}?p={{company.stockSymbol}}" target="_blank">On Yahoo</a>
+    <br>       
+       
 </ng-template>
 <ng-template #elseCompanyBlock>
 </ng-template>
@@ -40,4 +45,22 @@ Key Producer For:
     </div>
 </ng-template>
 <ng-template #elseStockHistoriesBlock>
+</ng-template>
+
+<div *ngIf="systemActivities != null && systemActivities.length > 0; then thenSystemActivitiesBlock else elseSystemActivitiesBlock"></div>
+<ng-template #thenSystemActivitiesBlock>
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Date</div>
+            <div class="rTableCell">Type</div>
+            <div class="rTableCell">Message</div>
+        </div>
+        <div *ngFor="let sh of systemActivities" class="rTableRow" >
+            <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+            <div class="rTableCell">{{sh.activityType}}</div>
+            <div class="rTableCell">{{sh.activityMessage}}</div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #elseSystemActivitiesBlock>
 </ng-template>

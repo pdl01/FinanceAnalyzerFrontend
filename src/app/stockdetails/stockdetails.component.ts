@@ -7,6 +7,7 @@ import { CompanyService } from '../company.service';
 
 import { Company } from '../company';
 import { StockHistory } from '../stockhistory';
+import { SystemActivity } from '../systemactivity';
 
 import { RestResponse } from '../restresponse';
 
@@ -27,11 +28,12 @@ export class StockdetailsComponent implements OnInit {
   private suppliers: Company[] = [];
   private producers: Company[] = [];
   private stockHistories: StockHistory[] = [];
-
+  private systemActivities: SystemActivity[] = [];
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.loadCompany(id);
     this.loadStocks(id);
+    this.loadSystemActivity(id);
   }
 
   loadCompany(id): void {
@@ -47,6 +49,14 @@ export class StockdetailsComponent implements OnInit {
  
         if (response.code == 0) {
             this.stockHistories = response.object;
+        }
+      });
+  }
+  loadSystemActivity(id): void {
+    this.companyService.getSystemActivity(id).subscribe(response => {
+ 
+        if (response.code == 0) {
+            this.systemActivities = response.object;
         }
       });
   }
