@@ -8,6 +8,7 @@ package financialanalyzer.download;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.StockHistory;
 import financialanalyzer.respository.StockHistorySearchRepo;
+import financialanalyzer.systemactivity.SystemActivityManager;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class StockHistoryDowloadServiceImpl implements StockHistoryDownloadServi
     @Autowired
     private StockHistorySearchRepo stockHistorySearchRepoImpl;
 
+    @Autowired
+    private SystemActivityManager systemActivityManagerImpl;
+    
     @Override
     public List<StockHistory> fetchDataForCompany(Company company) {
         return this.fetchDataForCompany(company, null);
@@ -65,6 +69,7 @@ public class StockHistoryDowloadServiceImpl implements StockHistoryDownloadServi
             for (StockHistory item : shs) {
                 this.stockHistorySearchRepoImpl.submit(item);
             }
+            this.systemActivityManagerImpl.saveSystemActivity(company.getStockSymbol(), company.getStockExchange(), SystemActivityManager.ACTIVITY_TYPE_STOCK_HISTORY_DOWNLOAD, "Updated items:"+shs.size());
             /*
             shs.forEach(item -> {
                 this.stockHistorySearchRepoImpl.submit(item);

@@ -5,6 +5,8 @@
  */
 package financialanalyzer.download;
 
+import financialanalyzer.http.HttpFetcher;
+import financialanalyzer.http.HTMLPage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 import financialanalyzer.config.AppConfig;

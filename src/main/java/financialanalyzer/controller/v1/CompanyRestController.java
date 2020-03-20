@@ -14,6 +14,10 @@ import financialanalyzer.objects.StockHistory;
 import financialanalyzer.objects.StockHistorySearchProperties;
 import financialanalyzer.respository.CompanyRepo;
 import financialanalyzer.respository.StockHistoryRepo;
+import financialanalyzer.systemactivity.SystemActivity;
+import financialanalyzer.systemactivity.SystemActivityManager;
+import financialanalyzer.systemactivity.SystemActivityRepo;
+import financialanalyzer.systemactivity.SystemActivitySearchProperties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -38,25 +42,34 @@ public class CompanyRestController {
 
     @Autowired
     private StockHistoryRepo stockHistorySearchRepo;
-    
+
     @Autowired
     private AllStockNamesDownloadDriver allStockNamesDownloadDriver;
-    
+
     @Autowired
     private StockHistoryDownloadDriver stockHistoryDownloadDriver;
-    
+
     @Autowired
     private StockHistoryDownloadService stockHistoryDownloadServiceImpl;
+
+    @Autowired
+    private SystemActivityManager systemActivityManagerImpl;
+    
+    @Autowired
+    private SystemActivityRepo systemActivitySearchRepo;
 
     @RequestMapping(value = "/symbol/{symbol}", method = RequestMethod.GET, produces = "application/json")
     public RestResponse getCompaniesBySymbol(@PathVariable("symbol") String symbol) {
         RestResponse restResponse = new RestResponse();
+        this.systemActivityManagerImpl.saveSystemActivity(null, symbol, SystemActivityManager.ACTIVITY_TYPE_STOCK_SEARCH, "Search Performed");
         CompanySearchProperties csp = new CompanySearchProperties();
+
         csp.setStockSymbol(symbol);
         List<Company> companies = this.companySearchRepo.searchForCompany(csp);
         restResponse.setObject(companies);
         return restResponse;
     }
+
     @RequestMapping(value = "/company/{id}", method = RequestMethod.GET, produces = "application/json")
     public RestResponse getCompanyById(@PathVariable("id") String _id) {
         RestResponse restResponse = new RestResponse();
@@ -67,7 +80,6 @@ public class CompanyRestController {
         return restResponse;
     }
 
-    
     @RequestMapping(value = "/exchange/{exchange}", method = RequestMethod.GET, produces = "application/json")
     public RestResponse getCompaniesByExchange(@PathVariable("exchange") String exchange) {
         RestResponse restResponse = new RestResponse();
@@ -111,7 +123,7 @@ public class CompanyRestController {
         //restResponse.setObject(company);
         return restResponse;
     }
-    
+
     @RequestMapping(value = "/symbol/{symbol}/stock/fetch", method = RequestMethod.POST, produces = "application/json")
     public RestResponse fetchStockInformation(@PathVariable("symbol") String symbol) {
         RestResponse restResponse = new RestResponse();
@@ -126,16 +138,16 @@ public class CompanyRestController {
         //restResponse.setObject(company);
         return restResponse;
     }
-    
+
     @RequestMapping(value = "/company/{id}/stock", method = RequestMethod.GET, produces = "application/json")
     public RestResponse getStockInformationForCompany(@PathVariable("id") String _id) {
         RestResponse restResponse = new RestResponse();
         CompanySearchProperties csp = new CompanySearchProperties();
         csp.setCompanyId(_id);;
         List<Company> companies = this.companySearchRepo.searchForCompany(csp);
-        List<StockHistory> stockhistories = new ArrayList<>(); 
+        List<StockHistory> stockhistories = new ArrayList<>();
         if (companies != null) {
-            for (Company company: companies) {
+            for (Company company : companies) {
                 StockHistorySearchProperties shsp = new StockHistorySearchProperties();
                 shsp.setStockExchange(company.getStockExchange());
                 shsp.setStockSymbol(company.getStockSymbol());
@@ -149,6 +161,31 @@ public class CompanyRestController {
         }
         //restResponse.setObject(company);
         restResponse.setObject(stockhistories);
+
+        return restResponse;
+    }
+
+    @RequestMapping(value = "/company/{id}/systemActivity", method = RequestMethod.GET, produces = "application/json")
+    public RestResponse getSystemActivityForCompany(@PathVariable("id") String _id) {
+        RestResponse restResponse = new RestResponse();
+        CompanySearchProperties csp = new CompanySearchProperties();
+        csp.setCompanyId(_id);;
+        List<Company> companies = this.companySearchRepo.searchForCompany(csp);
+        List<SystemActivity> systemActivities = new ArrayList<>();
+        if (companies != null) {
+            for (Company company : companies) {
+                SystemActivitySearchProperties shsp = new SystemActivitySearchProperties();
+                shsp.setStockExchange(company.getStockExchange());
+                shsp.setStockSymbol(company.getStockSymbol());
+                shsp.setSortField("recordDate");
+                shsp.setSortOrder("DESC");
+                List<SystemActivity> shs = this.systemActivitySearchRepo.searchForSystemActivity(shsp);
+                if (shs != null) {
+                    systemActivities.addAll(shs);
+                }
+            }
+        }
+        restResponse.setObject(systemActivities);
         return restResponse;
     }
 }

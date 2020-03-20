@@ -8,6 +8,7 @@ package financialanalyzer.companynews;
 import financialanalyzer.config.ActiveMQConfig;
 import financialanalyzer.download.StockHistoryDownloadTask;
 import financialanalyzer.download.StockHistoryDownloadTaskReceiver;
+import financialanalyzer.objects.Company;
 import java.util.logging.Logger;
 import javax.jms.Message;
 import javax.jms.Session;
@@ -31,10 +32,14 @@ public class CompanyNewsReceiver {
     private CompanyNewsRepo companyNewsSearchRepo;
     
     @JmsListener(destination = ActiveMQConfig.COMPANY_NEWS_QUEUE)
-    public void receiveMessage(@Payload CompanyNewsItem _companyNewsItem,
+    public void receiveMessage(@Payload Company _company,
             @Headers MessageHeaders headers,
             Message message, Session session) {
-        LOGGER.info("Received " + _companyNewsItem.getId());
-        this.companyNewsSearchRepo.submit(_companyNewsItem);
+        LOGGER.info("Received " + _company.getId());
+        //get top 10 news urls about the company
+        //save the url and text and do some sentiment analysis (good/bad news)
+        //save the item to the repo
+        
+        //this.companyNewsSearchRepo.submit(_companyNewsItem);
     }
 }

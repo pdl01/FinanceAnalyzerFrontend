@@ -1,4 +1,4 @@
-package financialanalyzer.download;
+package financialanalyzer.http;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

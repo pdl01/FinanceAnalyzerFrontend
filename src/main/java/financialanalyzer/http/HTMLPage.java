@@ -1,7 +1,7 @@
 /*
  * Default License Text
  */
-package financialanalyzer.download;
+package financialanalyzer.http;
 
 /**
  *
