@@ -132,7 +132,7 @@ public class CompanyRestController {
         List<Company> companies = this.companySearchRepo.searchForCompany(csp);
         if (companies != null) {
             companies.forEach(company_item -> {
-                this.stockHistoryDownloadServiceImpl.fetchDataForCompany(company_item);
+                this.stockHistoryDownloadServiceImpl.queueCompanyForFetch(company_item, null, false);//fetchDataForCompany(company_item);
             });
         }
         //restResponse.setObject(company);
@@ -188,4 +188,7 @@ public class CompanyRestController {
         restResponse.setObject(systemActivities);
         return restResponse;
     }
+    
+    
+    
 }

@@ -15,6 +15,12 @@ import java.util.List;
  * @author pldor
  */
 public interface StockHistoryDownloadService {
+
+    public void queueCompanyForFetch(Company company, Date date, boolean retrieveAll);
+
+    public void queueStockHistoryDownloadTask(StockHistoryDownloadTask _item);
+
     public List<StockHistory> fetchDataForCompany(Company company);
-    public List<StockHistory> fetchDataForCompany(Company company,Date _date);
+
+    public List<StockHistory> fetchDataForCompany(Company company, Date _date);
 }

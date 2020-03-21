@@ -37,8 +37,8 @@ public class StockHistoryDownloadDriver {
     @Autowired
     StockHistoryDownloadService stockHistoryDownloadServiceImpl;
 
-    @Autowired
-    private JmsTemplate jmsTemplate;
+    //@Autowired
+    //private JmsTemplate jmsTemplate;
 
     //@Scheduled(initialDelay = 5000, fixedRate = 1000 * 60 * 60 * 24)
     //@Scheduled(initialDelay = 1000 * 60 * 60 * 24, fixedRate = 1000 * 60 * 60 * 24)
@@ -94,7 +94,8 @@ public class StockHistoryDownloadDriver {
                             shdt.setRetrieveDate(_date);
                             //shs = this.stockHistoryDownloadServiceImpl.fetchDataForCompany(item, _date);
                         }
-                        this.jmsTemplate.convertAndSend(ActiveMQConfig.STOCK_HISTORY_DOWNLOAD_QUEUE, shdt);
+                        this.stockHistoryDownloadServiceImpl.queueStockHistoryDownloadTask(shdt);
+                        //this.jmsTemplate.convertAndSend(ActiveMQConfig.STOCK_HISTORY_DOWNLOAD_QUEUE, shdt);
                         /*
                         if (shs != null) {
                             LOGGER.info("Submitting stock history data for :" + item.getStockSymbol());
