@@ -23,7 +23,7 @@ export class StockdetailsComponent implements OnInit {
   private location: Location,
   private sanitizer: DomSanitizer    ) { }
   
-  private company: Company
+  private company: Company;
   
   private suppliers: Company[] = [];
   private producers: Company[] = [];
@@ -59,5 +59,8 @@ export class StockdetailsComponent implements OnInit {
             this.systemActivities = response.object;
         }
       });
+  }
+  fetchStockForCompany(): void {
+    this.companyService.fetchStockData(this.company.stockSymbol).subscribe();
   }
 }

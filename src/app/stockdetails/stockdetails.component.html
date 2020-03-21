@@ -1,7 +1,7 @@
 <div *ngIf="company != null; then thenCompanyBlock else elseCompanyBlock"></div>
 <ng-template #thenCompanyBlock>
     Name: {{company.name}}<br>
-    Symbol: {{company.stockExchange}}:{{company.stockSymbol}}<br>
+    Symbol: {{company.stockExchange}}:{{company.stockSymbol}}  (<a href="javascript:void(0)" (click)="fetchStockForCompany()">Fetch</a>)<br>
     Sectors: {{company.sectors}}<br>
     <br>
     <a href="https://www.google.com/search?q={{company.stockSymbol}}&tbm=fin" target="_blank">On Google</a> | 
