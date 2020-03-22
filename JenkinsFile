@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    tools { 
+        maven 'maven_3.3' 
+        jdk 'java-8-openjdk-amd64' 
+    }
+    stages {
+        stage('Clone repository') {
+            steps {
+                checkout scm
+            }
+            /* Let's make sure we have the repository cloned to our workspace */
+
+            
+        }
+        stage ('Build jar file') {
+            steps {
+                sh 'mvn -Dmaven.test.failure.ignore=true install'
+            }
+            
+        }
+ 
+    }
+
+}
