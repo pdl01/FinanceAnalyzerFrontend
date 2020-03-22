@@ -11,5 +11,4 @@ node {
     stage ('Build Production Version') {
         sh '/usr/bin/npm "run-script" "build_prod"'
     }
-
-
+}
