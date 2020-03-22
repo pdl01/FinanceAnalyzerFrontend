@@ -1,14 +1,26 @@
 pipeline {
     agent any
-    stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
+    stages {
+        stage('Clone repository') {
+            steps {
+                checkout scm
+            }
+            /* Let's make sure we have the repository cloned to our workspace */
 
-        checkout scm
+            
+        }
+        stage ('Install NPM') {
+            steps {
+                sh '/usr/bin/npm install'
+            }
+            
+        }
+        stage ('Build Production Version') {
+            steps {
+                sh '/usr/bin/npm "run-script" "build_prod"'
+            }
+            
+        }    
     }
-    stage ('Install NPM') {
-        sh '/usr/bin/npm install'
-    }
-    stage ('Build Production Version') {
-        sh '/usr/bin/npm "run-script" "build_prod"'
-    }
+
 }
