@@ -19,11 +19,11 @@ export class DailyreportComponent implements OnInit {
   private location: Location,
   private sanitizer: DomSanitizer    ) { }
 
-  private volumeStocks: StockHistory[] = [];
-  private gainerAmountStocks: StockHistory[] = [];
-  private gainerPercentStocks: StockHistory[] = [];
-  private loserAmountStocks: StockHistory[] = [];
-  private loserPercentStocks: StockHistory[] = [];
+  volumeStocks: StockHistory[] = [];
+  gainerAmountStocks: StockHistory[] = [];
+  gainerPercentStocks: StockHistory[] = [];
+  loserAmountStocks: StockHistory[] = [];
+  loserPercentStocks: StockHistory[] = [];
 
   ngOnInit() {
 

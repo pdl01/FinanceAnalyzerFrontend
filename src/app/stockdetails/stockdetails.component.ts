@@ -23,12 +23,12 @@ export class StockdetailsComponent implements OnInit {
   private location: Location,
   private sanitizer: DomSanitizer    ) { }
   
-  private company: Company;
+  company: Company;
   
-  private suppliers: Company[] = [];
-  private producers: Company[] = [];
-  private stockHistories: StockHistory[] = [];
-  private systemActivities: SystemActivity[] = [];
+  suppliers: Company[] = [];
+  producers: Company[] = [];
+  stockHistories: StockHistory[] = [];
+  systemActivities: SystemActivity[] = [];
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.loadCompany(id);
