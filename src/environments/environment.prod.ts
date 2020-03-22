@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  serverUrl: "http://fa-test",
+  siteUrl: "http://fa-test"
 };

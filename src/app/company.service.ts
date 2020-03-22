@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RestResponse } from './restresponse'; 
+import {environment} from '../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class CompanyService {
 
  
   constructor( private http: HttpClient) { }
- private apiRoot = 'http://localhost:8080/api/v1';
+ private apiRoot = environment.serverUrl+'/api/v1';
 
   getCompanyById(id): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/company/'+id).pipe();    
