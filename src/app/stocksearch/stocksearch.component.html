@@ -1,5 +1,7 @@
-<input [(ngModel)]="searchTerm" placeholder="searchTerm"/>
-<button (click)="doSimpleSearch()">Search</button>
+<input [(ngModel)]="searchTerm" placeholder="searchTerm"/> <br>
+<input type="radio" name="searchtype" value="symbol" [(ngModel)]="searchType">Symbol
+<input type="radio" name="searchtype" value="name" [(ngModel)]="searchType">Name
+<button (click)="doSimpleSearch()">Search</button><br>
 
 <div *ngIf="searchCompanyItems != null && searchCompanyItems.length > 0; then thenBlock else elseBlock"></div>
 <ng-template #thenBlock>

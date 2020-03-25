@@ -14,6 +14,7 @@ import { RestResponse } from '../restresponse';
 export class StocksearchComponent implements OnInit {
   searchCompanyItems: Company[];
   searchTerm: string;
+  searchType: string;
   companySearchStart = 0;
   beginningSearch: boolean = true;
   constructor(private companyService: CompanyService) { }
@@ -25,7 +26,10 @@ export class StocksearchComponent implements OnInit {
     this.companySearchStart = 0;
     
     this.beginningSearch = true;
-    this.companyService.searchCompanies(this.searchTerm,0,100).subscribe(response => {
+    console.log(this.searchType);
+    if (this.searchType != 'name') {
+    
+this.companyService.searchCompaniesBySymbol(this.searchTerm,0,100).subscribe(response => {
         if (response.code == 0) {
             //
             if (this.searchCompanyItems == null) {
@@ -52,6 +56,37 @@ export class StocksearchComponent implements OnInit {
 }
         }
     );
+
+    } else {
+    
+    this.companyService.searchCompaniesByName(this.searchTerm,0,100).subscribe(response => {
+        if (response.code == 0) {
+            //
+            if (this.searchCompanyItems == null) {
+                if (response.object == null) {
+
+                } else {
+                    
+                    this.searchCompanyItems = response.object;
+                }
+                
+            
+            } else {
+               
+               if (this.beginningSearch == true) {
+                    this.searchCompanyItems = response.object;
+               } else {
+                 this.searchCompanyItems = this.searchCompanyItems.concat(response.object);
+               }
+               
+               
+            
+            
+            }
+}
+        }
+    );
+}
   }
 
 }

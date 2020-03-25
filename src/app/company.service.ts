@@ -17,8 +17,11 @@ export class CompanyService {
   getCompanyById(id): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/company/'+id).pipe();    
   }  
-  searchCompanies(searchTerm,start,numResults): Observable<RestResponse> {
+  searchCompaniesBySymbol(searchTerm,start,numResults): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/symbol/'+searchTerm).pipe();    
+  }
+  searchCompaniesByName(searchTerm,start,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/companies/name/'+searchTerm).pipe();    
   }
   getStockHistory(id): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/company/'+id+'/stock').pipe();    
