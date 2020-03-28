@@ -5,6 +5,8 @@
  */
 package financialanalyzer.controller.v1;
 
+import financialanalyzer.companynews.CompanyNewsItem;
+import financialanalyzer.companynews.CompanyNewsService;
 import financialanalyzer.download.AllStockNamesDownloadDriver;
 import financialanalyzer.download.StockHistoryDownloadDriver;
 import financialanalyzer.download.StockHistoryDownloadService;
@@ -54,9 +56,12 @@ public class CompanyRestController {
 
     @Autowired
     private SystemActivityManager systemActivityManagerImpl;
-    
+
     @Autowired
     private SystemActivityRepo systemActivitySearchRepo;
+
+    @Autowired
+    private CompanyNewsService companyNewsServiceImpl;
 
     @RequestMapping(value = "/symbol/{symbol}", method = RequestMethod.GET, produces = "application/json")
     public RestResponse getCompaniesBySymbol(@PathVariable("symbol") String symbol) {
@@ -188,7 +193,25 @@ public class CompanyRestController {
         restResponse.setObject(systemActivities);
         return restResponse;
     }
-    
-    
-    
+
+    @RequestMapping(value = "/company/{id}/news", method = RequestMethod.GET, produces = "application/json")
+    public RestResponse getCompanyNewsForCompany(@PathVariable("id") String _id) {
+        RestResponse restResponse = new RestResponse();
+        CompanySearchProperties csp = new CompanySearchProperties();
+        csp.setCompanyId(_id);;
+        List<Company> companies = this.companySearchRepo.searchForCompany(csp);
+        List<CompanyNewsItem> companyNewsItems = new ArrayList<>();
+        if (companies != null) {
+            for (Company company : companies) {
+                List<CompanyNewsItem> cnis = this.companyNewsServiceImpl.getCompanyNewsItems(company, 10);
+                if (cnis != null) {
+                    companyNewsItems.addAll(cnis);
+                }
+            }
+        }
+        restResponse.setObject(companyNewsItems);
+        return restResponse;
+
+    }
+
 }
