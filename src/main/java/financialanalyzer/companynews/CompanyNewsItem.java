@@ -12,6 +12,8 @@ package financialanalyzer.companynews;
 public class CompanyNewsItem {
     private String id;
     private String url;
+    private String subject;
+    private String body;
     private String exchange;
     private String symbol;
     private String publishedDate;
@@ -28,6 +30,22 @@ public class CompanyNewsItem {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public void setUrl(String url) {

@@ -8,7 +8,10 @@ package financialanalyzer.companynews;
 import financialanalyzer.config.ActiveMQConfig;
 import financialanalyzer.download.StockHistoryDownloadTask;
 import financialanalyzer.download.StockHistoryDownloadTaskReceiver;
+import financialanalyzer.http.HTMLPage;
+import financialanalyzer.http.HttpFetcher;
 import financialanalyzer.objects.Company;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jms.Message;
 import javax.jms.Session;
@@ -27,9 +30,11 @@ import org.springframework.stereotype.Component;
 public class CompanyNewsReceiver {
 
     private static final Logger LOGGER = Logger.getLogger(CompanyNewsReceiver.class.getName());
-
+    
     @Autowired
     private CompanyNewsRepo companyNewsSearchRepo;
+    
+
     
     @JmsListener(destination = ActiveMQConfig.COMPANY_NEWS_QUEUE)
     public void receiveMessage(@Payload Company _company,
@@ -37,6 +42,7 @@ public class CompanyNewsReceiver {
             Message message, Session session) {
         LOGGER.info("Received " + _company.getId());
         //get top 10 news urls about the company
+       
         //save the url and text and do some sentiment analysis (good/bad news)
         //save the item to the repo
         
