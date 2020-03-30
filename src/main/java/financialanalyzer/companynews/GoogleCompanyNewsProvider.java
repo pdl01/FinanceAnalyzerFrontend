@@ -33,12 +33,13 @@ public class GoogleCompanyNewsProvider implements CompanyNewsProvider {
         List<CompanyNewsItem> cnis = new ArrayList<>();
 
         HTMLPage companyNewsIndexPage = null;
-        String url = "";
-        String resolvedurl = url;
+        String url = "https://www.google.com/search?tbm=nws&q=::ENCODED_COMPANY_NAME::";
+        String encodedCompanyName = _company.getName().replaceAll(" ", "+");
+        String resolvedurl = url.replaceAll("::ENCODED_COMPANY_NAME::", encodedCompanyName);
         try {
             LOGGER.info("Starting Download of company News for :" + _company.getStockSymbol());
-            companyNewsIndexPage = this.httpFetcher.getResponse(resolvedurl, true);
-
+            companyNewsIndexPage = this.httpFetcher.getResponse(resolvedurl, false);
+            LOGGER.info(companyNewsIndexPage.getContent());
             LOGGER.info("Completed Download of company News index for :" + _company.getStockSymbol());
 
         } catch (Exception ex) {
