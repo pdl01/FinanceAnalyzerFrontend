@@ -23,13 +23,13 @@ public class AdvfnAMEXCompanyProvider extends AbstractCompanyProvider implements
     private static final Logger LOGGER = Logger.getLogger(AdvfnAMEXCompanyProvider.class.getName());
 
     private static String download_url = "https://old.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=amex&render=download";
-    private static String latest_filename = AppConfig.companyDownloadDir + "/amex_latest.csv";
+    //private static String latest_filename = AppConfig.companyDownloadDir + "/amex_latest.csv";
 
     @Override
     public List<Company> getAllCompanies() {
         LOGGER.info("Starting getAllCompanies");
-        this.downloadCSVForExchangeFromNasDaq(download_url, latest_filename);
-        List<Company> companies = this.processCSVForExchangedFromNasDaq(AdvfnAMEXCompanyProvider.latest_filename, "amex");
+        this.downloadCSVForExchangeFromNasDaq(download_url, this.getLatestFileName());
+        List<Company> companies = this.processCSVForExchangedFromNasDaq(this.getLatestFileName(), "amex");
 
         LOGGER.info("Ending getAllCompanies");
         return companies;
@@ -41,7 +41,10 @@ public class AdvfnAMEXCompanyProvider extends AbstractCompanyProvider implements
         LOGGER.info("Ending getCompaniesBeginningWithLetter");
         return null;
     }
-
+    private String getLatestFileName() {
+        return this.appConfig.getCompanyDownloadDir() + "/amex_latest.csv";
+    }
+    
     @Override
     public List<StockHistory> getStockHistoryForCompany(String _symbol) {
         return this.getStockHistoryForCompanyForDay(_symbol,null);

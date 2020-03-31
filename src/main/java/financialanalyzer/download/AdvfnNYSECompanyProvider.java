@@ -23,13 +23,13 @@ public class AdvfnNYSECompanyProvider extends AbstractCompanyProvider implements
     private static final Logger LOGGER = Logger.getLogger(AdvfnNYSECompanyProvider.class.getName());
 
     private static String download_url = "https://old.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nyse&render=download";
-    private static String latest_filename = AppConfig.companyDownloadDir + "/nyse_latest.csv";
+    //private static String latest_filename = AppConfig.companyDownloadDir + "/nyse_latest.csv";
 
     @Override
     public List<Company> getAllCompanies() {
         LOGGER.info("Starting getAllCompanies");
-        this.downloadCSVForExchangeFromNasDaq(download_url, latest_filename);
-        List<Company> companies = this.processCSVForExchangedFromNasDaq(AdvfnNYSECompanyProvider.latest_filename, "nyse");
+        this.downloadCSVForExchangeFromNasDaq(download_url, this.getLatestFileName());
+        List<Company> companies = this.processCSVForExchangedFromNasDaq(this.getLatestFileName(), "nyse");
 
         LOGGER.info("Ending getAllCompanies");
         return companies;
@@ -46,7 +46,9 @@ public class AdvfnNYSECompanyProvider extends AbstractCompanyProvider implements
     public List<StockHistory> getStockHistoryForCompany(String _symbol) {
         return this.getStockHistoryForCompanyForDay(_symbol,null);
     }
-
+    private String getLatestFileName() {
+        return this.appConfig.getCompanyDownloadDir() + "/nyse_latest.csv";
+    }
     @Override
     public List<StockHistory> getStockHistoryForCompanyForDay(String _symbol, Date _date) {
                 return this.downloadAndProcessCSVFromNasDaq(CompanyProvider.EXCHANGE_NYSE,_symbol, _date);

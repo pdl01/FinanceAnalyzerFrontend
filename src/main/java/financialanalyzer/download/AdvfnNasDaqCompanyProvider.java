@@ -5,14 +5,8 @@
  */
 package financialanalyzer.download;
 
-import financialanalyzer.config.AppConfig;
 import financialanalyzer.objects.Company;
 import financialanalyzer.objects.StockHistory;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -28,13 +22,13 @@ public class AdvfnNasDaqCompanyProvider extends AbstractCompanyProvider implemen
     private static final Logger LOGGER = Logger.getLogger(AdvfnNasDaqCompanyProvider.class.getName());
 
     private static String download_url = "https://old.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download";
-    private static String latest_filename = AppConfig.companyDownloadDir + "/nasdaq_latest.csv";
+    //private static String latest_filename = AppConfig.companyDownloadDir + "/nasdaq_latest.csv";
 
     @Override
     public List<Company> getAllCompanies() {
         LOGGER.info("Starting getAllCompanies");
-        this.downloadCSVForExchangeFromNasDaq(download_url, latest_filename);
-        List<Company> companies = this.processCSVForExchangedFromNasDaq(AdvfnNasDaqCompanyProvider.latest_filename, "nasdaq");
+        this.downloadCSVForExchangeFromNasDaq(download_url, this.getLatestFileName());
+        List<Company> companies = this.processCSVForExchangedFromNasDaq(this.getLatestFileName(), "nasdaq");
         LOGGER.info("Ending getAllCompanies");
         return companies;
     }
@@ -45,7 +39,9 @@ public class AdvfnNasDaqCompanyProvider extends AbstractCompanyProvider implemen
         LOGGER.info("Ending getCompaniesBeginningWithLetter");
         return null;
     }
-
+    private String getLatestFileName() {
+        return this.appConfig.getCompanyDownloadDir() + "/nasdaq_latest.csv";
+    }
     @Override
     public List<StockHistory> getStockHistoryForCompany(String _symbol) {
         return this.getStockHistoryForCompanyForDay(_symbol, null);

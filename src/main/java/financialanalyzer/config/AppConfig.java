@@ -6,17 +6,68 @@
 package financialanalyzer.config;
 
 import java.text.SimpleDateFormat;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  *
  * @author pldor
  */
+@Configuration
+@PropertySource(value = "file:${app_home}/config/application.properties")
 public class AppConfig {
-
-    public final static String stockHistoryDownloadDir = "/temp/fa/work/stockdownloads";
-    public final static String companyDownloadDir = "/temp/fa/work/companydownloads";
-    public final static String companyReportDownloadDir = "/temp/fa/work/companyReportDownloads";
-    public final static String companyNewsDownloadDir = "/temp/fa/work/companyNewsDownloads";
+    
+    @Value("${dir.download.stockHistory}")
+    private String stockHistoryDownloadDir;
+    //public final static String stockHistoryDownloadDir = "/tmp/fa/work/stockdownloads";
+    
+    @Value("${dir.download.companies}")
+    private String companyDownloadDir;
+    //public final static String companyDownloadDir = "/tmp/fa/work/companydownloads";
+    
+    @Value("${dir.download.companyreport}")
+    private String companyReportDir;
+    //public final static String companyReportDownloadDir = "/tmp/fa/work/companyReportDownloads";
+    
+    @Value("${dir.download.companynews}")
+    private String companyNewsDownloadDir;
+    //public final static String companyNewsDownloadDir = "/tmp/fa/work/companyNewsDownloads";
 
     public final static SimpleDateFormat standardDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public String getStockHistoryDownloadDir() {
+        return stockHistoryDownloadDir;
+    }
+
+    public void setStockHistoryDownloadDir(String stockHistoryDownloadDir) {
+        this.stockHistoryDownloadDir = stockHistoryDownloadDir;
+    }
+
+    public String getCompanyDownloadDir() {
+        return companyDownloadDir;
+    }
+
+    public void setCompanyDownloadDir(String companyDownloadDir) {
+        this.companyDownloadDir = companyDownloadDir;
+    }
+
+    public String getCompanyReportDir() {
+        return companyReportDir;
+    }
+
+    public void setCompanyReportDir(String companyReportDir) {
+        this.companyReportDir = companyReportDir;
+    }
+
+    public String getCompanyNewsDownloadDir() {
+        return companyNewsDownloadDir;
+    }
+
+    public void setCompanyNewsDownloadDir(String companyNewsDownloadDir) {
+        this.companyNewsDownloadDir = companyNewsDownloadDir;
+    }
+    
+    
+    
 }

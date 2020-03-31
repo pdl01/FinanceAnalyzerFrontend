@@ -44,6 +44,9 @@ public abstract class AbstractCompanyProvider {
     @Autowired
     protected HttpFetcher httpFetcher;
 
+    @Autowired
+    protected AppConfig appConfig;    
+    
     protected List<StockHistory> downloadAndProcessCSVFromNasDaq(String _exchange, String _symbol, Date _date) {
         //https://www.nasdaq.com/api/v1/historical/BA/stocks/2020-03-01/2020-03-07
         String url = "https://www.nasdaq.com/api/v1/historical/::SYMBOL::/stocks/::MIN-DATE::/::MAX-DATE::";
@@ -66,7 +69,7 @@ public abstract class AbstractCompanyProvider {
         } 
 
         String resolvedURL = url.replaceAll("::SYMBOL::", _symbol).replaceAll("::MIN-DATE::", min_date).replaceAll("::MAX-DATE::", max_date);
-        String downloadDirectoryPath = AppConfig.stockHistoryDownloadDir + "/"+sdf.format(new Date());
+        String downloadDirectoryPath = this.appConfig.getStockHistoryDownloadDir() + "/"+sdf.format(new Date());
         File downloadDirecory = new File (downloadDirectoryPath);
         downloadDirecory.mkdirs();
         String downloadFile = downloadDirectoryPath + "/" + _symbol + "-" + max_date + ".csv";
