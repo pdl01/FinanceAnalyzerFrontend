@@ -32,7 +32,7 @@ Key Producer For:
             <div class="rTableCell">Low</div>
             <div class="rTableCell">Volume</div>
         </div>
-        <div *ngFor="let sh of stockHistories" class="rTableRow" >
+        <div *ngFor="let sh of stockHistories| slice:0:50;" class="rTableRow" >
             <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
             <div class="rTableCell">{{sh.open|currency}}</div>
             <div class="rTableCell">{{sh.close|currency}}</div>
@@ -47,6 +47,23 @@ Key Producer For:
 <ng-template #elseStockHistoriesBlock>
 </ng-template>
 
+<div *ngIf="newsIems != null && newsIems.length > 0; then thenCompanyNewsBlock else elseCompanyNewsBlock"></div>
+<ng-template #thenCompanyNewsBlock>
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Date</div>
+            <div class="rTableCell">Subject</div>
+        </div>
+        <div *ngFor="let sh of newsIems | slice:0:10;" class="rTableRow" >
+            <div class="rTableCell">{{sh.recordDateAsString}}</div>
+            <div class="rTableCell"><a href="{{sh.url}}">{{sh.subject}}</a></div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #elseCompanyNewsBlock>
+
+
+
 <div *ngIf="systemActivities != null && systemActivities.length > 0; then thenSystemActivitiesBlock else elseSystemActivitiesBlock"></div>
 <ng-template #thenSystemActivitiesBlock>
     <div class="rTable">
@@ -55,7 +72,7 @@ Key Producer For:
             <div class="rTableCell">Type</div>
             <div class="rTableCell">Message</div>
         </div>
-        <div *ngFor="let sh of systemActivities" class="rTableRow" >
+        <div *ngFor="let sh of systemActivities | slice:0:10;" class="rTableRow" >
             <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
             <div class="rTableCell">{{sh.activityType}}</div>
             <div class="rTableCell">{{sh.activityMessage}}</div>
