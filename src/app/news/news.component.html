@@ -1,0 +1,16 @@
+<div *ngIf="newsIems != null && newsIems.length > 0; then thenCompanyNewsBlock else elseCompanyNewsBlock"></div>
+<ng-template #thenCompanyNewsBlock>
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Date</div>
+            <div class="rTableCell">Company</div>
+            <div class="rTableCell">Subject</div>
+        </div>
+        <div *ngFor="let sh of newsIems | slice:0:100;" class="rTableRow" >
+            <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+            <div class="rTableCell"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>            
+            <div class="rTableCell"><a href="{{sh.url}}">{{sh.subject}}</a></div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #elseCompanyNewsBlock>

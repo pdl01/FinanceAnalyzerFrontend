@@ -3,6 +3,8 @@
     Name: {{company.name}}<br>
     Symbol: {{company.stockExchange}}:{{company.stockSymbol}}  (<a href="javascript:void(0)" (click)="fetchStockForCompany()">Fetch</a>)<br>
     Sectors: {{company.sectors}}<br>
+    Industries: {{company.industries}}<br>
+
     <br>
     <a href="https://www.google.com/search?q={{company.stockSymbol}}&tbm=fin" target="_blank">On Google</a> | 
     <a href="https://finance.yahoo.com/quote/{{company.stockSymbol}}?p={{company.stockSymbol}}" target="_blank">On Yahoo</a>

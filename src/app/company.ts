@@ -3,6 +3,6 @@ export class Company {
     name: string;
     stockExchange: string;
     stockSymbol: string;
-  
-  
+    sectors: string[];
+    industries: string[];
 }

@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 
 import { CompanyService } from '../company.service';
+import { NewsService } from '../news.service';
 
 import { Company } from '../company';
 import { StockHistory } from '../stockhistory';
@@ -21,6 +22,7 @@ export class StockdetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
   private companyService: CompanyService,
+  private newsService: NewsService,
   private location: Location,
   private sanitizer: DomSanitizer    ) { }
   
@@ -65,7 +67,7 @@ export class StockdetailsComponent implements OnInit {
       });
   }
   loadCompanyNews(id): void {
-    this.companyService.getCompanyNews(id).subscribe(response => {
+    this.newsService.getCompanyNews(id).subscribe(response => {
  
         if (response.code == 0) {
             this.newsIems = response.object;

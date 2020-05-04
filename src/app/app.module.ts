@@ -9,13 +9,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { StocksearchComponent } from './stocksearch/stocksearch.component';
 import { StockdetailsComponent } from './stockdetails/stockdetails.component';
 import { DailyreportComponent } from './dailyreport/dailyreport.component';
+import { NewsComponent } from './news/news.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StocksearchComponent,
     StockdetailsComponent,
-    DailyreportComponent
+    DailyreportComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,
