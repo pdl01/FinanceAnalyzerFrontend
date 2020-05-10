@@ -10,6 +10,8 @@ import { StocksearchComponent } from './stocksearch/stocksearch.component';
 import { StockdetailsComponent } from './stockdetails/stockdetails.component';
 import { DailyreportComponent } from './dailyreport/dailyreport.component';
 import { NewsComponent } from './news/news.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SystemhealthComponent } from './systemhealth/systemhealth.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { NewsComponent } from './news/news.component';
     StocksearchComponent,
     StockdetailsComponent,
     DailyreportComponent,
-    NewsComponent
+    NewsComponent,
+    DashboardComponent,
+    SystemhealthComponent
   ],
   imports: [
     BrowserModule,
