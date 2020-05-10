@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  serverUrl: "http://fa-test",
+  serverUrl: "/fabackend",
   siteUrl: "http://fa-test"
 };
