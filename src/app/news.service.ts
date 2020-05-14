@@ -14,7 +14,22 @@ constructor( private http: HttpClient) { }
    getCompanyNews(id): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/news/company/'+id).pipe();    
   }
+  getCompanyNewsStarting(id,starting): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/company/'+id+'/'+starting).pipe();    
+  }
+  getCompanyNewsStartingInRange(id,starting,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/company/'+id+'/'+starting+'/'+numResults).pipe();    
+  }
    getLatestNews(): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/news/latest').pipe();    
+  }
+  getLatestNewsStarting(starting): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/latest/'+starting).pipe();    
   }  
+  getLatestNewsStartingInRange(starting,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/latest/'+starting+'/'+numResults).pipe();    
+  }  
+  fetchNewsForCompany(id): Observable<RestResponse> {
+    return this.http.post<RestResponse>(this.apiRoot+'/news/symbol/'+id+'/fetch',null,{}).pipe(); 
+  }
 }
