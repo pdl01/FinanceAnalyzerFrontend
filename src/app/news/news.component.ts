@@ -19,7 +19,7 @@ export class NewsComponent implements OnInit {
   private location: Location,
   private sanitizer: DomSanitizer    ) { }
 
-  private newsItems: CompanyNewsItem[] = [];
+  newsItems: CompanyNewsItem[] = [];
   private start = 0;
   private numResults = 25;
   
