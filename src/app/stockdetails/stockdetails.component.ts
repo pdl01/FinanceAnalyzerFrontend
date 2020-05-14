@@ -77,4 +77,7 @@ export class StockdetailsComponent implements OnInit {
   fetchStockForCompany(): void {
     this.companyService.fetchStockData(this.company.stockSymbol).subscribe();
   }
+  fetchNewsForCompany(): void {
+    this.newsService.fetchNewsForCompany(this.company.stockSymbol).subscribe();
+  }
 }

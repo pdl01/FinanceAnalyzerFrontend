@@ -63,7 +63,8 @@ Key Producer For:
     </div>
 </ng-template>
 <ng-template #elseCompanyNewsBlock>
-
+   <a href="javascript:void(0)" (click)="fetchNewsForCompany()">Fetch News</a>
+</ng-template>
 
 
 <div *ngIf="systemActivities != null && systemActivities.length > 0; then thenSystemActivitiesBlock else elseSystemActivitiesBlock"></div>
@@ -82,4 +83,5 @@ Key Producer For:
     </div>
 </ng-template>
 <ng-template #elseSystemActivitiesBlock>
+
 </ng-template>

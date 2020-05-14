@@ -19,7 +19,9 @@ export class NewsComponent implements OnInit {
   private location: Location,
   private sanitizer: DomSanitizer    ) { }
 
-  newsIems: CompanyNewsItem[] = [];
+  private newsItems: CompanyNewsItem[] = [];
+  private start = 0;
+  private numResults = 25;
   
   ngOnInit() {
           this.loadLatestNews();
@@ -28,9 +30,23 @@ export class NewsComponent implements OnInit {
     this.newsService.getLatestNews().subscribe(response => {
  
         if (response.code == 0) {
-            this.newsIems = response.object;
+            this.newsItems = response.object;
+           
         }
       });
   }
 
+  loadMoreNews(): void {
+    this.start = this.start+this.numResults;
+    this.newsService.getLatestNewsStartingInRange(this.start,this.numResults).subscribe(response => {
+ 
+        if (response.code == 0) {
+            this.newsItems = this.newsItems.concat(response.object);
+            
+            //this.newsItems = [ ...this.newsItems, ...response.object];
+        }
+      });
+  
+  }
+  
 }
