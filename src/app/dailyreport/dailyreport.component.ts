@@ -18,16 +18,28 @@ export class DailyreportComponent implements OnInit {
   private stockhistoryreportService: StockhistoryreportService,
   private location: Location,
   private sanitizer: DomSanitizer    ) { }
-
+  endDate:string = '';
+  
   volumeStocks: StockHistory[] = [];
+  private volumeStart = 0;
+   
   gainerAmountStocks: StockHistory[] = [];
+  private gainerAmountStart = 0;
+  
   gainerPercentStocks: StockHistory[] = [];
+  private gainerPercentStart = 0;
+  
   loserAmountStocks: StockHistory[] = [];
+  private loserAmountStart = 0;
+  
   loserPercentStocks: StockHistory[] = [];
+  private loserPercentStart = 0;
 
+  private numResults = 25;
   ngOnInit() {
 
     const id = this.route.snapshot.paramMap.get('id');
+    this.endDate = id;
     this.loadReport(id,"volumes",this.volumeStocks);
     this.loadReport(id,"gainers-amount",this.gainerAmountStocks);
     this.loadReport(id,"gainers-percent",this.gainerPercentStocks);
@@ -35,7 +47,8 @@ export class DailyreportComponent implements OnInit {
     this.loadReport(id,"losers-percent",this.loserPercentStocks);
   }
   loadReport(endDate,reportName,objects): void {
-     this.stockhistoryreportService.getStockHistoryReport(endDate,reportName).subscribe(response => {
+     
+     this.stockhistoryreportService.getStockHistoryReportStartingWithNumberResults(endDate,reportName,0,this.numResults).subscribe(response => {
  
         if (response.code == 0) {
             if (reportName == 'volumes') {
@@ -51,6 +64,47 @@ export class DailyreportComponent implements OnInit {
             } else {
                 objects = response.object;
             }
+            
+        }
+      });
+  }
+
+  loadMoreReportItems(reportName): void {
+      
+            var startToUse:number = 0;
+            if (reportName == 'volumes') {
+                this.volumeStart = this.volumeStart+this.numResults;
+                startToUse = this.volumeStart;
+            } else if (reportName == 'gainers-amount') {
+                this.gainerAmountStart = this.gainerAmountStart+this.numResults;
+                startToUse = this.gainerAmountStart;
+
+            } else if (reportName == 'gainers-percent') {
+                this.gainerPercentStart = this.gainerPercentStart+this.numResults;
+                startToUse = this.gainerPercentStart;
+            } else if (reportName == 'losers-amount') {
+                this.loserAmountStart = this.loserAmountStart+this.numResults;
+                startToUse = this.loserAmountStart;
+            } else if (reportName == 'losers-percent') {
+                this.loserPercentStart = this.loserPercentStart+this.numResults;
+                startToUse = this.loserPercentStart;
+            }
+      
+      
+     this.stockhistoryreportService.getStockHistoryReportStartingWithNumberResults(this.endDate,reportName,startToUse,this.numResults).subscribe(response => {
+ 
+        if (response.code == 0) {
+            if (reportName == 'volumes') {
+                this.volumeStocks = this.volumeStocks.concat(response.object);
+            } else if (reportName == 'gainers-amount') {
+                this.gainerAmountStocks = this.gainerAmountStocks.concat(response.object);
+            } else if (reportName == 'gainers-percent') {
+                this.gainerPercentStocks = this.gainerPercentStocks.concat(response.object);
+            } else if (reportName == 'losers-amount') {
+                this.loserAmountStocks = this.loserAmountStocks.concat(response.object);
+            } else if (reportName == 'losers-percent') {
+                this.loserPercentStocks = this.loserPercentStocks.concat(response.object);
+            } 
             
         }
       });

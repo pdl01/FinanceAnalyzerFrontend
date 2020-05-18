@@ -15,4 +15,10 @@ export class StockhistoryreportService {
   getStockHistoryReport(endDate,reportName): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/reports/stocks/dailyReport/'+reportName+'/'+endDate).pipe();    
   }  
+  getStockHistoryReportStartingWith(endDate,reportName,start): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/reports/stocks/dailyReport/'+reportName+'/'+endDate+'/'+start).pipe();    
+  }  
+  getStockHistoryReportStartingWithNumberResults(endDate,reportName,start,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/reports/stocks/dailyReport/'+reportName+'/'+endDate+'/'+start+'/'+numResults).pipe();    
+  }  
 }

@@ -25,6 +25,7 @@ Top Volumes
             <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
         </div>
     </div>
+        <a href="javascript:void(0)" (click)="loadMoreReportItems('volumes')">More</a> 
 </ng-template>
 <ng-template #elseVolumeStockHistoriesBlock>
 </ng-template>
@@ -56,6 +57,8 @@ Top Gainers By Amount
             <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
         </div>
     </div>
+    <a href="javascript:void(0)" (click)="loadMoreReportItems('gainers-amount')">More</a> 
+
 </ng-template>
 <ng-template #elseGainerAmountStockHistoriesBlock>
 </ng-template>
@@ -88,6 +91,7 @@ Top Gainers By Percent
             <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
         </div>
     </div>
+        <a href="javascript:void(0)" (click)="loadMoreReportItems('gainers-percent')">More</a> 
 </ng-template>
 <ng-template #elseGainerPercentStockHistoriesBlock>
 </ng-template>
@@ -121,6 +125,7 @@ Top Losers By Amount
             <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
         </div>
     </div>
+        <a href="javascript:void(0)" (click)="loadMoreReportItems('losers-amount')">More</a> 
 </ng-template>
 <ng-template #elseLoserAmountStockHistoriesBlock>
 </ng-template>
@@ -154,6 +159,7 @@ Top Losers By Percent
             <div class="rTableCell">{{sh.volume|number:'1.0-0'}}</div>
         </div>
     </div>
+        <a href="javascript:void(0)" (click)="loadMoreReportItems('losers-percent')">More</a> 
 </ng-template>
 <ng-template #elseLoserPercentStockHistoriesBlock>
 </ng-template>
