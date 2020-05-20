@@ -20,7 +20,7 @@ constructor( private http: HttpClient) { }
   getCompanyNewsStartingInRange(id,starting,numResults): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/news/company/'+id+'/'+starting+'/'+numResults).pipe();    
   }
-   getLatestNews(): Observable<RestResponse> {
+  getLatestNews(): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/news/latest').pipe();    
   }
   getLatestNewsStarting(starting): Observable<RestResponse> {
@@ -28,7 +28,17 @@ constructor( private http: HttpClient) { }
   }  
   getLatestNewsStartingInRange(starting,numResults): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/news/latest/'+starting+'/'+numResults).pipe();    
+  }
+  getNewsForDate(_date): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/date/'+_date).pipe();    
+  }
+  getNewsForDateStarting(_date,starting): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/date/'+_date+'/'+starting).pipe();    
   }  
+  getNewsForDateStartingInRange(_date,starting,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/date/'+_date+ '/'+starting+'/'+numResults).pipe();    
+  }
+    
   fetchNewsForCompany(id): Observable<RestResponse> {
     return this.http.post<RestResponse>(this.apiRoot+'/news/symbol/'+id+'/fetch',null,{}).pipe(); 
   }
