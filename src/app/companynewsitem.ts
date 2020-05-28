@@ -8,5 +8,6 @@ export class CompanyNewsItem {
     sentiment: string;
     publishedDate: string;
     recordDate: string;
-
+    userRating: string;
+    systemRating: string;
 }

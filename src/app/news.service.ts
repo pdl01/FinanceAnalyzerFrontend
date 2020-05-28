@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RestResponse } from './restresponse'; 
 import {environment} from '../environments/environment';
+import {NewsItemForm} from './newsitemform';
 
 @Injectable({
   providedIn: 'root'
@@ -42,4 +43,13 @@ constructor( private http: HttpClient) { }
   fetchNewsForCompany(id): Observable<RestResponse> {
     return this.http.post<RestResponse>(this.apiRoot+'/news/symbol/'+id+'/fetch',null,{}).pipe(); 
   }
+  
+  updateUserRating(id,userrating): Observable<RestResponse> {
+    var newsItem:NewsItemForm;
+    newsItem.id=id;
+    newsItem.rating=userrating;
+    return this.http.post<RestResponse>(this.apiRoot+'/news/userrating',newsItem,{}).pipe();    
+
+  }
+  
 }

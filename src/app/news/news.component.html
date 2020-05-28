@@ -18,11 +18,16 @@
             <div class="rTableCell">Date</div>
             <div class="rTableCell">Company</div>
             <div class="rTableCell">Subject</div>
+            <div class="rTableCell">User Rating</div>
+            <div class="rTableCell">System Rating</div>
         </div>
         <div *ngFor="let sh of newsItems" class="rTableRow" >
             <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
             <div class="rTableCell"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>            
             <div class="rTableCell"><a href="{{sh.url}}">{{sh.subject}}</a></div>
+            <div class="rTableCell">{{sh.userRating}}</div>
+            <div class="rTableCell">{{sh.systemRating}}</div>
+
         </div>
     </div>
     <a href="javascript:void(0)" (click)="loadMoreNews()">More</a> 
