@@ -137,7 +137,7 @@ export class NewsComponent implements OnInit {
       //console.log("in viewText");
       //console.log(newsItem.body);
     this.newsItemText = newsItem.body;
-    console.log(this.newsItemText);
+    //console.log(this.newsItemText);
   }
   
   clearNewsItemText(): void {
