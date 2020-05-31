@@ -26,6 +26,8 @@ export class NewsComponent implements OnInit {
   filterType: string = "latest";
   filterValue: string = "";
   
+  newsItemText: string = null;
+  
   ngOnInit() {
           this.performInitialNewsFilter();
   }
@@ -131,4 +133,14 @@ export class NewsComponent implements OnInit {
   
   }
   
+  viewNewsItemText(newsItem:CompanyNewsItem): void {
+      //console.log("in viewText");
+      //console.log(newsItem.body);
+    this.newsItemText = newsItem.body;
+    console.log(this.newsItemText);
+  }
+  
+  clearNewsItemText(): void {
+      this.newsItemText = null;
+  }
 }

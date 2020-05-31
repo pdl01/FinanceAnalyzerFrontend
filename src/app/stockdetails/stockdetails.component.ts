@@ -33,11 +33,12 @@ export class StockdetailsComponent implements OnInit {
   stockHistories: StockHistory[] = [];
   systemActivities: SystemActivity[] = [];
   newsIems: CompanyNewsItem[] = [];
-
+  newsItemText: string = null;
+  
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.loadCompany(id);
-    this.loadStocks(id);
+    this.loadStockHistory(id);
     this.loadSystemActivity(id);
     this.loadCompanyNews(id);
   }
@@ -50,7 +51,7 @@ export class StockdetailsComponent implements OnInit {
         }
       });
   }
-  loadStocks(id): void {
+  loadStockHistory(id): void {
     this.companyService.getStockHistory(id).subscribe(response => {
  
         if (response.code == 0) {
@@ -58,6 +59,9 @@ export class StockdetailsComponent implements OnInit {
         }
       });
   }
+  loadMoreStockHistory(): void {
+  }
+  
   loadSystemActivity(id): void {
     this.companyService.getSystemActivity(id).subscribe(response => {
  
@@ -66,6 +70,9 @@ export class StockdetailsComponent implements OnInit {
         }
       });
   }
+  loadMoreSystemActivity(): void {
+  }
+  
   loadCompanyNews(id): void {
     this.newsService.getCompanyNews(id).subscribe(response => {
  
@@ -74,6 +81,19 @@ export class StockdetailsComponent implements OnInit {
         }
       });
   }
+  
+  loadMoreNews(): void {
+  }
+  
+  
+  viewNewsItemText(newsItem:CompanyNewsItem): void {
+    this.newsItemText = newsItem.body;
+  }
+  
+  clearNewsItemText(): void {
+      this.newsItemText = null;
+  }
+  
   fetchStockForCompany(): void {
     this.companyService.fetchStockData(this.company.stockSymbol).subscribe();
   }

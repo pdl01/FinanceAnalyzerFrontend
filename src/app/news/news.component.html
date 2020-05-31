@@ -7,10 +7,11 @@
         <option value="sector">Sector</option>
         <option value="unanalyzed">Unanalyzed</option>
     </select>
-    
+
     <input [(ngModel)]="filterValue" type="text" id="filterValueId" name="filterValue" size="20">
     <button (click)="performInitialNewsFilter()" >Filter</button>
 </div>
+
 <div *ngIf="newsItems != null && newsItems.length > 0; then thenCompanyNewsBlock else elseCompanyNewsBlock"></div>
 <ng-template #thenCompanyNewsBlock>
     <div class="rTable">
@@ -20,6 +21,8 @@
             <div class="rTableCell">Subject</div>
             <div class="rTableCell">User Rating</div>
             <div class="rTableCell">System Rating</div>
+            <div class="rTableCell">Actions</div>
+
         </div>
         <div *ngFor="let sh of newsItems" class="rTableRow" >
             <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
@@ -27,9 +30,22 @@
             <div class="rTableCell"><a href="{{sh.url}}">{{sh.subject}}</a></div>
             <div class="rTableCell">{{sh.userRating}}</div>
             <div class="rTableCell">{{sh.systemRating}}</div>
+            <div class="rTableCell">
+                <a href="javascript:void(0)" (click)="viewNewsItemText(sh)">View Text</a> 
+            </div>
 
         </div>
     </div>
     <a href="javascript:void(0)" (click)="loadMoreNews()">More</a> 
 </ng-template>
 <ng-template #elseCompanyNewsBlock>
+</ng-template>
+
+
+<div *ngIf="newsItemText != null" id="newsItemSection">
+    <div id="newsItemText">
+        <a href="javascript:void(0)" (click)="clearNewsItemText()">Clear</a> 
+
+            {{newsItemText}}
+    </div>
+</div>
