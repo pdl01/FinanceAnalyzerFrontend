@@ -26,7 +26,7 @@ export class NewsComponent implements OnInit {
   filterType: string = "latest";
   filterValue: string = "";
   
-  newsItemText: string = null;
+  viewedNewsItem: CompanyNewsItem = null;
   
   ngOnInit() {
           this.performInitialNewsFilter();
@@ -133,14 +133,28 @@ export class NewsComponent implements OnInit {
   
   }
   
-  viewNewsItemText(newsItem:CompanyNewsItem): void {
+  viewNewsItem(newsItem:CompanyNewsItem): void {
       //console.log("in viewText");
       //console.log(newsItem.body);
-    this.newsItemText = newsItem.body;
+    this.viewedNewsItem = newsItem;
+    // = newsItem.body;
     //console.log(this.newsItemText);
   }
   
-  clearNewsItemText(): void {
-      this.newsItemText = null;
+  clearViewedNewsItem(): void {
+      this.viewedNewsItem = null;
+  }
+  
+  updateUserRating(): void {
+    if (this.viewedNewsItem != null) {
+        this.newsService.updateUserRating(this.viewedNewsItem.id,this.viewedNewsItem.userRating).subscribe(response => {
+ 
+        if (response.code == 0) {
+            //this.newsItems = this.newsItems.concat(response.object);
+            
+            //this.newsItems = [ ...this.newsItems, ...response.object];
+        }
+      });
+    }
   }
 }

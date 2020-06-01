@@ -45,7 +45,7 @@ constructor( private http: HttpClient) { }
   }
   
   updateUserRating(id,userrating): Observable<RestResponse> {
-    var newsItem:NewsItemForm;
+    var newsItem:NewsItemForm = new NewsItemForm();
     newsItem.id=id;
     newsItem.rating=userrating;
     return this.http.post<RestResponse>(this.apiRoot+'/news/userrating',newsItem,{}).pipe();    

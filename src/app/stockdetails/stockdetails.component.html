@@ -72,7 +72,7 @@
                 <div class="rTableCell">{{sh.userRating}}</div>
                 <div class="rTableCell">{{sh.systemRating}}</div>
                 <div class="rTableCell">
-                    <a href="javascript:void(0)" (click)="viewNewsItemText(sh)">View Text</a> 
+                    <a href="javascript:void(0)" (click)="viewNewsItem(sh)">View Text</a> 
                 </div>
             </div>
         </div>
@@ -106,11 +106,20 @@
 
     </ng-template>
 </div>
-<div *ngIf="newsItemText != null" id="newsItemSection">
+<div *ngIf="viewedNewsItem != null" id="newsItemSection">
+    <div id="newsItemUserRating">
+        <select [(ngModel)]="viewedNewsItem.userRating">
+            <option value="NONE">None</option>
+            <option value="UNRELATED">Unrelated</option>
+            <option value="POSITIVE">Positive</option>
+            <option value="NEGATIVE">Negative</option>
+        </select>
+            <button (click)="updateUserRating()">Update User Rating</button>
+    </div>
     <div id="newsItemText">
-    <a href="javascript:void(0)" (click)="clearNewsItemText()">Clear</a> 
+    <a href="javascript:void(0)" (click)="clearViewedNewsItem()">Clear</a> 
     <p>
 
-    {{newsItemText}}
+            {{viewedNewsItem.body}}
     </div>
 </div>
