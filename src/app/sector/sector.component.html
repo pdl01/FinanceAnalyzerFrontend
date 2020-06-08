@@ -1,9 +1,78 @@
-Sector:
+Sector: {{sector}}
 
 <div>
-    Companies
+    <div>Companies</div>
+<div *ngIf="companies != null && companies.length > 0; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>
+    
+
+    <div class="videoListGrid">
+
+        <div *ngFor="let item of companies" class="videoListItem" >
+            <a routerLink="/company/details/{{item.id}}" class="videoListItemLink">{{item.name}} {{item.stockSymbol}}</a>
+
+        </div>
+    </div>
+    <div><a href="javascript:void(0)" (click)="getMoreCompanyResults()">More Results</a></div>
+
+
+</ng-template>
+
+
+<ng-template #elseBlock>No items</ng-template>
+
+
+
 </div>
 
 <div>
-    News
+    <div>News</div>
+<div *ngIf="newsItems != null && newsItems.length > 0; then thenCompanyNewsBlock else elseCompanyNewsBlock"></div>
+<ng-template #thenCompanyNewsBlock>
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Date</div>
+            <div class="rTableCell">Company</div>
+            <div class="rTableCell">Subject</div>
+            <div class="rTableCell">User Rating</div>
+            <div class="rTableCell">System Rating</div>
+            <div class="rTableCell">Actions</div>
+
+        </div>
+        <div *ngFor="let sh of newsItems" class="rTableRow" >
+            <div class="rTableCell"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+            <div class="rTableCell"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>            
+            <div class="rTableCell"><a href="{{sh.url}}">{{sh.subject}}</a></div>
+            <div class="rTableCell">{{sh.userRating}}</div>
+            <div class="rTableCell">{{sh.systemRating}}</div>
+            <div class="rTableCell">
+                <a href="javascript:void(0)" (click)="viewNewsItem(sh)">View Text</a> 
+            </div>
+
+        </div>
+    </div>
+    <a href="javascript:void(0)" (click)="loadMoreNews()">More</a> 
+</ng-template>
+<ng-template #elseCompanyNewsBlock>
+</ng-template>
+
+
+<div *ngIf="viewedNewsItem != null" id="newsItemSection">
+    <div id="newsItemUserRating">
+        <select [(ngModel)]="viewedNewsItem.userRating">
+            <option value="NONE">None</option>
+            <option value="UNRELATED">Unrelated</option>
+            <option value="POSITIVE">Positive</option>
+            <option value="NEGATIVE">Negative</option>
+        </select>
+            <button (click)="updateUserRating()">Update User Rating</button>
+    </div>
+    <div id="newsItemText">
+        <a href="javascript:void(0)" (click)="clearViewedNewsItem()">Clear</a> 
+        <p>
+            {{viewedNewsItem.body}}
+    </div>
+</div>    
+    
+    
 </div>

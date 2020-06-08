@@ -23,6 +23,12 @@ export class CompanyService {
   searchCompaniesByName(searchTerm,start,numResults): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/name/'+searchTerm).pipe();    
   }
+  searchCompaniesByIndustry(searchTerm,start,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/companies/industry/'+searchTerm).pipe();    
+  }
+  searchCompaniesBySector(searchTerm,start,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/companies/sector/'+searchTerm).pipe();    
+  }
   getStockHistory(id): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/company/'+id+'/stock').pipe();    
   }

@@ -39,6 +39,26 @@ constructor( private http: HttpClient) { }
   getNewsForDateStartingInRange(_date,starting,numResults): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/news/date/'+_date+ '/'+starting+'/'+numResults).pipe();    
   }
+
+  getNewsForSector(_sector): Observable<RestResponse> {
+      return this.getNewsForSectorStarting(_sector,0);    
+  }
+  getNewsForSectorStarting(_sector,starting): Observable<RestResponse> {
+      return this.getNewsForSectorStartingInRange(_sector,starting,25);    
+  }  
+  getNewsForSectorStartingInRange(_sector,starting,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/sector/'+_sector+ '/'+starting+'/'+numResults).pipe();    
+  }  
+
+  getNewsForIndustry(_industry): Observable<RestResponse> {
+      return this.getNewsForIndustryStarting(_industry,0);    
+  }
+  getNewsForIndustryStarting(_industry,starting): Observable<RestResponse> {
+      return this.getNewsForIndustryStartingInRange(_industry,starting,25);    
+  }  
+  getNewsForIndustryStartingInRange(_industry,starting,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/industry/'+_industry+ '/'+starting+'/'+numResults).pipe();    
+  }  
     
   fetchNewsForCompany(id): Observable<RestResponse> {
     return this.http.post<RestResponse>(this.apiRoot+'/news/symbol/'+id+'/fetch',null,{}).pipe(); 
@@ -51,5 +71,13 @@ constructor( private http: HttpClient) { }
     return this.http.post<RestResponse>(this.apiRoot+'/news/userrating',newsItem,{}).pipe();    
 
   }
+  updateSystemRating(id,userrating): Observable<RestResponse> {
+    var newsItem:NewsItemForm = new NewsItemForm();
+    newsItem.id=id;
+    newsItem.rating=userrating;
+    return this.http.post<RestResponse>(this.apiRoot+'/news/systemrating',newsItem,{}).pipe();    
+
+  }
+
   
 }
