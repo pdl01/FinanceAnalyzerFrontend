@@ -7,6 +7,8 @@ import { DailyreportComponent } from './dailyreport/dailyreport.component'
 import { NewsComponent } from './news/news.component'
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SystemhealthComponent } from './systemhealth/systemhealth.component';
+import { SectorComponent } from './sector/sector.component';
+import { IndustryComponent } from './industry/industry.component';
 
 
 const routes: Routes = [
@@ -16,7 +18,9 @@ const routes: Routes = [
   { path: 'company/details/:id', component: StockdetailsComponent },
   { path: 'dailyreport/:id', component: DailyreportComponent },
   { path: 'dashboard', component: DashboardComponent },
-    { path: 'systemhealth', component: SystemhealthComponent }
+  { path: 'systemhealth', component: SystemhealthComponent },
+  { path: 'sector/details/:id', component: SectorComponent },
+  { path: 'industry/details/:id', component: IndustryComponent }
 
 ];
 

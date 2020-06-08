@@ -1,15 +1,31 @@
 <div id="companySection">
     <div *ngIf="company != null; then thenCompanyBlock else elseCompanyBlock"></div>
     <ng-template #thenCompanyBlock>
-        Name: {{company.name}}<br>
-        Symbol: {{company.stockExchange}}:{{company.stockSymbol}}  (<a href="javascript:void(0)" (click)="fetchStockForCompany()">Fetch</a>)<br>
-        Sectors: {{company.sectors}}<br>
-        Industries: {{company.industries}}<br>
+        <div><div>Name:</div><div> {{company.name}}</div></div>
+        <div><div>Symbol:</div><div>{{company.stockExchange}}:{{company.stockSymbol}}  (<a href="javascript:void(0)" (click)="fetchStockForCompany()">Fetch</a>)</div></div>
+        <div>
+            <div>Sectors:</div>
+            <div *ngFor="let sh of company.sectors">
+                <a routerLink="/sector/details/{{sh}}">{{sh}}</a>
+            </div>
+
+        </div>
+        <div>
+            <div>Industries:</div>
+            <div *ngFor="let sh of company.industries">
+                <a routerLink="/industry/details/{{sh}}">{{sh}}</a>
+            </div>
+
+        </div>
+
+
 
         <br>
         <a href="https://www.google.com/search?q={{company.stockSymbol}}&tbm=fin" target="_blank">On Google</a> | 
         <a href="https://finance.yahoo.com/quote/{{company.stockSymbol}}?p={{company.stockSymbol}}" target="_blank">On Yahoo</a>
         <br>       
+
+
 
     </ng-template>
     <ng-template #elseCompanyBlock>
@@ -114,11 +130,11 @@
             <option value="POSITIVE">Positive</option>
             <option value="NEGATIVE">Negative</option>
         </select>
-            <button (click)="updateUserRating()">Update User Rating</button>
+        <button (click)="updateUserRating()">Update User Rating</button>
     </div>
     <div id="newsItemText">
-    <a href="javascript:void(0)" (click)="clearViewedNewsItem()">Clear</a> 
-    <p>
+        <a href="javascript:void(0)" (click)="clearViewedNewsItem()">Clear</a> 
+        <p>
 
             {{viewedNewsItem.body}}
     </div>
