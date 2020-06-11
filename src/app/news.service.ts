@@ -47,7 +47,7 @@ constructor( private http: HttpClient) { }
       return this.getNewsForSectorStartingInRange(_sector,starting,25);    
   }  
   getNewsForSectorStartingInRange(_sector,starting,numResults): Observable<RestResponse> {
-    return this.http.get<RestResponse>(this.apiRoot+'/news/sector/'+_sector+ '/'+starting+'/'+numResults).pipe();    
+    return this.http.get<RestResponse>(this.apiRoot+'/news/sector/'+encodeURIComponent(_sector)+ '/'+starting+'/'+numResults).pipe();    
   }  
 
   getNewsForIndustry(_industry): Observable<RestResponse> {
@@ -57,7 +57,7 @@ constructor( private http: HttpClient) { }
       return this.getNewsForIndustryStartingInRange(_industry,starting,25);    
   }  
   getNewsForIndustryStartingInRange(_industry,starting,numResults): Observable<RestResponse> {
-    return this.http.get<RestResponse>(this.apiRoot+'/news/industry/'+_industry+ '/'+starting+'/'+numResults).pipe();    
+    return this.http.get<RestResponse>(this.apiRoot+'/news/industry/'+encodeURIComponent(_industry)+ '/'+starting+'/'+numResults).pipe();    
   }  
     
   fetchNewsForCompany(id): Observable<RestResponse> {

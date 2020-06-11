@@ -35,7 +35,7 @@ export class IndustryComponent implements OnInit {
 
   ngOnInit() {
     const industry = this.route.snapshot.paramMap.get('id');
-    this.industry = industry;
+    this.industry = decodeURIComponent(industry);
     this.loadCompanies(this.industry);
     this.loadNews(this.industry);
   }

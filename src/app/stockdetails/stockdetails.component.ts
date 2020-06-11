@@ -116,4 +116,8 @@ export class StockdetailsComponent implements OnInit {
       });
     }
   }
+  encodeName(name): String{
+        //return name.replace("\/","%2F");
+      return encodeURIComponent(name);
+  }
 }

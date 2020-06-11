@@ -24,10 +24,10 @@ export class CompanyService {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/name/'+searchTerm).pipe();    
   }
   searchCompaniesByIndustry(searchTerm,start,numResults): Observable<RestResponse> {
-    return this.http.get<RestResponse>(this.apiRoot+'/companies/industry/'+searchTerm).pipe();    
+    return this.http.get<RestResponse>(this.apiRoot+'/companies/industry/'+encodeURIComponent(searchTerm)).pipe();    
   }
   searchCompaniesBySector(searchTerm,start,numResults): Observable<RestResponse> {
-    return this.http.get<RestResponse>(this.apiRoot+'/companies/sector/'+searchTerm).pipe();    
+    return this.http.get<RestResponse>(this.apiRoot+'/companies/sector/'+encodeURIComponent(searchTerm)).pipe();    
   }
   getStockHistory(id): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/company/'+id+'/stock').pipe();    

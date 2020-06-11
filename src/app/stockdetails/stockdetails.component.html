@@ -6,14 +6,14 @@
         <div>
             <div>Sectors:</div>
             <div *ngFor="let sh of company.sectors">
-                <a routerLink="/sector/details/{{sh}}">{{sh}}</a>
+                <a routerLink="/sector/details/{{encodeName(sh)}}">{{sh}}</a>
             </div>
 
         </div>
         <div>
             <div>Industries:</div>
             <div *ngFor="let sh of company.industries">
-                <a routerLink="/industry/details/{{sh}}">{{sh}}</a>
+                <a routerLink="/industry/details/{{encodeName(sh)}}">{{sh}}</a>
             </div>
 
         </div>
