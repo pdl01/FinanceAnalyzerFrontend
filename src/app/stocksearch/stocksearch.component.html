@@ -7,9 +7,9 @@
 <ng-template #thenBlock>
     <h2>Companies</h2>
 
-    <div class="videoListGrid">
+    <div class="companyListGrid">
 
-        <div *ngFor="let searchItem of searchCompanyItems" class="videoListItem" >
+        <div *ngFor="let searchItem of searchCompanyItems" class="companyCard" >
             <a routerLink="/company/details/{{searchItem.id}}" class="videoListItemLink">{{searchItem.name}} {{searchItem.stockSymbol}}</a>
 
         </div>
