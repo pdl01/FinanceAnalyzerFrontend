@@ -44,13 +44,24 @@
     <ng-template #thenStockHistoriesBlock>
         <div class="stockHistoryListGrid">
             <div *ngFor="let sh of stockHistories| slice:0:50;" class="stockHistoryCard" >
-                <div>Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
-                <div>Open:{{sh.open|currency}}</div>
-                <div>Close:{{sh.close|currency}}</div>
-                <div>Gain:{{sh.actual_gain|currency}}</div>
-                <div>Gain %{{sh.percent_gain | percent}}</div>
-                <div>High:{{sh.high|currency}}</div>
-                <div>Low:{{sh.low|currency}}</div>
+                <div style="width: 100%; overflow: hidden;">
+
+                    <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+                    <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
+                </div>
+                <div style="width: 100%; overflow: hidden;">
+
+                    <div style="float: left; width: 50%">Open:{{sh.open|currency}}</div>
+                    <div>Close:{{sh.close|currency}}</div>
+                </div>
+                <div style="width: 100%; overflow: hidden;">
+                    <div style="float: left; width: 50%">Gain:{{sh.actual_gain|currency}}</div>
+                    <div>Gain %:{{sh.percent_gain | percent}}</div>
+                </div>
+                <div style="width: 100%; overflow: hidden;">
+                    <div style="float: left; width: 50%">High:{{sh.high|currency}}</div>
+                    <div>Low:{{sh.low|currency}}</div>
+                </div>
                 <div>Volume:{{sh.volume|number:'1.0-0'}}</div>
             </div>
         </div>
@@ -64,16 +75,20 @@
     <div *ngIf="newsIems != null && newsIems.length > 0; then thenCompanyNewsBlock else elseCompanyNewsBlock"></div>
     <ng-template #thenCompanyNewsBlock>
         <div class="newsItemsListGrid">
-            
-            <div *ngFor="let sh of newsIems | slice:0:10;" class="newsItemCard" >
-                <div>{{sh.recordDateAsString}}</div>
-                <div><a href="{{sh.url}}">{{sh.subject}}</a></div>
 
-                <div>{{sh.userRating}}</div>
-                <div>{{sh.systemRating}}</div>
-                <div>
-                    <a href="javascript:void(0)" (click)="viewNewsItem(sh)">View Text</a> 
-                </div>
+            <div *ngFor="let sh of newsIems | slice:0:10;" class="newsItemCard" >
+            <div style="width: 100%; overflow: hidden;">
+                <div style="float: left; width: 50%"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+                <div style="float: right;"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>            
+            </div>
+            <div><a href="{{sh.url}}">{{sh.subject}}</a></div>
+            <div style="width: 100%; overflow: hidden;">
+            <div style="float: left; width: 50%">{{sh.userRating}}</div>
+            <div style="float: right;">{{sh.systemRating}}</div>
+            </div>
+            <div>
+                <a href="javascript:void(0)" (click)="viewNewsItem(sh)">View Text</a> 
+            </div>
             </div>
         </div>
         <a href="javascript:void(0)" (click)="loadMoreNews()">More</a> 

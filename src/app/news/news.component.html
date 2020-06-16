@@ -21,11 +21,15 @@
 <ng-template #thenCompanyNewsBlock>
     <div class="newsItemsListGrid">
         <div *ngFor="let sh of newsItems" class="newsItemCard" >
-            <div><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
-            <div><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>            
+            <div style="width: 100%; overflow: hidden;">
+                <div style="float: left; width: 50%"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+                <div style="float: right;"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>            
+            </div>
             <div><a href="{{sh.url}}">{{sh.subject}}</a></div>
-            <div>{{sh.userRating}}</div>
-            <div>{{sh.systemRating}}</div>
+            <div style="width: 100%; overflow: hidden;">
+            <div style="float: left; width: 50%">{{sh.userRating}}</div>
+            <div style="float: right;">{{sh.systemRating}}</div>
+            </div>
             <div>
                 <a href="javascript:void(0)" (click)="viewNewsItem(sh)">View Text</a> 
             </div>
@@ -46,7 +50,7 @@
             <option value="POSITIVE">Positive</option>
             <option value="NEGATIVE">Negative</option>
         </select>
-            <button (click)="updateUserRating()">Update User Rating</button>
+        <button (click)="updateUserRating()">Update User Rating</button>
     </div>
     <div id="newsItemText">
         <a href="javascript:void(0)" (click)="clearViewedNewsItem()">Clear</a> 
