@@ -78,8 +78,8 @@ export class NewsComponent implements OnInit {
       });
   }  
 
-  loadUnanalyzedNews(): void {
-    this.newsService.getLatestNews().subscribe(response => {
+  loadStatusBasedNews(_statusField,_status): void {
+    this.newsService.getNewsForStatus(_statusField,_status).subscribe(response => {
  
         if (response.code == 0) {
             this.newsItems = response.object;
@@ -125,8 +125,18 @@ export class NewsComponent implements OnInit {
     } else if (this.filterType == 'sector') {
         //this.loadSectorBasedNews();
     } else if (this.filterType == 'unanalyzed') {
+        this.loadStatusBasedNews("SYSTEM","NONE");
         //this.loadUnanalyzedNews();
-    }  
+    } else if (this.filterType == 'positive-user-rating') {
+        this.loadStatusBasedNews("USER","POSITIVE");
+    } else if (this.filterType == 'positive-system-rating') {
+        this.loadStatusBasedNews("SYSTEM","POSITIVE");
+    } else if (this.filterType == 'negative-user-rating') {
+        this.loadStatusBasedNews("USER","NEGATIVE");
+    } else if (this.filterType == 'negative-system-rating') {    
+        this.loadStatusBasedNews("SYSTEM","POSITIVE");
+
+    } 
     
       
  

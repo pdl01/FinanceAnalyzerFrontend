@@ -59,6 +59,17 @@ constructor( private http: HttpClient) { }
   getNewsForIndustryStartingInRange(_industry,starting,numResults): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/news/industry/'+encodeURIComponent(_industry)+ '/'+starting+'/'+numResults).pipe();    
   }  
+
+  getNewsForStatus(_statusField,_status): Observable<RestResponse> {
+      return this.getNewsForStatusStarting(_statusField,_status,0);    
+  }
+  getNewsForStatusStarting(_statusField,_status,starting): Observable<RestResponse> {
+      return this.getNewsForStatusStartingInRange(_statusField,_status,starting,25);    
+  }  
+  getNewsForStatusStartingInRange(_statusField,_status,starting,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/status/'+_statusField + '/' +_status+ '/'+starting+'/'+numResults).pipe();    
+  }  
+
     
   fetchNewsForCompany(id): Observable<RestResponse> {
     return this.http.post<RestResponse>(this.apiRoot+'/news/symbol/'+id+'/fetch',null,{}).pipe(); 
