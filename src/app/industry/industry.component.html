@@ -50,22 +50,22 @@ Industry: {{industry}}
     </ng-template>
 
 
-    <div *ngIf="viewedNewsItem != null" id="newsItemSection">
-        <div id="newsItemUserRating">
-            <select [(ngModel)]="viewedNewsItem.userRating">
-                <option value="NONE">None</option>
-                <option value="UNRELATED">Unrelated</option>
-                <option value="POSITIVE">Positive</option>
-                <option value="NEGATIVE">Negative</option>
-            </select>
-            <button (click)="updateUserRating()">Update User Rating</button>
-        </div>
+<div *ngIf="viewedNewsItem != null" id="newsItemSection">
+    <div style="color:white;">{{viewedNewsItem.userRating}}</div>
+    <div>
+        <button id="btnUserRatingNone" (click)="updateUserRating('NONE')">None</button>
+        <button id="btnUserRatingUnrelated" (click)="updateUserRating('UNRELATED')">Unrelated</button>
+        <button id="btnUserRatingPositive" (click)="updateUserRating('POSITIVE')">POSITIVE</button>
+        <button id="btnUserRatingPositive" (click)="updateUserRating('NEGATIVE')">NEGATIVE</button>
+    </div>
+    <div>
+        <button id="btnClose" (click)="clearViewedNewsItem()">Close</button>
+    </div>
+       
         <div id="newsItemText">
-            <a href="javascript:void(0)" (click)="clearViewedNewsItem()">Clear</a> 
             <p>
                 {{viewedNewsItem.body}}
         </div>
-    </div>    
-
+    </div>
 
 </div>

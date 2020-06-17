@@ -69,8 +69,9 @@ export class IndustryComponent implements OnInit {
       this.viewedNewsItem = null;
   }
   
-  updateUserRating(): void {
+  updateUserRating(userRating): void {
     if (this.viewedNewsItem != null) {
+        this.viewedNewsItem.userRating = userRating;
         this.newsService.updateUserRating(this.viewedNewsItem.id,this.viewedNewsItem.userRating).subscribe(response => {
  
         if (response.code == 0) {
@@ -78,6 +79,7 @@ export class IndustryComponent implements OnInit {
             
             //this.newsItems = [ ...this.newsItems, ...response.object];
         }
+        this.clearViewedNewsItem();
       });
     }
   }
