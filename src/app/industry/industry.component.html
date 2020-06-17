@@ -36,8 +36,10 @@ Industry: {{industry}}
                 <div><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>            
                 <div><a href="{{sh.url}}">{{sh.subject}}</a></div>
-                <div>{{sh.userRating}}</div>
-                <div>{{sh.systemRating}}</div>
+                <div style="width: 100%; overflow: hidden;">
+                    <div style="float: left; width: 50%"><div class="user-rating-{{sh.userRating | lowercase}}">{{sh.userRating}}</div></div>
+                    <div style="float: right;width: 50%; text-align: right;" ><div class="system-rating-{{sh.systemRating | lowercase}}">{{sh.systemRating}}</div></div>
+                </div>
                 <div>
                     <a href="javascript:void(0)" (click)="viewNewsItem(sh)">View Text</a> 
                 </div>
@@ -50,18 +52,18 @@ Industry: {{industry}}
     </ng-template>
 
 
-<div *ngIf="viewedNewsItem != null" id="newsItemSection">
-    <div style="color:white;">{{viewedNewsItem.userRating}}</div>
-    <div>
-        <button id="btnUserRatingNone" (click)="updateUserRating('NONE')">None</button>
-        <button id="btnUserRatingUnrelated" (click)="updateUserRating('UNRELATED')">Unrelated</button>
-        <button id="btnUserRatingPositive" (click)="updateUserRating('POSITIVE')">POSITIVE</button>
-        <button id="btnUserRatingPositive" (click)="updateUserRating('NEGATIVE')">NEGATIVE</button>
-    </div>
-    <div>
-        <button id="btnClose" (click)="clearViewedNewsItem()">Close</button>
-    </div>
-       
+    <div *ngIf="viewedNewsItem != null" id="newsItemSection">
+        <div style="color:white;">{{viewedNewsItem.userRating}}</div>
+        <div>
+            <button id="btnUserRatingNone" (click)="updateUserRating('NONE')">None</button>
+            <button id="btnUserRatingUnrelated" (click)="updateUserRating('UNRELATED')">Unrelated</button>
+            <button id="btnUserRatingPositive" (click)="updateUserRating('POSITIVE')">POSITIVE</button>
+            <button id="btnUserRatingPositive" (click)="updateUserRating('NEGATIVE')">NEGATIVE</button>
+        </div>
+        <div>
+            <button id="btnClose" (click)="clearViewedNewsItem()">Close</button>
+        </div>
+
         <div id="newsItemText">
             <p>
                 {{viewedNewsItem.body}}

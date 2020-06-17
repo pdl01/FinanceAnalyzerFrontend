@@ -77,18 +77,18 @@
         <div class="newsItemsListGrid">
 
             <div *ngFor="let sh of newsIems | slice:0:10;" class="newsItemCard" >
-            <div style="width: 100%; overflow: hidden;">
-                <div style="float: left; width: 50%"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
-                <div style="float: right;"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>            
-            </div>
-            <div><a href="{{sh.url}}">{{sh.subject}}</a></div>
-            <div style="width: 100%; overflow: hidden;">
-            <div style="float: left; width: 50%">{{sh.userRating}}</div>
-            <div style="float: right;">{{sh.systemRating}}</div>
+                <div style="width: 100%; overflow: hidden;">
+                    <div style="float: left; width: 50%"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+                    <div style="float: right;"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>            
+                </div>
+                <div><a href="{{sh.url}}">{{sh.subject}}</a></div>
+                <div style="width: 100%; overflow: hidden;">
+                    <div style="float: left; width: 50%"><div class="user-rating-{{sh.userRating | lowercase}}">{{sh.userRating}}</div></div>
+                    <div style="float: right;width: 50%; text-align: right;" ><div class="system-rating-{{sh.systemRating | lowercase}}">{{sh.systemRating}}</div></div>
+                </div>
             </div>
             <div>
                 <a href="javascript:void(0)" (click)="viewNewsItem(sh)">View Text</a> 
-            </div>
             </div>
         </div>
         <a href="javascript:void(0)" (click)="loadMoreNews()">More</a> 
@@ -132,9 +132,9 @@
     <div>
         <button id="btnClose" (click)="clearViewedNewsItem()">Close</button>
     </div>
-       
-        <div id="newsItemText">
-            <p>
-                {{viewedNewsItem.body}}
-        </div>
+
+    <div id="newsItemText">
+        <p>
+            {{viewedNewsItem.body}}
     </div>
+</div>
