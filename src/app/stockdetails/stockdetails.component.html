@@ -86,9 +86,10 @@
                     <div style="float: left; width: 50%"><div class="user-rating-{{sh.userRating | lowercase}}">{{sh.userRating}}</div></div>
                     <div style="float: right;width: 50%; text-align: right;" ><div class="system-rating-{{sh.systemRating | lowercase}}">{{sh.systemRating}}</div></div>
                 </div>
-            </div>
-            <div>
-                <a href="javascript:void(0)" (click)="viewNewsItem(sh)">View Text</a> 
+
+                <div>
+                    <a href="javascript:void(0)" (click)="viewNewsItem(sh)">View Text</a> 
+                </div>
             </div>
         </div>
         <a href="javascript:void(0)" (click)="loadMoreNews()">More</a> 
