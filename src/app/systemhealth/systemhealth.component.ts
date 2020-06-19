@@ -15,5 +15,10 @@ export class SystemhealthComponent implements OnInit {
 
   ngOnInit() {
   }
-
+    retrieveAvailalble(): void {
+    }
+    performCheck():void {
+    }
+    performCheckAndRebuild(): void {
+    }
 }
