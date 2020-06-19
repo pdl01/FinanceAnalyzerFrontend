@@ -39,4 +39,11 @@ export class CompanyService {
   fetchStockData(symbol): Observable<RestResponse> {
     return this.http.post<RestResponse>(this.apiRoot+'/companies/symbol/'+symbol+'/stock/fetch',null,{}).pipe();    
   }  
+  getSectorNames(): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/companies/sectorNames').pipe();    
+  }
+  getIndustryNames(): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/companies/industryNames').pipe();    
+  }
+
 }

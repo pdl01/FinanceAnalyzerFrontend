@@ -72,6 +72,8 @@
 </div>
 
 <div id="newsSection">
+    <a href="javascript:void(0)" (click)="fetchNewsForCompany()">Fetch LatestNews</a><p>
+
     <div *ngIf="newsIems != null && newsIems.length > 0; then thenCompanyNewsBlock else elseCompanyNewsBlock"></div>
     <ng-template #thenCompanyNewsBlock>
         <div class="newsItemsListGrid">
@@ -96,7 +98,7 @@
 
     </ng-template>
     <ng-template #elseCompanyNewsBlock>
-        <a href="javascript:void(0)" (click)="fetchNewsForCompany()">Fetch News</a>
+        
     </ng-template>
 </div>
 

@@ -21,6 +21,18 @@ constructor( private http: HttpClient) { }
   getCompanyNewsStartingInRange(id,starting,numResults): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/news/company/'+id+'/'+starting+'/'+numResults).pipe();    
   }
+  
+  getNewsForTextSearch(_text): Observable<RestResponse> {
+      return this.getNewsForTextSearchStarting(_text,0);
+        
+  }
+  getNewsForTextSearchStarting(_text,starting): Observable<RestResponse> {
+      return this.getNewsForTextSearchStartingInRange(_text,0,25);    
+  }  
+  getNewsForTextSearchStartingInRange(_text,starting,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/news/text/'+_text+'/'+starting+'/'+numResults).pipe();    
+  }
+  
   getLatestNews(): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/news/latest').pipe();    
   }

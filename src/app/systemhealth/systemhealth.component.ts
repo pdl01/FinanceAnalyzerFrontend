@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SystemHealthRecord } from '../systemhealthrecord';
 
 @Component({
   selector: 'app-systemhealth',
@@ -7,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SystemhealthComponent implements OnInit {
 
+  healthRecord: SystemHealthRecord = null;
+  availableRecords: string[] = [];
+  
   constructor() { }
 
   ngOnInit() {

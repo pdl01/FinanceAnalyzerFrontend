@@ -5,8 +5,10 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser
 
 import { NewsService } from '../news.service';
 import { CompanyNewsItem } from '../companynewsitem';
+import { CompanyService } from '../company.service';
 
 import { RestResponse } from '../restresponse';
+
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
@@ -16,12 +18,18 @@ export class NewsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
   private newsService: NewsService,
+  private companyService: CompanyService,
   private location: Location,
   private sanitizer: DomSanitizer    ) { }
 
   newsItems: CompanyNewsItem[] = [];
   private start = 0;
   private numResults = 25;
+
+  sectorNames: string[] = [];
+  selectedSector: string;
+  industryNames: string[] = [];
+  selectedIndustry: string;
   
   filterType: string = "latest";
   filterValue: string = "";
@@ -29,6 +37,7 @@ export class NewsComponent implements OnInit {
   viewedNewsItem: CompanyNewsItem = null;
   
   ngOnInit() {
+    this.loadReferenceData();
           this.performInitialNewsFilter();
   }
   loadLatestNews(): void {
@@ -47,6 +56,30 @@ export class NewsComponent implements OnInit {
     this.loadMoreNews();
      
     
+  }
+  
+  loadReferenceData(): void {
+    this.loadSectorNames();
+    this.loadIndustryNames();
+  }
+  loadSectorNames(): void {
+      this.companyService.getSectorNames().subscribe(response => {
+ 
+        if (response.code == 0) {
+            this.sectorNames = response.object;
+           
+        }
+      });
+  }
+  
+  loadIndustryNames(): void {
+      this.companyService.getIndustryNames().subscribe(response => {
+ 
+        if (response.code == 0) {
+            this.industryNames = response.object;
+           
+        }
+      });  
   }
   
   loadDateBasedNews(): void {
@@ -68,15 +101,26 @@ export class NewsComponent implements OnInit {
         }
       });
   }
-  loadSectorBasedNews(): void {
-    this.newsService.getLatestNews().subscribe(response => {
+  loadSectorBasedNews(_sector,start,results): void {
+    this.newsService.getNewsForSectorStartingInRange(_sector,start,results).subscribe(response => {
  
         if (response.code == 0) {
-            this.newsItems = response.object;
+            this.newsItems = this.newsItems.concat(response.object);
            
         }
       });
   }  
+
+loadIndustryBasedNews(_industry,start,results): void {
+    this.newsService.getNewsForIndustryStartingInRange(_industry,start,results).subscribe(response => {
+ 
+        if (response.code == 0) {
+            this.newsItems = this.newsItems.concat(response.object);
+           
+        }
+      });
+  }  
+
 
   loadStatusBasedNews(_statusField,_status,start,results): void {
     this.newsService.getNewsForStatusStartingInRange(_statusField,_status,start,results).subscribe(response => {
@@ -104,6 +148,17 @@ export class NewsComponent implements OnInit {
             //this.newsItems = [ ...this.newsItems, ...response.object];
         }
       });
+    } else if (this.filterType == 'text') {
+      this.newsService.getNewsForTextSearchStartingInRange(this.filterValue,this.start,this.numResults).subscribe(response => {
+ 
+        if (response.code == 0) {
+            this.newsItems = this.newsItems.concat(response.object);
+            
+            //this.newsItems = [ ...this.newsItems, ...response.object];
+        }
+      });
+
+        
     } else if (this.filterType == 'date') {
       this.newsService.getNewsForDateStartingInRange(this.filterValue,this.start,this.numResults).subscribe(response => {
  
@@ -123,7 +178,9 @@ export class NewsComponent implements OnInit {
         }
       });
     } else if (this.filterType == 'sector') {
-        //this.loadSectorBasedNews();
+        this.loadSectorBasedNews(this.selectedSector,this.start,this.numResults);
+    } else if (this.filterType == 'industry') {
+        this.loadIndustryBasedNews(this.selectedIndustry,this.start,this.numResults);
     } else if (this.filterType == 'unanalyzed') {
         this.loadStatusBasedNews("SYSTEM","NONE",this.start,this.numResults);
         //this.loadUnanalyzedNews();

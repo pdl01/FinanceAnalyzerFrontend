@@ -4,6 +4,7 @@
         <option value="latest">Latest</option>
         <option value="date">Date</option>
         <option value="symbol">Symbol</option>
+        <option value="text">Text</option>
         <option value="sector">Sector</option>
         <option value="industry">Industry</option>
         <option value="positive-user-rating">Positive User Rating</option>
@@ -12,7 +13,21 @@
         <option value="negative-system-rating">Negative System Rating</option>        
         <option value="unanalyzed">Unanalyzed</option>
     </select>
-
+    <div id="sectorSelectorForm" *ngIf="filterType == 'sector'">
+        <select [(ngModel)]="selectedSector" id="selectedSector" name="selectedSector">
+            <option *ngFor="let sh of sectorNames" value="{{sh}}">
+                {{sh}}
+            </option>
+        </select>
+    </div>
+    <div id="industrySelectorForm" *ngIf="filterType == 'industry'">
+        <select [(ngModel)]="selectedIndustry" id="selectedIndustry" names="selectedIndustry">
+            <option *ngFor="let sh of industryNames" value="{{sh}}">
+                {{sh}}
+            </option>
+        </select>
+    </div>       
+    
     <input [(ngModel)]="filterValue" type="text" id="filterValueId" name="filterValue" size="20">
     <button (click)="performInitialNewsFilter()" >Filter</button>
 </div>
