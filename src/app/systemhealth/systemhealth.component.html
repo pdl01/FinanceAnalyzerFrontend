@@ -1,5 +1,43 @@
-<button id="" (click)="retrieveAvailalble()">Get Available</button>
-<button id="" (click)="performCheck()">Perform Check</button>
-<button id="" (click)="performCheckAndRebuild()">Check and Rebuild</button>
+<div>
+    <button id="" (click)="retrieveAvailalble()">Get Available</button>
+    <button id="" (click)="performCheck()">Perform Check</button>
+    <button id="" (click)="performCheckAndRebuild()">Check and Rebuild</button>
+</div>
+
+<div id="availableReports" *ngIf="availableRecords != null && availableRecords.length > 0">
+    <button *ngFor="let sh of availableRecords" (click)="loadReport(sh)">{{sh}}</button>
 
 
+</div>       
+
+<div id="healthRecordSection" *ngIf="healthRecord != null">
+    <div>Number of Items that have/have no System Analysis:{{healthRecord.totalNumberOfSystemAnalyzedNewsItems}} / {{healthRecord.totalNumberOfSystemUnanalyzedNewsItems}}</div>
+    <div>Number of Items that have/have no System Analysis:{{healthRecord.totalNumberOfUserAnalyzedNewsItems}} / {{healthRecord.totalNumberOfUserUnanalyzedNewsItems}}</div>
+
+    <div>
+        <div>Companies with no News Item in Past 30 Days
+            <div id="availableReports" *ngIf="healthRecord.companiesWithoutNewsItemsInPast30Days != null && healthRecord.companiesWithoutNewsItemsInPast30Days.length > 0">
+                <div class="companyListGrid">
+
+                    <div *ngFor="let item of healthRecord.companiesWithoutNewsItemsInPast30Days" class="companyCard" >
+                        <a routerLink="/company/details/{{item}}" class="videoListItemLink">{{item}}</a>
+
+                    </div>
+                </div>
+
+            </div>          
+        </div>
+        <div>
+            <div>Companies with no Stock Histories Item in Past 7 Days
+                <div id="availableReports" *ngIf="healthRecord.companiesWithoutStockHistoriesInPast7Days != null && healthRecord.companiesWithoutStockHistoriesInPast7Days.length > 0">
+                    <div *ngFor="let item of healthRecord.companiesWithoutStockHistoriesInPast7Days" class="companyCard" >
+                        <a routerLink="/company/details/{{item}}" class="videoListItemLink">{{item}}</a>
+
+                    </div>
+
+
+                </div>          
+
+            </div>
+
+        </div>

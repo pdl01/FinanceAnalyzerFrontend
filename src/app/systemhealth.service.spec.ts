@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SystemhealthService } from './systemhealth.service';
+import { SystemHealthService } from './systemhealth.service';
 
-describe('SystemhealthService', () => {
+describe('SystemHealthService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SystemhealthService = TestBed.get(SystemhealthService);
+    const service: SystemHealthService = TestBed.get(SystemHealthService);
     expect(service).toBeTruthy();
   });
 });

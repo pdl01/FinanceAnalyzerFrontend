@@ -8,16 +8,16 @@ import { SystemHealthRecord } from './systemhealthrecord';
 @Injectable({
   providedIn: 'root'
 })
-export class SystemhealthService {
+export class SystemHealthService {
 
  constructor( private http: HttpClient) { }
  private apiRoot = environment.serverUrl+'/api/v1';
  
   getListOfReports(): Observable<RestResponse> {
-    return this.http.get<RestResponse>(this.apiRoot+'systemhealth/recordlist').pipe();    
+    return this.http.get<RestResponse>(this.apiRoot+'/systemhealth/recordlist').pipe();    
   }
   getReport(reportName): Observable<RestResponse> {
-    return this.http.get<RestResponse>(this.apiRoot+'systemhealth/item/'+reportName).pipe();    
+    return this.http.get<RestResponse>(this.apiRoot+'/systemhealth/item/'+reportName).pipe();    
   }
   buildReport(): Observable<RestResponse> {
     return this.http.post<RestResponse>(this.apiRoot+'/systemhealth/latest',{},{}).pipe();    
