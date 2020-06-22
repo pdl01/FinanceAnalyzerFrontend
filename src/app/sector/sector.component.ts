@@ -32,14 +32,34 @@ export class SectorComponent implements OnInit {
   
   viewedNewsItem: CompanyNewsItem = null;
 
+  newsStart: number = 0;
+  newsNumResults: number = 25;
+
   ngOnInit() {
     const sector = this.route.snapshot.paramMap.get('id');
     this.sector = decodeURIComponent(sector);
     this.loadCompanies(this.sector);
-    this.loadNews(this.sector);
+    this.performInitialNewsLoad();
+    //this.loadNews(this.sector);
   }
-  
+  performInitialNewsLoad(): void {
+    this.newsStart = -1*(this.newsNumResults);
+    this.newsItems = [];
+    this.loadMoreNews();
+  }
+   loadMoreNews(): void {
+    this.newsStart = this.newsStart+this.newsNumResults;
+
+    this.newsService.getNewsForSectorStartingInRange(this.sector,this.newsStart,this.newsNumResults).subscribe(response => {
+        if (response.code == 0) {
+            this.newsItems = this.newsItems.concat(response.object);
+            
+            //this.newsItems = [ ...this.newsItems, ...response.object];
+        }
+   });
+   }
   loadNews(sector): void {
+
     this.newsService.getNewsForSector(sector).subscribe(response => {
  
         if (response.code == 0) {
