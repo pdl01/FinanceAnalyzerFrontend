@@ -11,8 +11,21 @@
 </div>       
 
 <div id="healthRecordSection" *ngIf="healthRecord != null">
-    <div>Number of Items that have/have no System Analysis:{{healthRecord.totalNumberOfSystemAnalyzedNewsItems}} / {{healthRecord.totalNumberOfSystemUnanalyzedNewsItems}}</div>
-    <div>Number of Items that have/have no System Analysis:{{healthRecord.totalNumberOfUserAnalyzedNewsItems}} / {{healthRecord.totalNumberOfUserUnanalyzedNewsItems}}</div>
+    <div>System Analysis:<br>
+        analyzed: {{healthRecord.totalNumberOfSystemAnalyzedNewsItems}}<br>
+        positive: {{healthRecord.totalNumberOfPositiveSystemAnalyzedNewsItems}}<br>
+        negative: {{healthRecord.totalNumberOfNegativeSystemAnalyzedNewsItems}}<br>
+        unrelated:{{healthRecord.totalNumberOfUnrelatedSystemAnalyzedNewsItems}}<br>
+        unanlyzed:{{healthRecord.totalNumberOfSystemUnanalyzedNewsItems}}
+    </div>
+    <p>
+    <div>User Analysis:<br>
+        analyzed:  {{healthRecord.totalNumberOfUserAnalyzedNewsItems}}<br>
+        postitive: {{healthRecord.totalNumberOfPositiveUserAnalyzedNewsItems}}<br>
+        negative:  {{healthRecord.totalNumberOfNegativeUserAnalyzedNewsItems}}<br>
+        unrelated: {{healthRecord.totalNumberOfUnrelatedUserAnalyzedNewsItems}}<br>
+        unanalyzed:{{healthRecord.totalNumberOfUserUnanalyzedNewsItems}}
+    </div>
 
     <div>
         <div>Companies with no News Item in Past 30 Days

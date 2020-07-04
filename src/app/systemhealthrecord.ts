@@ -9,4 +9,11 @@ export class SystemHealthRecord {
     totalNumberOfUserUnanalyzedNewsItems: number;
     totalNumberOfSystemAnalyzedNewsItems: number;
     totalNumberOfSystemUnanalyzedNewsItems: number;
+    totalNumberOfPositiveUserAnalyzedNewsItems: number;
+    totalNumberOfNegativeUserAnalyzedNewsItems: number;
+    totalNumberOfUnrelatedUserAnalyzedNewsItems: number;
+    
+    totalNumberOfPositiveSystemAnalyzedNewsItems: number;
+    totalNumberOfNegativeSystemAnalyzedNewsItems: number;
+    totalNumberOfUnrelatedSystemAnalyzedNewsItems: number;
 }
