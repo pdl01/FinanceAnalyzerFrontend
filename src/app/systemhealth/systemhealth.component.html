@@ -28,11 +28,11 @@
     </div>
 
     <div>
-        <div>Companies with no News Item in Past 30 Days
-            <div id="availableReports" *ngIf="healthRecord.companiesWithoutNewsItemsInPast30Days != null && healthRecord.companiesWithoutNewsItemsInPast30Days.length > 0">
+        <div>Companies with no News Item in Past 3 Days ({{healthRecord.companiesWithoutNewsItemsInPast3Days.length}})
+            <div id="availableReportsNews3Days" *ngIf="healthRecord.companiesWithoutNewsItemsInPast3Days != null && healthRecord.companiesWithoutNewsItemsInPast3Days.length > 0">
                 <div class="companyListGrid">
 
-                    <div *ngFor="let item of healthRecord.companiesWithoutNewsItemsInPast30Days" class="companyCard" >
+                    <div *ngFor="let item of healthRecord.companiesWithoutNewsItemsInPast3Days" class="companyCard" >
                         <a routerLink="/company/details/{{item}}" class="videoListItemLink">{{item}}</a>
 
                     </div>
@@ -41,16 +41,60 @@
             </div>          
         </div>
         <div>
-            <div>Companies with no Stock Histories Item in Past 7 Days
-                <div id="availableReports" *ngIf="healthRecord.companiesWithoutStockHistoriesInPast7Days != null && healthRecord.companiesWithoutStockHistoriesInPast7Days.length > 0">
-                    <div *ngFor="let item of healthRecord.companiesWithoutStockHistoriesInPast7Days" class="companyCard" >
-                        <a routerLink="/company/details/{{item}}" class="videoListItemLink">{{item}}</a>
+            <div>Companies with no News Item in Past 7 Days ({{healthRecord.companiesWithoutNewsItemsInPast7Days.length}})
+                <div id="availableReportsNews7Days" *ngIf="healthRecord.companiesWithoutNewsItemsInPast7Days != null && healthRecord.companiesWithoutNewsItemsInPast7Days.length > 0">
+                    <div class="companyListGrid">
+
+                        <div *ngFor="let item of healthRecord.companiesWithoutNewsItemsInPast7Days" class="companyCard" >
+                            <a routerLink="/company/details/{{item}}" class="videoListItemLink">{{item}}</a>
+
+                        </div>
+                    </div>
+
+                </div>          
+            </div>
+            <div>
+                <div>Companies with no News Item in Past 30 Days ({{healthRecord.companiesWithoutNewsItemsInPast30Days.length}})
+                    <div id="availableReportsNews30Days" *ngIf="healthRecord.companiesWithoutNewsItemsInPast30Days != null && healthRecord.companiesWithoutNewsItemsInPast30Days.length > 0">
+                        <div class="companyListGrid">
+
+                            <div *ngFor="let item of healthRecord.companiesWithoutNewsItemsInPast30Days" class="companyCard" >
+                                <a routerLink="/company/details/{{item}}" class="videoListItemLink">{{item}}</a>
+
+                            </div>
+                        </div>
+
+                    </div>          
+                </div>
+
+                <div>
+                    <div>Companies with no Stock Histories Item in Past 3 Days ({{healthRecord.companiesWithoutStockHistoriesInPast3Days.length}})
+                        <div id="availableReportsStock3Days" *ngIf="healthRecord.companiesWithoutStockHistoriesInPast3Days != null && healthRecord.companiesWithoutStockHistoriesInPast3Days.length > 0">
+                            <div class="companyListGrid">
+                                <div *ngFor="let item of healthRecord.companiesWithoutStockHistoriesInPast3Days" class="companyCard" >
+                                    <a routerLink="/company/details/{{item}}" class="videoListItemLink">{{item}}</a>
+
+                                </div>
+                            </div>
+
+                        </div>          
 
                     </div>
 
+                </div>
+                <div>
+                    <div>Companies with no Stock Histories Item in Past 7 Days ({{healthRecord.companiesWithoutStockHistoriesInPast7Days.length}})
+                        <div id="availableReportsStock7Days" *ngIf="healthRecord.companiesWithoutStockHistoriesInPast7Days != null && healthRecord.companiesWithoutStockHistoriesInPast7Days.length > 0">
+                            <div class="companyListGrid">
+                                <div *ngFor="let item of healthRecord.companiesWithoutStockHistoriesInPast7Days" class="companyCard" >
+                                    <a routerLink="/company/details/{{item}}" class="videoListItemLink">{{item}}</a>
 
-                </div>          
+                                </div>
+                            </div>
 
-            </div>
 
-        </div>
+                        </div>          
+
+                    </div>
+
+                </div>                

@@ -4,6 +4,7 @@ export class SystemHealthRecord {
     companiesWithoutNewsItemsInPast3Days: string[];
     companiesWithoutNewsItemsInPast7Days: string[];
     companiesWithoutNewsItemsInPast30Days: string[];
+    companiesWithoutStockHistoriesInPast3Days: string[];
     companiesWithoutStockHistoriesInPast7Days: string[];
     totalNumberOfUserAnalyzedNewsItems: number;
     totalNumberOfUserUnanalyzedNewsItems: number;
