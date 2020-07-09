@@ -39,6 +39,31 @@
 
     </div>
 </div>
+
+<div id="stockPerformanceSection">
+    <div *ngIf="stockPerformances != null && stockPerformances.length > 0; then thenStockPerformancesBlock else elseStockPerformancesBlock"></div>
+    <ng-template #thenStockPerformancesBlock>
+        <div class="stockPerformancesListGrid">
+            <div *ngFor="let sh of stockPerformances| slice:0:50;" class="stockPerformancesCard" >
+                <div style="width: 100%; overflow: hidden;">
+
+                    <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+                    <div>3 day:{{sh.threedayperf | percent:'1.1-2'}}</div>
+                </div>
+                <div style="width: 100%; overflow: hidden;">
+
+                    <div style="float: left; width: 50%">7 day:{{sh.sevendayperf | percent:'1.1-2'}}</div>
+                    <div>30 day:{{sh.thrirtydayperf | percent:'1.1-2'}}</div>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:void(0)" (click)="loadMoreStockPerformances()">More</a> 
+    </ng-template>
+    <ng-template #elseStockPerformancesBlock>
+    </ng-template>
+</div>
+
+
 <div id="stockHistorySection">
     <div *ngIf="stockHistories != null && stockHistories.length > 0; then thenStockHistoriesBlock else elseStockHistoriesBlock"></div>
     <ng-template #thenStockHistoriesBlock>

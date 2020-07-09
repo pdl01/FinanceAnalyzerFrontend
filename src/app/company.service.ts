@@ -45,5 +45,14 @@ export class CompanyService {
   getIndustryNames(): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/industryNames').pipe();    
   }
+  getStockPerformance(id): Observable<RestResponse> {
+    return this.getStockPerformanceStarting(id,0);    
+  }
+  getStockPerformanceStarting(id,starting): Observable<RestResponse> {
+    return this.getStockPerformanceStartingInRange(id,starting,20);    
+  }
+  getStockPerformanceStartingInRange(id,starting,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/companies/company/'+id+'/stockperformance/'+starting+'/'+numResults).pipe();    
+  }
 
 }

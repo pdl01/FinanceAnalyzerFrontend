@@ -10,7 +10,7 @@ import { Company } from '../company';
 import { StockHistory } from '../stockhistory';
 import { SystemActivity } from '../systemactivity';
 import { CompanyNewsItem } from '../companynewsitem';
-
+import { StockPerformance } from '../stockperformance';
 import { RestResponse } from '../restresponse';
 
 @Component({
@@ -33,7 +33,7 @@ export class StockdetailsComponent implements OnInit {
   stockHistories: StockHistory[] = [];
   systemActivities: SystemActivity[] = [];
   newsIems: CompanyNewsItem[] = [];
-  
+  stockPerformances: StockPerformance[] = [];
   
   viewedNewsItem: CompanyNewsItem = null;
 
@@ -41,6 +41,7 @@ export class StockdetailsComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.loadCompany(id);
+    this.loadStockPerformance(id);
     this.loadStockHistory(id);
     this.loadSystemActivity(id);
     this.loadCompanyNews(id);
@@ -62,6 +63,19 @@ export class StockdetailsComponent implements OnInit {
         }
       });
   }
+
+  loadStockPerformance(id): void {
+    this.companyService.getStockPerformance(id).subscribe(response => {
+ 
+        if (response.code == 0) {
+            this.stockPerformances = response.object;
+        }
+      });
+  }
+  
+  loadMoreStockPerformances(): void {
+  }
+  
   loadMoreStockHistory(): void {
   }
   

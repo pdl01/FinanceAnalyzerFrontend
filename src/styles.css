@@ -197,6 +197,30 @@ body {
     width:300px;
 }
 
+.stockPerformancesListGrid {
+    
+    display: grid;
+    /*grid-template-columns: repeat(3, 1fr);*/
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-auto-rows: auto;
+    grid-gap: 1rem;
+
+}
+
+.stockPerformancesCard {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+
+    border: 2px solid blue;
+
+    border-radius: 4px;
+
+    padding: .5rem;
+    width:300px;
+}
+
+
 .user-rating-positive {
     background-color: green;
     border-style: solid;
