@@ -20,5 +20,16 @@ export class StockhistoryreportService {
   }  
   getStockHistoryReportStartingWithNumberResults(endDate,reportName,start,numResults): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/reports/stocks/dailyReport/'+reportName+'/'+endDate+'/'+start+'/'+numResults).pipe();    
+  }
+  getStockPerformanceReport(endDate,reportName): Observable<RestResponse> {
+    return this.getStockPerformanceReportStartingWith(endDate,reportName,0);  
+    //return this.http.get<RestResponse>(this.apiRoot+'/reports/stocks/dailyReport/'+reportName+'/'+endDate+'/'+start+'/'+numResults).pipe();    
+  }
+  getStockPerformanceReportStartingWith(endDate,reportName,start): Observable<RestResponse> {
+    return this.getStockPerformanceReportStartingWithNumberResults(endDate,reportName,start,25);  
+    //return this.http.get<RestResponse>(this.apiRoot+'/reports/stocks/dailyReport/'+reportName+'/'+endDate+'/'+start+'/'+numResults).pipe();    
+  }
+  getStockPerformanceReportStartingWithNumberResults(endDate,reportName,start,numResults): Observable<RestResponse> {
+    return this.http.get<RestResponse>(this.apiRoot+'/reports/stocks/stockPerformance/'+reportName+'/'+endDate+'/'+start+'/'+numResults).pipe();    
   }  
 }

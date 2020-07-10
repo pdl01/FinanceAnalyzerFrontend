@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { StockhistoryreportService } from '../stockhistoryreport.service';
 import { StockHistory } from '../stockhistory';
+import { StockPerformance } from '../stockperformance';
 
 import { RestResponse } from '../restresponse';
 
@@ -35,6 +36,9 @@ export class DailyreportComponent implements OnInit {
   loserPercentStocks: StockHistory[] = [];
   private loserPercentStart = 0;
 
+  threedayPerfTopStocks: StockPerformance[] = [];
+  private threedayPerfTopStocksStart = 0;
+
   private numResults = 25;
   ngOnInit() {
 
@@ -45,7 +49,9 @@ export class DailyreportComponent implements OnInit {
     this.loadReport(id,"gainers-percent",this.gainerPercentStocks);
     this.loadReport(id,"losers-amount",this.loserAmountStocks);
     this.loadReport(id,"losers-percent",this.loserPercentStocks);
+    this.loadStockPerformanceReport(id,"threedayperf-DESC",this.threedayPerfTopStocks);
   }
+  
   loadReport(endDate,reportName,objects): void {
      
      this.stockhistoryreportService.getStockHistoryReportStartingWithNumberResults(endDate,reportName,0,this.numResults).subscribe(response => {
@@ -109,4 +115,39 @@ export class DailyreportComponent implements OnInit {
         }
       });
   }
+  
+    loadStockPerformanceReport(endDate,reportName,objects): void {
+     
+     this.stockhistoryreportService.getStockPerformanceReportStartingWithNumberResults(endDate,reportName,0,this.numResults).subscribe(response => {
+ 
+        if (response.code == 0) {
+            if (reportName == 'threedayperf-DESC') {
+                this.threedayPerfTopStocks = response.object;
+            } else {
+                objects = response.object;
+            }
+            
+        }
+      });
+  }
+  loadMoreStockPerformanceReportItems(reportName): void {
+      
+            var startToUse:number = 0;
+            if (reportName == 'threedayperf-DESC') {
+                this.volumeStart = this.volumeStart+this.numResults;
+                startToUse = this.volumeStart;
+            }
+      
+      
+     this.stockhistoryreportService.getStockPerformanceReportStartingWithNumberResults(this.endDate,reportName,startToUse,this.numResults).subscribe(response => {
+ 
+        if (response.code == 0) {
+            if (reportName == 'threedayperf-DESC') {
+                this.threedayPerfTopStocks = this.threedayPerfTopStocks.concat(response.object);
+            }  
+            
+        }
+      });
+  }
+
 }

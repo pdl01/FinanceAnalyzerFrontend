@@ -35,7 +35,7 @@ Top Volumes
     <div class="stockHistoryListGrid">
 
         <div *ngFor="let sh of gainerAmountStocks" class="stockHistoryCard" >
-                        <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;">
 
                 <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
@@ -69,7 +69,7 @@ Top Volumes
     <div class="stockHistoryListGrid">
 
         <div *ngFor="let sh of gainerPercentStocks" class="stockHistoryCard" >
-                        <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;">
 
                 <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
@@ -104,7 +104,7 @@ Top Volumes
     <div class="stockHistoryListGrid">
 
         <div *ngFor="let sh of loserAmountStocks" class="stockHistoryCard" >
-                        <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;">
 
                 <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
@@ -139,7 +139,7 @@ Top Volumes
     <div class="stockHistoryListGrid">
 
         <div *ngFor="let sh of loserPercentStocks" class="stockHistoryCard" >
-                        <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;">
 
                 <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
@@ -164,3 +164,30 @@ Top Volumes
 </ng-template>
 <ng-template #elseLoserPercentStockHistoriesBlock>
 </ng-template>
+    <p>
+        Top 3 day gainers
+    <div *ngIf="threedayPerfTopStocks != null && threedayPerfTopStocks.length > 0; then thenthreedayPerfTopStocksBlock else elsethreedayPerfTopStocksBlock"></div>
+    <ng-template #thenthreedayPerfTopStocksBlock>
+        <div class="stockHistoryListGrid">
+
+            <div *ngFor="let sh of threedayPerfTopStocks" class="stockHistoryCard" >
+                <div style="width: 100%; overflow: hidden;">
+
+                    <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
+                    <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
+                </div>
+                <div style="width: 100%; overflow: hidden;">
+
+                    <div style="float: left; width: 50%">3 day:{{sh.threedayperf| percent:'1.1-2'}}</div>
+                    <div>7 day:{{sh.sevendayperf| percent:'1.1-2'}}</div>
+                </div>
+                <div style="width: 100%; overflow: hidden;">
+                    <div style="float: left; width: 50%">30 day:{{sh.thirtydayperf| percent:'1.1-2'}}</div>
+                    <div>xxx</div>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:void(0)" (click)="loadMoreStockPerformanceReportItems('threedayperf-DESC')">More</a> 
+    </ng-template>
+    <ng-template #elsethreedayPerfTopStocksBlock>
+    </ng-template>
