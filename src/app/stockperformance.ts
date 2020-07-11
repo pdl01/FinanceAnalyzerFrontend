@@ -6,7 +6,11 @@ export class StockPerformance {
     recordDateAsString: string;
     sectors: string[];
     industries: string[];
+    current: number;
     threedayperf: number;
+    threedayopen: number;
     sevendayperf: number;
-    thirtydayperf: number;  
+    sevendayopen: number;
+    thirtydayperf: number;
+    thirtydayopen: number;
 }

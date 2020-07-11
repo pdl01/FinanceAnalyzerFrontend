@@ -48,12 +48,22 @@
                 <div style="width: 100%; overflow: hidden;">
 
                     <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
-                    <div>3 day:{{sh.threedayperf | percent:'1.1-2'}}</div>
+                    <div>Current:{{sh.current | currency}}</div>
+                </div>
+                <div style="width: 100%; overflow: hidden;">
+
+                    <div style="float: left; width: 50%">3 day:{{sh.threedayperf | percent:'1.1-2'}}</div>
+                    <div>Open:{{sh.threedayopen | currency}}</div>
                 </div>
                 <div style="width: 100%; overflow: hidden;">
 
                     <div style="float: left; width: 50%">7 day:{{sh.sevendayperf | percent:'1.1-2'}}</div>
-                    <div>30 day:{{sh.thrirtydayperf | percent:'1.1-2'}}</div>
+                    <div>Open:{{sh.sevendayopen | currency}}</div>
+                </div>
+                <div style="width: 100%; overflow: hidden;">
+
+                    <div style="float: left; width: 50%">30 day:{{sh.thirtydayperf | percent:'1.1-2'}}</div>
+                    <div>Open:{{sh.thirtydayopen | currency}}</div>
                 </div>
             </div>
         </div>
@@ -123,7 +133,7 @@
 
     </ng-template>
     <ng-template #elseCompanyNewsBlock>
-        
+
     </ng-template>
 </div>
 
