@@ -136,4 +136,14 @@ updateUserRating(userRating): void {
         //return name.replace("\/","%2F");
       return encodeURIComponent(name);
   }
+  generateSystemRating(): void{
+      if (this.viewedNewsItem != null) {
+          this.newsService.generateSentimentAnalysis(this.viewedNewsItem.id).subscribe(response => {
+ 
+            if (response.code == 0) {
+            }
+          });
+      }
+  }
+      
 }

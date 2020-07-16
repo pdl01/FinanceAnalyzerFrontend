@@ -191,7 +191,7 @@ loadIndustryBasedNews(_industry,start,results): void {
     } else if (this.filterType == 'negative-user-rating') {
         this.loadStatusBasedNews("USER","NEGATIVE",this.start,this.numResults);
     } else if (this.filterType == 'negative-system-rating') {    
-        this.loadStatusBasedNews("SYSTEM","POSITIVE",this.start,this.numResults);
+        this.loadStatusBasedNews("SYSTEM","NEGATIVE",this.start,this.numResults);
 
     } 
     

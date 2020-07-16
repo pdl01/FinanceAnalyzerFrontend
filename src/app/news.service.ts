@@ -101,6 +101,10 @@ constructor( private http: HttpClient) { }
     return this.http.post<RestResponse>(this.apiRoot+'/news/systemrating',newsItem,{}).pipe();    
 
   }
+  generateSentimentAnalysis(id): Observable<RestResponse> {
+    var newsItem:NewsItemForm = new NewsItemForm();
+    newsItem.id=id;
+    return this.http.post<RestResponse>(this.apiRoot+'/news/sentimentanalysis/generate',newsItem,{}).pipe();    
 
-  
+  }  
 }
