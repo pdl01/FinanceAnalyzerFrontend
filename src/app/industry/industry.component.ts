@@ -30,6 +30,8 @@ export class IndustryComponent implements OnInit {
   companies: Company[] = [];
   newsItems: CompanyNewsItem[] = [];
   
+  private newsStart = 0;
+  private newsNumResults = 25;
   
   viewedNewsItem: CompanyNewsItem = null;
 
@@ -41,13 +43,26 @@ export class IndustryComponent implements OnInit {
   }
 
   loadNews(industry): void {
-    this.newsService.getNewsForIndustry(industry).subscribe(response => {
+    this.newsService.getNewsForIndustryStartingInRange(industry,this.newsStart,this.newsNumResults).subscribe(response => {
  
         if (response.code == 0) {
            this.newsItems = response.object;
         }
       });
   }
+  loadMoreNews(): void {
+      this.newsStart = this.newsStart+this.newsNumResults;
+      this.newsService.getNewsForIndustryStartingInRange(this.industry,this.newsStart,this.newsNumResults).subscribe(response => {
+ 
+        if (response.code == 0) {
+            this.newsItems = this.newsItems.concat(response.object);
+            
+            //this.newsItems = [ ...this.newsItems, ...response.object];
+        }
+      });
+      
+  }  
+  
   loadCompanies(industry): void {
     this.companyService.searchCompaniesByIndustry(industry,0,25).subscribe(response => {
  
