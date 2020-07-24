@@ -16,6 +16,14 @@ export class SystemhealthComponent implements OnInit {
   constructor(
   private systemHealthService: SystemHealthService,
   private sanitizer: DomSanitizer) { }
+  
+  sectionOneShown: boolean = false;
+  sectionTwoShown: boolean = false;
+  sectionThreeShown: boolean = false;
+  sectionFourShown: boolean = false;
+  sectionFiveShown: boolean = false;
+  sectionSixShown: boolean = false;
+  sectionSevenShown: boolean = false;
 
   ngOnInit() {
   }
