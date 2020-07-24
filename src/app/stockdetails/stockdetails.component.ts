@@ -32,11 +32,13 @@ export class StockdetailsComponent implements OnInit {
   producers: Company[] = [];
   stockHistories: StockHistory[] = [];
   systemActivities: SystemActivity[] = [];
-  newsIems: CompanyNewsItem[] = [];
+  newsItems: CompanyNewsItem[] = [];
   stockPerformances: StockPerformance[] = [];
   
   viewedNewsItem: CompanyNewsItem = null;
 
+  private newsStart = 0;
+  private newsNumResults = 25;
   
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -91,15 +93,25 @@ export class StockdetailsComponent implements OnInit {
   }
   
   loadCompanyNews(id): void {
-    this.newsService.getCompanyNews(id).subscribe(response => {
+    this.newsService.getCompanyNewsStartingInRange(id,this.newsStart,this.newsNumResults).subscribe(response => {
  
         if (response.code == 0) {
-            this.newsIems = response.object;
+            this.newsItems = response.object;
         }
       });
   }
   
   loadMoreNews(): void {
+      this.newsStart = this.newsStart+this.newsNumResults;
+      this.newsService.getCompanyNewsStartingInRange(this.company.id,this.newsStart,this.newsNumResults).subscribe(response => {
+ 
+        if (response.code == 0) {
+            this.newsItems = this.newsItems.concat(response.object);
+            
+            //this.newsItems = [ ...this.newsItems, ...response.object];
+        }
+      });
+      
   }
   
   

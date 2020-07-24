@@ -109,11 +109,11 @@
 <div id="newsSection">
     <a href="javascript:void(0)" (click)="fetchNewsForCompany()">Fetch LatestNews</a><p>
 
-    <div *ngIf="newsIems != null && newsIems.length > 0; then thenCompanyNewsBlock else elseCompanyNewsBlock"></div>
+    <div *ngIf="newsItems != null && newsItems.length > 0; then thenCompanyNewsBlock else elseCompanyNewsBlock"></div>
     <ng-template #thenCompanyNewsBlock>
         <div class="newsItemsListGrid">
 
-            <div *ngFor="let sh of newsIems | slice:0:10;" class="newsItemCard" >
+            <div *ngFor="let sh of newsItems;" class="newsItemCard" >
                 <div style="width: 100%; overflow: hidden;">
                     <div style="float: left; width: 50%"><a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                     <div style="float: right;"><a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>            
