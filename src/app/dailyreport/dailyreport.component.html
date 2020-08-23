@@ -1,3 +1,8 @@
+<div>
+    <a href="javascript:void(0)" (click)="goToPreviousDate()">Previous</a> | 
+{{endDate}} | 
+<a href="javascript:void(0)" (click)="goToNextDate()">Next</a>
+</div>
 Top Volumes
 <div *ngIf="volumeStocks != null && volumeStocks.length > 0; then thenVolumeStockHistoriesBlock else elseVolumeStockHistoriesBlock"></div>
 <ng-template #thenVolumeStockHistoriesBlock>

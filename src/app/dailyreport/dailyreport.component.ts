@@ -5,6 +5,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser
 import { StockhistoryreportService } from '../stockhistoryreport.service';
 import { StockHistory } from '../stockhistory';
 import { StockPerformance } from '../stockperformance';
+import {formatDate } from '@angular/common';
 
 import { RestResponse } from '../restresponse';
 
@@ -18,8 +19,17 @@ export class DailyreportComponent implements OnInit {
   constructor(private route: ActivatedRoute,
   private stockhistoryreportService: StockhistoryreportService,
   private location: Location,
-  private sanitizer: DomSanitizer    ) { }
+  private sanitizer: DomSanitizer    ) {
+       
+       this.jstoday = formatDate(this.today, 'yyyy-MM-dd', 'en-US', 'EST');
+       //console.log(this.jstoday);
+  }
   endDate:string = '';
+  previousDate:string='';
+  nextDate:string='';
+  
+  today= new Date();
+  jstoday = '';
   
   volumeStocks: StockHistory[] = [];
   private volumeStart = 0;
@@ -43,13 +53,39 @@ export class DailyreportComponent implements OnInit {
   ngOnInit() {
 
     const id = this.route.snapshot.paramMap.get('id');
-    this.endDate = id;
-    this.loadReport(id,"volumes",this.volumeStocks);
-    this.loadReport(id,"gainers-amount",this.gainerAmountStocks);
-    this.loadReport(id,"gainers-percent",this.gainerPercentStocks);
-    this.loadReport(id,"losers-amount",this.loserAmountStocks);
-    this.loadReport(id,"losers-percent",this.loserPercentStocks);
-    this.loadStockPerformanceReport(id,"threedayperf-DESC",this.threedayPerfTopStocks);
+    if (id == 'latest') {
+        this.endDate = this.jstoday;
+    } else {       
+        this.endDate = id;
+    }
+    this.navigateToDate(this.endDate);
+    
+  }
+  setupDates(): void {
+    //console.log(this.endDate);
+    var xDate = new Date(this.endDate+"T00:00:00");
+    this.previousDate = formatDate(new Date().setDate(xDate.getDate()-1),'yyyy-MM-dd', 'en-US', 'EST');
+    this.nextDate = formatDate(new Date().setDate(xDate.getDate()+1),'yyyy-MM-dd', 'en-US', 'EST');
+    //console.log(this.previousDate);
+    //console.log(this.nextDate);
+  }
+  
+  navigateToDate(theDate): void {
+    this.endDate = theDate;
+    this.setupDates();
+    this.loadReport(this.endDate,"volumes",this.volumeStocks);
+    this.loadReport(this.endDate,"gainers-amount",this.gainerAmountStocks);
+    this.loadReport(this.endDate,"gainers-percent",this.gainerPercentStocks);
+    this.loadReport(this.endDate,"losers-amount",this.loserAmountStocks);
+    this.loadReport(this.endDate,"losers-percent",this.loserPercentStocks);
+    this.loadStockPerformanceReport(this.endDate,"threedayperf-DESC",this.threedayPerfTopStocks);  
+  }
+  
+  goToNextDate(): void {
+      this.navigateToDate(this.nextDate);
+  }
+  goToPreviousDate(): void {
+      this.navigateToDate(this.previousDate);
   }
   
   loadReport(endDate,reportName,objects): void {
