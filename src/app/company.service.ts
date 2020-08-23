@@ -54,5 +54,10 @@ export class CompanyService {
   getStockPerformanceStartingInRange(id,starting,numResults): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.apiRoot+'/companies/company/'+id+'/stockperformance/'+starting+'/'+numResults).pipe();    
   }
-
+  triggerStockDataFetch(): Observable<RestResponse> {
+    return this.http.post<RestResponse>(this.apiRoot+'/companies/stockhistory/fetchLatestData',null,{}).pipe();    
+  }
+  triggerStockDataFetchForDate(date): Observable<RestResponse> {
+    return this.http.post<RestResponse>(this.apiRoot+'/companies/stockhistory/fetchLatestData/'+date,null,{}).pipe();    
+  }
 }

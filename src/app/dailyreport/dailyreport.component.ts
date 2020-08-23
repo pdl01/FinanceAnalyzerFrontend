@@ -5,6 +5,8 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser
 import { StockhistoryreportService } from '../stockhistoryreport.service';
 import { StockHistory } from '../stockhistory';
 import { StockPerformance } from '../stockperformance';
+import { CompanyService } from '../company.service';
+
 import {formatDate } from '@angular/common';
 
 import { RestResponse } from '../restresponse';
@@ -18,6 +20,7 @@ export class DailyreportComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
   private stockhistoryreportService: StockhistoryreportService,
+  private companyService: CompanyService,
   private location: Location,
   private sanitizer: DomSanitizer    ) {
        
@@ -80,7 +83,11 @@ export class DailyreportComponent implements OnInit {
     this.loadReport(this.endDate,"losers-percent",this.loserPercentStocks);
     this.loadStockPerformanceReport(this.endDate,"threedayperf-DESC",this.threedayPerfTopStocks);  
   }
-  
+  triggerFetchForDate(): void {
+    this.companyService.triggerStockDataFetchForDate(this.endDate).subscribe(response => {
+    
+    });
+  }
   goToNextDate(): void {
       this.navigateToDate(this.nextDate);
   }
