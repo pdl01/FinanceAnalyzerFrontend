@@ -5,4 +5,6 @@ export class Company {
     stockSymbol: string;
     sectors: string[];
     industries: string[];
+    downloadStocks:boolean;
+    downloadNews:boolean;
 }

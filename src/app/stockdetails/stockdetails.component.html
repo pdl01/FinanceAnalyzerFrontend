@@ -25,8 +25,9 @@
         <a href="https://finance.yahoo.com/quote/{{company.stockSymbol}}?p={{company.stockSymbol}}" target="_blank">On Yahoo</a>
         <br>       
 
-
-
+        <div><div>Download Stocks: <input type="checkbox"  [(ngModel)]="company.downloadStocks" (change)="updateDownloadOptions()" /> {{company.downloadStocks}}</div></div>
+        <div><div>Download News: <input type="checkbox" [(ngModel)]="company.downloadNews" (change)="updateDownloadOptions()" /> {{company.downloadNews}}</div></div>
+        
     </ng-template>
     <ng-template #elseCompanyBlock>
     </ng-template>

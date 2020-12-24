@@ -40,6 +40,8 @@ export class StockdetailsComponent implements OnInit {
   private newsStart = 0;
   private newsNumResults = 25;
   
+  
+  
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.loadCompany(id);
@@ -130,7 +132,14 @@ export class StockdetailsComponent implements OnInit {
     this.newsService.fetchNewsForCompany(this.company.stockSymbol).subscribe();
   }
   
-updateUserRating(userRating): void {
+  updateDownloadOptions(): void {
+     this.companyService.updateCompanyDownloadOptions(this.company).subscribe(response => {
+     
+     });
+     console.log("changed");
+  }    
+
+  updateUserRating(userRating): void {
     if (this.viewedNewsItem != null) {
         this.viewedNewsItem.userRating = userRating;
         this.newsService.updateUserRating(this.viewedNewsItem.id,this.viewedNewsItem.userRating).subscribe(response => {

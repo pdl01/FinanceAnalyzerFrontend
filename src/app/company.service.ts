@@ -60,4 +60,7 @@ export class CompanyService {
   triggerStockDataFetchForDate(date): Observable<RestResponse> {
     return this.http.post<RestResponse>(this.apiRoot+'/companies/stockhistory/fetchLatestData/'+date,null,{}).pipe();    
   }
+  updateCompanyDownloadOptions(company): Observable<RestResponse> {
+    return this.http.post<RestResponse>(this.apiRoot+'/company/'+company.id+'/downloadoptions',company,{}).pipe();    
+  }  
 }
