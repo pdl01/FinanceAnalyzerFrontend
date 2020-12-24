@@ -61,6 +61,6 @@ export class CompanyService {
     return this.http.post<RestResponse>(this.apiRoot+'/companies/stockhistory/fetchLatestData/'+date,null,{}).pipe();    
   }
   updateCompanyDownloadOptions(company): Observable<RestResponse> {
-    return this.http.post<RestResponse>(this.apiRoot+'/company/'+company.id+'/downloadoptions',company,{}).pipe();    
+    return this.http.post<RestResponse>(this.apiRoot+'/companies/company/'+company.id+'/downloadoptions',company,{}).pipe();    
   }  
 }
