@@ -3,6 +3,16 @@
     {{endDate}} (<a href="javascript:void(0)" (click)="triggerFetchForDate()">Fetch</a>) | 
     <a href="javascript:void(0)" (click)="goToNextDate()">Next</a>
 </div>
+<div id="reportTabGroup" class="tabgroup">
+    <button class="reportTab" id="reportTabTopVolumes" (click)="clickTab('reportTabTopVolumes')">Top Volumes</button>
+    <button class="reportTab" id="reportTabTopGainersByAmount" (click)="clickTab('reportTabTopGainersByAmount')">Top Gainers By Amount</button>
+    <button class="reportTab" id="reportTabTopGainersByPercent" (click)="clickTab('reportTabTopGainersByPercent')">Top Gainers By Percent</button>
+    <button class="reportTab" id="reportTabTopLosersByAmount" (click)="clickTab('reportTabTopLosersByAmount')">Top Losers By Amount</button>
+    <button class="reportTab" id="reportTabTopLosersByPercent" (click)="clickTab('reportTabTopLosersByPercent')">Top Losers By Percent</button>
+    <button class="reportTab" id="reportTabTop3DayGainers" (click)="clickTab('reportTabTop3DayGainers')">Top 3 day gainers</button  >    
+</div>
+
+<div id="sectionTopVolumes" *ngIf="reportTabTopVolumes == true">
 Top Volumes
 <div *ngIf="volumeStocks != null && volumeStocks.length > 0; then thenVolumeStockHistoriesBlock else elseVolumeStockHistoriesBlock"></div>
 <ng-template #thenVolumeStockHistoriesBlock>
@@ -37,7 +47,8 @@ Top Volumes
 </ng-template>
 <ng-template #elseVolumeStockHistoriesBlock>
 </ng-template>
-<p>
+</div>
+<div id="sectionTopGainersByAmount" *ngIf="reportTabTopGainersByAmount == true">
     Top Gainers By Amount
 <div *ngIf="gainerAmountStocks != null && gainerAmountStocks.length > 0; then thenGainerAmountStockHistoriesBlock else elseGainerAmountStockHistoriesBlock"></div>
 <ng-template #thenGainerAmountStockHistoriesBlock>
@@ -74,8 +85,10 @@ Top Volumes
 </ng-template>
 <ng-template #elseGainerAmountStockHistoriesBlock>
 </ng-template>
+</div>
 
-<p>
+<div id="sectionTopGainersByPercent" *ngIf="reportTabTopGainersByPercent == true">
+
     Top Gainers By Percent
 <div *ngIf="gainerPercentStocks != null && gainerPercentStocks.length > 0; then thenGainerPercentStockHistoriesBlock else elseGainerPercentStockHistoriesBlock"></div>
 <ng-template #thenGainerPercentStockHistoriesBlock>
@@ -113,8 +126,10 @@ Top Volumes
 <ng-template #elseGainerPercentStockHistoriesBlock>
 </ng-template>
 
+</div>
 
-<p>
+<div id="sectionTopLosersByAmount" *ngIf="reportTabTopLosersByAmount == true">
+
     Top Losers By Amount
 <div *ngIf="loserAmountStocks != null && loserAmountStocks.length > 0; then thenLoserAmountStockHistoriesBlock else elseLoserAmountStockHistoriesBlock"></div>
 <ng-template #thenLoserAmountStockHistoriesBlock>
@@ -151,9 +166,10 @@ Top Volumes
 </ng-template>
 <ng-template #elseLoserAmountStockHistoriesBlock>
 </ng-template>
+</div>
 
+<div id="sectionTopLosersByPercent" *ngIf="reportTabTopLosersByPercent == true">
 
-<p>
     Top Losers By Percent
 <div *ngIf="loserPercentStocks != null && loserPercentStocks.length > 0; then thenLoserPercentStockHistoriesBlock else elseLoserPercentStockHistoriesBlock"></div>
 <ng-template #thenLoserPercentStockHistoriesBlock>
@@ -190,7 +206,9 @@ Top Volumes
 </ng-template>
 <ng-template #elseLoserPercentStockHistoriesBlock>
 </ng-template>
-<p>
+</div>
+<div id="sectionTop3DayGainers" *ngIf="reportTabTop3DayGainers == true">
+
     Top 3 day gainers
 <div *ngIf="threedayPerfTopStocks != null && threedayPerfTopStocks.length > 0; then thenthreedayPerfTopStocksBlock else elsethreedayPerfTopStocksBlock"></div>
 <ng-template #thenthreedayPerfTopStocksBlock>
@@ -229,3 +247,4 @@ Top Volumes
 </ng-template>
 <ng-template #elsethreedayPerfTopStocksBlock>
 </ng-template>
+</div>
