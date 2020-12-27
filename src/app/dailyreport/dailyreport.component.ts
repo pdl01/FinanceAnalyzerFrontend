@@ -69,6 +69,16 @@ export class DailyreportComponent implements OnInit {
         }
         this.navigateToDate(this.endDate);
 
+        const tab = this.route.snapshot.paramMap.get('tab');
+        console.log(tab);
+        if (tab == null) {
+            this.clickTab('reportTabTopVolumes');
+
+        } else {
+            this.clickTab(tab);
+        }
+
+
     }
     setupDates(): void {
         //console.log(this.endDate);
@@ -160,7 +170,6 @@ export class DailyreportComponent implements OnInit {
                 } else if (reportName == 'losers-percent') {
                     this.loserPercentStocks = this.loserPercentStocks.concat(response.object);
                 }
-
             }
         });
     }
@@ -187,26 +196,26 @@ export class DailyreportComponent implements OnInit {
             this.reportTabTop3DayGainers = true;
         }
 
-        }
+    }
 
-        loadStockPerformanceReport(endDate, reportName, objects): void {
+    loadStockPerformanceReport(endDate, reportName, objects): void {
 
-            this.stockhistoryreportService.getStockPerformanceReportStartingWithNumberResults(endDate, reportName, 0, this.numResults).subscribe(response => {
+        this.stockhistoryreportService.getStockPerformanceReportStartingWithNumberResults(endDate, reportName, 0, this.numResults).subscribe(response => {
 
-                if (response.code == 0) {
-                    if (reportName == 'threedayperf-DESC') {
-                        this.threedayPerfTopStocks = response.object;
-                    } else {
-                        objects = response.object;
-                    }
-
+            if (response.code == 0) {
+                if (reportName == 'threedayperf-DESC') {
+                    this.threedayPerfTopStocks = response.object;
+                } else {
+                    objects = response.object;
                 }
-            });
-        }
-        loadMoreStockPerformanceReportItems(reportName): void {
 
-            var startToUse: number = 0;
-            if(reportName == 'threedayperf-DESC') {
+            }
+        });
+    }
+    loadMoreStockPerformanceReportItems(reportName): void {
+
+        var startToUse: number = 0;
+        if (reportName == 'threedayperf-DESC') {
             this.volumeStart = this.volumeStart + this.numResults;
             startToUse = this.volumeStart;
         }

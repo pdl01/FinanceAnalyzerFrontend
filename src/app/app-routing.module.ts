@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'news', component: NewsComponent },
   { path: 'company/details/:id', component: StockdetailsComponent },
   { path: 'dailyreport/:id', component: DailyreportComponent },
+  { path: 'dailyreport/:id/:tab', component: DailyreportComponent }, 
   { path: 'dashboard', component: DashboardComponent },
   { path: 'systemhealth', component: SystemhealthComponent },
   { path: 'sector/details/:id', component: SectorComponent },
