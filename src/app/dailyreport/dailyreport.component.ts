@@ -52,7 +52,7 @@ export class DailyreportComponent implements OnInit {
   threedayPerfTopStocks: StockPerformance[] = [];
   private threedayPerfTopStocksStart = 0;
 
-  private numResults = 25;
+  private numResults = 10;
   ngOnInit() {
 
     const id = this.route.snapshot.paramMap.get('id');

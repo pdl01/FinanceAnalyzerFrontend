@@ -1,32 +1,36 @@
 <div>
     <a href="javascript:void(0)" (click)="goToPreviousDate()">Previous</a> | 
     {{endDate}} (<a href="javascript:void(0)" (click)="triggerFetchForDate()">Fetch</a>) | 
-<a href="javascript:void(0)" (click)="goToNextDate()">Next</a>
+    <a href="javascript:void(0)" (click)="goToNextDate()">Next</a>
 </div>
 Top Volumes
 <div *ngIf="volumeStocks != null && volumeStocks.length > 0; then thenVolumeStockHistoriesBlock else elseVolumeStockHistoriesBlock"></div>
 <ng-template #thenVolumeStockHistoriesBlock>
     <div class="stockHistoryListGrid">
-        <div *ngFor="let sh of volumeStocks" class="stockHistoryCard" >
-            <div style="width: 100%; overflow: hidden;">
+        <div *ngFor="let sh of volumeStocks; index as i" class="stockHistoryCard" >
+            <div style="width: 100%; overflow: hidden;background-color: green;">
+
+                <div style="float: left; width: 100%;color:white;">{{i+1}}. {{sh.name}}</div>
+            </div>
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;padding-top:0.5rem;">
 
                 <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
 
                 <div style="float: left; width: 50%">Open:{{sh.open|currency}}</div>
                 <div>Close:{{sh.close|currency}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
                 <div style="float: left; width: 50%">Gain:{{sh.actual_gain|currency}}</div>
                 <div>Gain %:{{sh.percent_gain | percent}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
                 <div style="float: left; width: 50%">High:{{sh.high|currency}}</div>
                 <div>Low:{{sh.low|currency}}</div>
             </div>
-            <div>Volume:{{sh.volume|number:'1.0-0'}}</div>
+            <div style="padding-left:0.5rem;">Volume:{{sh.volume|number:'1.0-0'}}</div>
         </div>
     </div>
     <a href="javascript:void(0)" (click)="loadMoreReportItems('volumes')">More</a> 
@@ -39,26 +43,30 @@ Top Volumes
 <ng-template #thenGainerAmountStockHistoriesBlock>
     <div class="stockHistoryListGrid">
 
-        <div *ngFor="let sh of gainerAmountStocks" class="stockHistoryCard" >
-            <div style="width: 100%; overflow: hidden;">
+        <div *ngFor="let sh of gainerAmountStocks; index as i" class="stockHistoryCard" >
+            <div style="width: 100%; overflow: hidden;background-color: green;">
+
+                <div style="float: left; width: 100%;color:white;">{{i+1}}. {{sh.name}}</div>
+            </div>
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;padding-top:0.5rem;">
 
                 <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
 
                 <div style="float: left; width: 50%">Open:{{sh.open|currency}}</div>
                 <div>Close:{{sh.close|currency}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
                 <div style="float: left; width: 50%">Gain:{{sh.actual_gain|currency}}</div>
                 <div>Gain %:{{sh.percent_gain | percent}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
                 <div style="float: left; width: 50%">High:{{sh.high|currency}}</div>
                 <div>Low:{{sh.low|currency}}</div>
             </div>
-            <div>Volume:{{sh.volume|number:'1.0-0'}}</div>
+            <div style="padding-left:0.5rem;">Volume:{{sh.volume|number:'1.0-0'}}</div>
         </div>
     </div>
     <a href="javascript:void(0)" (click)="loadMoreReportItems('gainers-amount')">More</a> 
@@ -73,26 +81,30 @@ Top Volumes
 <ng-template #thenGainerPercentStockHistoriesBlock>
     <div class="stockHistoryListGrid">
 
-        <div *ngFor="let sh of gainerPercentStocks" class="stockHistoryCard" >
-            <div style="width: 100%; overflow: hidden;">
+        <div *ngFor="let sh of gainerPercentStocks; index as i" class="stockHistoryCard" >
+            <div style="width: 100%; overflow: hidden;background-color: green;">
+
+                <div style="float: left; width: 100%;color:white;">{{i+1}}. {{sh.name}}</div>
+            </div>
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;padding-top:0.5rem;">
 
                 <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
 
                 <div style="float: left; width: 50%">Open:{{sh.open|currency}}</div>
                 <div>Close:{{sh.close|currency}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
                 <div style="float: left; width: 50%">Gain:{{sh.actual_gain|currency}}</div>
                 <div>Gain %:{{sh.percent_gain | percent}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
                 <div style="float: left; width: 50%">High:{{sh.high|currency}}</div>
                 <div>Low:{{sh.low|currency}}</div>
             </div>
-            <div>Volume:{{sh.volume|number:'1.0-0'}}</div>
+            <div style="padding-left:0.5rem;">Volume:{{sh.volume|number:'1.0-0'}}</div>
 
         </div>
     </div>
@@ -108,26 +120,30 @@ Top Volumes
 <ng-template #thenLoserAmountStockHistoriesBlock>
     <div class="stockHistoryListGrid">
 
-        <div *ngFor="let sh of loserAmountStocks" class="stockHistoryCard" >
-            <div style="width: 100%; overflow: hidden;">
+        <div *ngFor="let sh of loserAmountStocks; index as i" class="stockHistoryCard" >
+            <div style="width: 100%; overflow: hidden;background-color: green;">
+
+                <div style="float: left; width: 100%;color:white;">{{i+1}}. {{sh.name}}</div>
+            </div>
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;padding-top:0.5rem;">
 
                 <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
 
                 <div style="float: left; width: 50%">Open:{{sh.open|currency}}</div>
                 <div>Close:{{sh.close|currency}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
                 <div style="float: left; width: 50%">Gain:{{sh.actual_gain|currency}}</div>
                 <div>Gain %:{{sh.percent_gain | percent}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
                 <div style="float: left; width: 50%">High:{{sh.high|currency}}</div>
                 <div>Low:{{sh.low|currency}}</div>
             </div>
-            <div>Volume:{{sh.volume|number:'1.0-0'}}</div>
+            <div style="padding-left:0.5rem;">Volume:{{sh.volume|number:'1.0-0'}}</div>
 
         </div>
     </div>
@@ -143,26 +159,31 @@ Top Volumes
 <ng-template #thenLoserPercentStockHistoriesBlock>
     <div class="stockHistoryListGrid">
 
-        <div *ngFor="let sh of loserPercentStocks" class="stockHistoryCard" >
-            <div style="width: 100%; overflow: hidden;">
+        <div *ngFor="let sh of loserPercentStocks; index as i" class="stockHistoryCard" >
+            <div style="width: 100%; overflow: hidden;background-color: green;">
+
+                <div style="float: left; width: 100%;color:white;">{{i+1}}. {{sh.name}}</div>
+            </div>
+
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;padding-top:0.5rem;">
 
                 <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
 
                 <div style="float: left; width: 50%">Open:{{sh.open|currency}}</div>
                 <div>Close:{{sh.close|currency}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
                 <div style="float: left; width: 50%">Gain:{{sh.actual_gain|currency}}</div>
                 <div>Gain %:{{sh.percent_gain | percent}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
                 <div style="float: left; width: 50%">High:{{sh.high|currency}}</div>
                 <div>Low:{{sh.low|currency}}</div>
             </div>
-            <div>Volume:{{sh.volume|number:'1.0-0'}}</div>
+            <div style="padding-left:0.5rem;">Volume:{{sh.volume|number:'1.0-0'}}</div>
         </div>
     </div>
     <a href="javascript:void(0)" (click)="loadMoreReportItems('losers-percent')">More</a> 
@@ -175,24 +196,28 @@ Top Volumes
 <ng-template #thenthreedayPerfTopStocksBlock>
     <div class="stockHistoryListGrid">
 
-        <div *ngFor="let sh of threedayPerfTopStocks" class="stockHistoryCard" >
-            <div style="width: 100%; overflow: hidden;">
+        <div *ngFor="let sh of threedayPerfTopStocks; index as i" class="stockHistoryCard" >
+            <div style="width: 100%; overflow: hidden;background-color: green;">
+
+                <div style="float: left; width: 100%;color:white;">{{i+1}}. {{sh.name}}</div>
+            </div>
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;padding-top:0.5rem;">
 
                 <div style="float: left; width: 50%">Date:<a href="" routerLink="/dailyreport/{{sh.recordDateAsString}}">{{sh.recordDateAsString}}</a></div>
                 <div>Symbol:<a href="" routerLink="/company/details/{{sh.exchange}}-{{sh.symbol}}">{{sh.symbol}}</a></div>
                 <div>Current:{{sh.current | currency}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
 
-                <div style="float: left; width: 50%">3 day:{{sh.threedayperf | percent:'1.1-2'}}</div>
+                <div style="float: left; width: 50%;">3 day:{{sh.threedayperf | percent:'1.1-2'}}</div>
                 <div>Open:{{sh.threedayopen | currency}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
 
                 <div style="float: left; width: 50%">7 day:{{sh.sevendayperf | percent:'1.1-2'}}</div>
                 <div>Open:{{sh.sevendayopen | currency}}</div>
             </div>
-            <div style="width: 100%; overflow: hidden;">
+            <div style="width: 100%; overflow: hidden;padding-left:0.5rem;">
 
                 <div style="float: left; width: 50%">30 day:{{sh.thirtydayperf | percent:'1.1-2'}}</div>
                 <div>Open:{{sh.thirtydayopen | currency}}</div>
