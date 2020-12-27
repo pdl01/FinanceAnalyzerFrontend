@@ -24,15 +24,15 @@ body {
     body {
         background-color: white;
     }
-    
-    
+
+
 }
 @media only screen and (min-width: 1024px) {
     body {
         background-color: white;
     }
-    
-    
+
+
 }
 
 
@@ -116,7 +116,7 @@ body {
     padding: 2px 16px;
 }
 .companyListGrid {
-    
+
     display: grid;
     /*grid-template-columns: repeat(3, 1fr);*/
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -125,7 +125,7 @@ body {
 
 }
 .newsItemsListGrid {
-    
+
     display: grid;
     /*grid-template-columns: repeat(3, 1fr);*/
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -166,16 +166,16 @@ body {
 }
 
 #newsItemText {
-  position: relative;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 0;
-  width: 90%;
-  max-width: 1200px;
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    width: 90%;
+    max-width: 1200px;
 }
 
 .stockHistoryListGrid {
-    
+
     display: grid;
     /*grid-template-columns: repeat(3, 1fr);*/
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -198,7 +198,7 @@ body {
 }
 
 .stockPerformancesListGrid {
-    
+
     display: grid;
     /*grid-template-columns: repeat(3, 1fr);*/
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -268,4 +268,30 @@ body {
     border-style: solid;
     border-color: black;
     border-width: 1px;
+}
+
+.reportTabGroup {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.reportTab button{
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.reportTab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.reportTab button.active {
+  background-color: #ccc;
 }
