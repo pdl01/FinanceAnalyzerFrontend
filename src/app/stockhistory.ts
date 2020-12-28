@@ -11,5 +11,5 @@ export class StockHistory {
     volume: number;
     high: number;
     low: number;
-    name: string;
+    companyName: string;
 }
