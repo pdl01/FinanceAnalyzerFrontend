@@ -25,5 +25,8 @@ export class SystemHealthService {
   buildReportAndFixData(): Observable<RestResponse> {
     return this.http.post<RestResponse>(this.apiRoot+'/systemhealth/latest/rebuild',{},{}).pipe();    
   }
+  fillGap(dateAsString): Observable<RestResponse> {
+    return this.http.post<RestResponse>(this.apiRoot+'/systemhealth/gaps/day/'+dateAsString,{},{}).pipe();
+  }
  
 }

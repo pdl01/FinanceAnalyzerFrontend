@@ -1,3 +1,5 @@
+import { SystemHealthDailyStockCount } from './systemhealthdailystockcount';
+
 export class SystemHealthRecord {
     recordDate: number;
     recordDateAsString: string;
@@ -17,4 +19,5 @@ export class SystemHealthRecord {
     totalNumberOfPositiveSystemAnalyzedNewsItems: number;
     totalNumberOfNegativeSystemAnalyzedNewsItems: number;
     totalNumberOfUnrelatedSystemAnalyzedNewsItems: number;
+    dailyStockCount: SystemHealthDailyStockCount[];
 }
